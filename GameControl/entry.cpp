@@ -18,6 +18,25 @@ SOFTWARE.
 
 int main() {
 
+    // TODO REMOVE HELLO WORLD
+    b2World world(b2Vec2(0.0f, 9.81f));
+    b2BodyDef defBody;
+    defBody.position.Set(0.0f, -30.0f);
+    b2PolygonShape shape;
+    shape.SetAsBox(100.0f, 10.0f);
+    b2Body* ground = world.CreateBody(&defBody);
+    ground->CreateFixture(&shape, 0.0f);
+
+    defBody.position.Set(0.0f, 30.0f);
+    defBody.type = b2_dynamicBody;
+    b2Body* box = world.CreateBody(&defBody);
+    shape.SetAsBox(5.0f, 5.0f);
+    b2FixtureDef defFix;
+    defFix.shape = &shape;
+    defFix.density = 1.0f;
+    defFix.friction = 0.3f;
+    box->CreateFixture(&defFix);
+
     srand(time(NULL));
 
     if (!glfwInit()) {
@@ -49,7 +68,7 @@ int main() {
             glClear(GL_COLOR_BUFFER_BIT);
 
             // process game events
-            // world.Step((1.0f/60.0f), 8, 3);
+            world.Step((1.0f/60.0f), 8, 3);
 
             // draw game world
 

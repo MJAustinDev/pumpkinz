@@ -8,7 +8,7 @@
 - ~~set up building~~
 - ~~set up ignore~~
 - set up graphics
-- hello world
+- ~~hello world~~
 
 ## phase 2
 
