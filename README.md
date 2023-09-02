@@ -4,9 +4,9 @@
 
 ## phase 1
 
-- lisence
-- set up building
-- set up ignore
+- ~~lisence~~
+- ~~set up building~~
+- ~~set up ignore~~
 - set up graphics
 - hello world
 
@@ -28,5 +28,6 @@
 - ammo types
 - shields
 - fancy graphics
+- screen sizing correctly
 - menu system
 - level system
