@@ -7,7 +7,7 @@
 - ~~lisence~~
 - ~~set up building~~
 - ~~set up ignore~~
-- set up graphics
+- ~~set up graphics~~
 - ~~hello world~~
 
 ## phase 2

@@ -16,28 +16,41 @@ SOFTWARE.
 #include <iostream>
 #include <time.h>
 
+#include "camera.h"
+
 int main() {
 
     // TODO REMOVE HELLO WORLD
-    b2World world(b2Vec2(0.0f, 9.81f));
+    std::vector<b2Vec2> groundPoints = {
+        b2Vec2(-50.0f, 5.0f),
+        b2Vec2(-50.0f, -5.0f),
+        b2Vec2(50.0f, -5.0f),
+        b2Vec2(50.0f, 5.0f)
+    };
+    std::vector<b2Vec2> boxPoints = {
+        b2Vec2(-2.5f, 2.5f),
+        b2Vec2(-2.5f, -2.5f),
+        b2Vec2(2.5f, -2.5f),
+        b2Vec2(2.5f, 2.5f)
+    };
+
+    b2World world(b2Vec2(0.0f, -9.81f));
     b2BodyDef defBody;
     defBody.position.Set(0.0f, -30.0f);
     b2PolygonShape shape;
-    shape.SetAsBox(100.0f, 10.0f);
+    shape.Set(&groundPoints.front(), groundPoints.size());
     b2Body* ground = world.CreateBody(&defBody);
     ground->CreateFixture(&shape, 0.0f);
 
     defBody.position.Set(0.0f, 30.0f);
     defBody.type = b2_dynamicBody;
     b2Body* box = world.CreateBody(&defBody);
-    shape.SetAsBox(5.0f, 5.0f);
+    shape.Set(&boxPoints.front(), boxPoints.size());
     b2FixtureDef defFix;
     defFix.shape = &shape;
     defFix.density = 1.0f;
     defFix.friction = 0.3f;
     box->CreateFixture(&defFix);
-
-    srand(time(NULL));
 
     if (!glfwInit()) {
         return -1;
@@ -60,7 +73,11 @@ int main() {
 
     glViewport(0, 0, 1600, 900); // TODO CHANGE VIEWPORT SO RATIO-ED
 
+    srand(time(NULL));
+    visual::Camera camera;
     float timer = glfwGetTime();
+
+    glColor4f(1.0f, 1.0f, 1.0f, 1.0f); // TODO BETTER COLOURS
 
     while (!glfwWindowShouldClose(window)) {
 
@@ -71,6 +88,8 @@ int main() {
             world.Step((1.0f/60.0f), 8, 3);
 
             // draw game world
+            camera.drawPolygon(ground->GetPosition(), 0.0f, groundPoints);
+            camera.drawPolygon(box->GetPosition(), 0.0f, boxPoints);
 
             glfwSwapBuffers(window);
             timer = glfwGetTime() + (1.0f/60.0f);
