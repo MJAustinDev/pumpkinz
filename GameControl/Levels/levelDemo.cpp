@@ -40,17 +40,44 @@ void setUpDemoLevel(b2World &p_world, std::list<std::unique_ptr<entity::DynamicE
     p_terrain.push_back(std::make_unique<entity::StaticEntity>(p_world, b2Vec2(25.0f, 0.0f), kGroundShape));
     p_terrain.push_back(std::make_unique<entity::StaticEntity>(p_world, b2Vec2(65.0f, 0.0f), kGroundShape));
 
-    const std::vector<b2Vec2> kMainBlock = {
-        b2Vec2(-0.5f, 0.0f),
-        b2Vec2(0.5f, 0.0f),
-        b2Vec2(0.5f, 5.0f),
-        b2Vec2(-0.5f, 5.0f)
+    const std::vector<b2Vec2> kVerticalBlock = {
+        b2Vec2(0.0f, 0.0f),
+        b2Vec2(1.0f, 0.0f),
+        b2Vec2(1.0f, 5.0f),
+        b2Vec2(0.0f, 5.0f)
     };
-    p_blocks.push_back(std::make_unique<entity::DynamicEntity>(p_world, b2Vec2(50.2f, 40.0f), kMainBlock));
-    p_blocks.push_back(std::make_unique<entity::DynamicEntity>(p_world, b2Vec2(50.0f, 50.0f), kMainBlock));
-    p_blocks.push_back(std::make_unique<entity::DynamicEntity>(p_world, b2Vec2(50.0f, 60.0f), kMainBlock));
-    p_blocks.push_back(std::make_unique<entity::DynamicEntity>(p_world, b2Vec2(-5.0f, 60.0f), kMainBlock));
 
+    const std::vector<b2Vec2> kHorizontalBlock = {
+        b2Vec2(0.0f, 0.0f),
+        b2Vec2(5.0f, 0.0f),
+        b2Vec2(5.0f, 1.0f),
+        b2Vec2(0.0f, 1.0f)
+    };
+
+    auto placeTower = [&p_world, &p_blocks, &kVerticalBlock](b2Vec2 p_position) {
+        b2Vec2 position = p_position;
+        for (int j=0; j<2; j++) {
+            for (int i=0; i<3; i++) {
+                p_blocks.push_back(std::make_unique<entity::DynamicEntity>(p_world, position, kVerticalBlock));
+                position.y += 5.0f;
+            }
+            position = p_position;
+            position.x += 1.0f;
+        }
+    };
+
+    placeTower(b2Vec2(52.0f, 0.0f));
+
+
+    placeTower(b2Vec2(67.0f, 0.0f));
+
+    p_blocks.push_back(std::make_unique<entity::DynamicEntity>(p_world, b2Vec2(69.0f, 0.0f), kVerticalBlock));
+    p_blocks.push_back(std::make_unique<entity::DynamicEntity>(p_world, b2Vec2(69.0f, 5.0f), kHorizontalBlock));
+    p_blocks.push_back(std::make_unique<entity::DynamicEntity>(p_world, b2Vec2(73.5f, 0.0f), kVerticalBlock));
+    p_blocks.push_back(std::make_unique<entity::DynamicEntity>(p_world, b2Vec2(74.0f, 5.0f), kHorizontalBlock));
+    p_blocks.push_back(std::make_unique<entity::DynamicEntity>(p_world, b2Vec2(78.0f, 0.0f), kVerticalBlock));
+
+    placeTower(b2Vec2(79.0f, 0.0f));
 };
 
 }; // end of namespace level
