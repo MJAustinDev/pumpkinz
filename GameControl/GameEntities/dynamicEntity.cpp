@@ -24,34 +24,34 @@ SOFTWARE.
 
 */
 
-#include "staticEntity.h"
+#include "dynamicEntity.h"
 
 namespace entity {
 
-StaticEntity::StaticEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2Vec2> p_shape):
+DynamicEntity::DynamicEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2Vec2> p_shape):
         m_shape(p_shape),
         m_body(nullptr) {
 
     b2BodyDef bodyDef;
     bodyDef.position = p_position;
-    bodyDef.type = b2_staticBody;
+    bodyDef.type = b2_dynamicBody;
 
     m_body = p_world.CreateBody(&bodyDef);
     b2PolygonShape shape;
     shape.Set(&(m_shape.front()), m_shape.size());
-    m_body->CreateFixture(&shape, 0.0f);
+    m_body->CreateFixture(&shape, 1.0f);
 }
 
-StaticEntity::~StaticEntity() {
+DynamicEntity::~DynamicEntity() {
     m_body->GetWorld()->DestroyBody(m_body);
 }
 
-void StaticEntity::processEvents() {
+void DynamicEntity::processEvents() {
 
 }
 
-void StaticEntity::draw(const visual::Camera &p_camera) {
-    glColor4f(0.1f, 0.1f, 0.1f, 1.0f);
+void DynamicEntity::draw(const visual::Camera &p_camera) {
+    glColor4f(0.4f, 0.4f, 0.4f, 1.0f);
     p_camera.drawPolygon(m_body->GetPosition(), m_body->GetAngle(), m_shape);
 }
 

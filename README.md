@@ -14,8 +14,11 @@
 
 - test level
 - blocks
-- enemies
-- projectile
+- - ~~base~~
+- - ~~static~~
+- - dynamic
+- - projectile
+- - target
 - force damage
 - player position icon
 - mouse control
@@ -38,5 +41,5 @@
 - menu system
 - level system
 - cannon camera if looking in the distance
-- 
+- better looking license comment...
 - 

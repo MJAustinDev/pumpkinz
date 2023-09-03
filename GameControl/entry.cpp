@@ -18,6 +18,7 @@ SOFTWARE.
 
 #include "camera.h"
 #include "staticEntity.h"
+#include "dynamicEntity.h"
 
 int main() {
 
@@ -37,18 +38,7 @@ int main() {
 
     b2World world(b2Vec2(0.0f, -9.81f));
     entity::StaticEntity ground(world, b2Vec2(0.0f, -30.0f), groundPoints);
-
-    b2BodyDef defBody;
-    defBody.position.Set(0.0f, 30.0f);
-    defBody.type = b2_dynamicBody;
-    b2Body* box = world.CreateBody(&defBody);
-    b2PolygonShape shape;
-    shape.Set(&boxPoints.front(), boxPoints.size());
-    b2FixtureDef defFix;
-    defFix.shape = &shape;
-    defFix.density = 1.0f;
-    defFix.friction = 0.3f;
-    box->CreateFixture(&defFix);
+    entity::DynamicEntity box(world, b2Vec2(0.0f, 30.0f), boxPoints);
 
     if (!glfwInit()) {
         return -1;
@@ -85,8 +75,7 @@ int main() {
 
             // draw game world
             ground.draw(camera);
-            glColor4f(1.0f, 1.0f, 1.0f, 1.0f); // TODO BETTER COLOURS
-            camera.drawPolygon(box->GetPosition(), 0.0f, boxPoints);
+            box.draw(camera);
 
             glfwSwapBuffers(window);
             timer = glfwGetTime() + (1.0f/60.0f);

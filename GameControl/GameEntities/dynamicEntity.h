@@ -24,35 +24,47 @@ SOFTWARE.
 
 */
 
-#include "staticEntity.h"
+#pragma once
+
+#include "box2d/box2d.h"
+
+#include <vector>
+
+#include "baseEntity.h"
 
 namespace entity {
 
-StaticEntity::StaticEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2Vec2> p_shape):
-        m_shape(p_shape),
-        m_body(nullptr) {
+/**
+ * Movable & destructible entity
+ */
+class DynamicEntity : BaseEntity {
 
-    b2BodyDef bodyDef;
-    bodyDef.position = p_position;
-    bodyDef.type = b2_staticBody;
+public:
 
-    m_body = p_world.CreateBody(&bodyDef);
-    b2PolygonShape shape;
-    shape.Set(&(m_shape.front()), m_shape.size());
-    m_body->CreateFixture(&shape, 0.0f);
-}
+    /**
+     * @param p_world box2d world that the entity exists within
+     * @param p_position entity's position in the world
+     * @param p_shape series of points that defines the entity's shape
+     */
+    DynamicEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2Vec2> p_shape);
+    ~DynamicEntity();
 
-StaticEntity::~StaticEntity() {
-    m_body->GetWorld()->DestroyBody(m_body);
-}
+    /**
+     * See base class
+     */
+    void processEvents() override;
 
-void StaticEntity::processEvents() {
+    /**
+     * See base class
+     */
+    void draw(const visual::Camera &p_camera) override;
 
-}
+private:
 
-void StaticEntity::draw(const visual::Camera &p_camera) {
-    glColor4f(0.1f, 0.1f, 0.1f, 1.0f);
-    p_camera.drawPolygon(m_body->GetPosition(), m_body->GetAngle(), m_shape);
-}
+    float m_hp = 100.0f;
+    std::vector<b2Vec2> m_shape;
+    b2Body* m_body;
+
+};
 
 }; // end of namespace entity
