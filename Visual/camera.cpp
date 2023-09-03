@@ -28,13 +28,13 @@ SOFTWARE.
 
 namespace visual {
 
-void Camera::placePoint(b2Vec2 p_pos) {
+void Camera::placePoint(b2Vec2 p_pos) const {
     p_pos -= m_pos;
     p_pos *= m_zoom;
     glVertex2f(p_pos.x, p_pos.y);
 }
 
-void Camera::drawPolygon(b2Vec2 p_centre, float p_ang, std::vector<b2Vec2> &p_shape) {
+void Camera::drawPolygon(b2Vec2 p_centre, float p_ang, std::vector<b2Vec2> &p_shape) const {
     glBegin(GL_POLYGON);
         for (auto &point : p_shape) {
             placePoint(p_centre - point);

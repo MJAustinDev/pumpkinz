@@ -24,41 +24,31 @@ SOFTWARE.
 
 */
 
-#pragma once
+#include "staticEntity.h"
 
-#include "GLFW/glfw3.h"
-#include "box2d/box2d.h"
+namespace entity {
 
-#include <vector>
+StaticEntity::StaticEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2Vec2> p_shape):
+        m_shape(p_shape),
+        m_body(nullptr) {
 
-namespace visual {
+    b2BodyDef bodyDef;
+    bodyDef.position = p_position;
+    bodyDef.type = b2_staticBody;
 
-class Camera {
+    m_body = p_world.CreateBody(&bodyDef);
+    b2PolygonShape shape;
+    shape.Set(&(m_shape.front()), m_shape.size());
+    m_body->CreateFixture(&shape, 0.0f);
+}
 
-public:
+void StaticEntity::processEvents() {
 
-    Camera() = default;
-    ~Camera() = default;
+}
 
-    /**
-     * Draws a polygon to the screen
-     * @param p_centre polygons centre in the world
-     * @param p_ang TODO IMPLEMENT THIS
-     * @param p_shape all coordinates of the polygon
-     */
-    void drawPolygon(b2Vec2 p_centre, float p_ang, std::vector<b2Vec2> &p_shape) const;
+void StaticEntity::draw(const visual::Camera &p_camera) {
+    glColor4f(0.1f, 0.1f, 0.1f, 1.0f);
+    p_camera.drawPolygon(m_body->GetPosition(), m_body->GetAngle(), m_shape);
+}
 
-private:
-
-    /**
-     * Places a point to the screen relative to the camera's position
-     * @param p_pos position of the point in the world
-     */
-    void placePoint(b2Vec2 p_pos) const;
-
-    float m_zoom = 0.01f;
-    b2Vec2 m_pos = b2Vec2(0.0f, 0.0f);
-
-};
-
-}; // end of namespace visual
+}; // end of namespace entity

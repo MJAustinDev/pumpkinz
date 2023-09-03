@@ -17,6 +17,7 @@ SOFTWARE.
 #include <time.h>
 
 #include "camera.h"
+#include "staticEntity.h"
 
 int main() {
 
@@ -35,16 +36,13 @@ int main() {
     };
 
     b2World world(b2Vec2(0.0f, -9.81f));
-    b2BodyDef defBody;
-    defBody.position.Set(0.0f, -30.0f);
-    b2PolygonShape shape;
-    shape.Set(&groundPoints.front(), groundPoints.size());
-    b2Body* ground = world.CreateBody(&defBody);
-    ground->CreateFixture(&shape, 0.0f);
+    entity::StaticEntity ground(world, b2Vec2(0.0f, -30.0f), groundPoints);
 
+    b2BodyDef defBody;
     defBody.position.Set(0.0f, 30.0f);
     defBody.type = b2_dynamicBody;
     b2Body* box = world.CreateBody(&defBody);
+    b2PolygonShape shape;
     shape.Set(&boxPoints.front(), boxPoints.size());
     b2FixtureDef defFix;
     defFix.shape = &shape;
@@ -77,8 +75,6 @@ int main() {
     visual::Camera camera;
     float timer = glfwGetTime();
 
-    glColor4f(1.0f, 1.0f, 1.0f, 1.0f); // TODO BETTER COLOURS
-
     while (!glfwWindowShouldClose(window)) {
 
         if (timer < glfwGetTime()) {
@@ -88,7 +84,8 @@ int main() {
             world.Step((1.0f/60.0f), 8, 3);
 
             // draw game world
-            camera.drawPolygon(ground->GetPosition(), 0.0f, groundPoints);
+            ground.draw(camera);
+            glColor4f(1.0f, 1.0f, 1.0f, 1.0f); // TODO BETTER COLOURS
             camera.drawPolygon(box->GetPosition(), 0.0f, boxPoints);
 
             glfwSwapBuffers(window);

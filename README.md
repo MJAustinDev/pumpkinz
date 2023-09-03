@@ -12,7 +12,13 @@
 
 ## phase 2
 
-- TODO
+- test level
+- blocks
+- enemies
+- projectile
+- force damage
+- player position icon
+- mouse control
 
 ## phase 3
 
@@ -31,3 +37,6 @@
 - screen sizing correctly
 - menu system
 - level system
+- cannon camera if looking in the distance
+- 
+- 

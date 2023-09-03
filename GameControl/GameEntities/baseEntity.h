@@ -26,39 +26,30 @@ SOFTWARE.
 
 #pragma once
 
-#include "GLFW/glfw3.h"
-#include "box2d/box2d.h"
+#include "camera.h"
 
-#include <vector>
+namespace entity {
 
-namespace visual {
-
-class Camera {
+/**
+ * Base that all game entities inherit from
+ */
+class BaseEntity {
 
 public:
 
-    Camera() = default;
-    ~Camera() = default;
+    BaseEntity() = default;
+    ~BaseEntity() = default;
 
     /**
-     * Draws a polygon to the screen
-     * @param p_centre polygons centre in the world
-     * @param p_ang TODO IMPLEMENT THIS
-     * @param p_shape all coordinates of the polygon
+     * Process end of tick events for the entity
      */
-    void drawPolygon(b2Vec2 p_centre, float p_ang, std::vector<b2Vec2> &p_shape) const;
-
-private:
+    virtual void processEvents() = 0;
 
     /**
-     * Places a point to the screen relative to the camera's position
-     * @param p_pos position of the point in the world
+     * Draws the entity to the screen
+     * @param p_camera camera that draws the world to the screen
      */
-    void placePoint(b2Vec2 p_pos) const;
-
-    float m_zoom = 0.01f;
-    b2Vec2 m_pos = b2Vec2(0.0f, 0.0f);
-
+    virtual void draw(const visual::Camera &p_camera) = 0;
 };
 
-}; // end of namespace visual
+}; // end of namespace entity
