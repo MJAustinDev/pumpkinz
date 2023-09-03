@@ -25,6 +25,7 @@
 - - explosion
 - player position icon
 - mouse control
+- ~~cleaner license~~
 
 ## phase 3
 
@@ -44,5 +45,4 @@
 - menu system
 - level system
 - cannon camera if looking in the distance
-- better looking license comment...
 - 
