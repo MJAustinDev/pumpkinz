@@ -26,6 +26,8 @@ SOFTWARE.
 
 #pragma once
 
+#include "box2d/box2d.h"
+
 #include "camera.h"
 
 namespace entity {
@@ -37,8 +39,28 @@ class BaseEntity {
 
 public:
 
-    BaseEntity() = default;
-    ~BaseEntity() = default;
+    /**
+     * Defines the entities body in the world
+     * @param p_world box2d world that the entity exists within
+     * @param p_position entity's position in the world
+     * @param p_type box2d body type, dynamic/static
+     */
+    BaseEntity(b2World &p_world, b2Vec2 p_position, b2BodyType p_type) {
+        b2BodyDef bodyDef;
+        bodyDef.position = p_position;
+        bodyDef.type = p_type;
+
+        m_body = p_world.CreateBody(&bodyDef);
+    };
+
+    /**
+     * Handles box2d deallocation
+     */
+    ~BaseEntity() {
+        if (m_body != nullptr) {
+            m_body->GetWorld()->DestroyBody(m_body);
+        }
+    }
 
     /**
      * Process end of tick events for the entity
@@ -50,6 +72,32 @@ public:
      * @param p_camera camera that draws the world to the screen
      */
     virtual void draw(const visual::Camera &p_camera) = 0;
+
+protected:
+
+    /**
+     * @return position of the entity in the world
+     */
+    b2Vec2 getPosition() { return m_body->GetPosition(); };
+
+    /**
+     * @return the entity's angle
+     */
+    float getAngle() { return m_body->GetAngle(); };
+
+    /**
+     * Adds a new fixture to the entity's body
+     * @param p_shape polygon shape that the fixture has
+     * @param p_density density of the fixture
+     */
+    void addPolygonFixture(b2PolygonShape &p_shape, float p_density) {
+        m_body->CreateFixture(&p_shape, p_density);
+    };
+
+private:
+
+    b2Body* m_body = nullptr;
+
 };
 
 }; // end of namespace entity

@@ -26,8 +26,6 @@ SOFTWARE.
 
 #pragma once
 
-#include "box2d/box2d.h"
-
 #include <vector>
 
 #include "baseEntity.h"
@@ -47,7 +45,7 @@ public:
      * @param p_shape series of points that defines the entity's shape
      */
     StaticEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2Vec2> p_shape);
-    ~StaticEntity();
+    ~StaticEntity() = default;
 
     /**
      * See base class
@@ -62,8 +60,6 @@ public:
 private:
 
     std::vector<b2Vec2> m_shape;
-    b2Body* m_body;
-
 };
 
 }; // end of namespace entity
