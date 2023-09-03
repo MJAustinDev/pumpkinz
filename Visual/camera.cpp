@@ -24,6 +24,15 @@
 
 #include "camera.h"
 
+namespace {
+
+b2Vec2 affineRotate(b2Vec2 p_point, float p_angle) {
+    return b2Vec2((p_point.x * cos(p_angle)) - (p_point.y * sin(p_angle)),
+                  (p_point.y * cos(p_angle)) + (p_point.x * sin(p_angle)));
+};
+
+}; // end of namespace
+
 namespace visual {
 
 void Camera::placePoint(b2Vec2 p_pos) const {
@@ -35,7 +44,7 @@ void Camera::placePoint(b2Vec2 p_pos) const {
 void Camera::drawPolygon(b2Vec2 p_centre, float p_ang, std::vector<b2Vec2> &p_shape) const {
     glBegin(GL_POLYGON);
         for (auto &point : p_shape) {
-            placePoint(p_centre - point);
+            placePoint(p_centre + affineRotate(point, p_ang));
         }
     glEnd();
 }

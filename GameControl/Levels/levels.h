@@ -22,26 +22,19 @@
  * SOFTWARE.
  */
 
+#pragma once
+
+#include "box2d/box2d.h"
+
+#include <list>
+#include <memory>
+
+#include "dynamicEntity.h"
 #include "staticEntity.h"
 
-namespace entity {
+namespace level {
 
-StaticEntity::StaticEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2Vec2> p_shape):
-        BaseEntity(p_world, p_position, b2_dynamicBody),
-        m_shape(p_shape) {
+void setUpDemoLevel(b2World &p_world, std::list<std::unique_ptr<entity::DynamicEntity>> &p_blocks,
+                    std::list<std::unique_ptr<entity::StaticEntity>> &p_terrain);
 
-    b2PolygonShape shape;
-    shape.Set(&(m_shape.front()), m_shape.size());
-    addPolygonFixture(shape, 0.0f);
-}
-
-void StaticEntity::processEvents() {
-
-}
-
-void StaticEntity::draw(const visual::Camera &p_camera) {
-    glColor4f(0.1f, 0.1f, 0.1f, 0.5f);
-    p_camera.drawPolygon(getPosition(), getAngle(), m_shape);
-}
-
-}; // end of namespace entity
+}; // end of namespace level

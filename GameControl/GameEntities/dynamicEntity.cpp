@@ -49,7 +49,7 @@ void DynamicEntity::processEvents() {
 }
 
 void DynamicEntity::draw(const visual::Camera &p_camera) {
-    glColor4f(0.4f, 0.4f, 0.4f, 1.0f);
+    glColor4f(0.4f, 0.4f, 0.4f, 0.5f);
     p_camera.drawPolygon(getPosition(), getAngle(), m_shape);
 }
 
