@@ -15,8 +15,12 @@ SOFTWARE.
 
 #include <iostream>
 #include <time.h>
+#include <list>
+#include <memory>
 
 #include "camera.h"
+#include "staticEntity.h"
+#include "dynamicEntity.h"
 
 int main() {
 
@@ -35,22 +39,13 @@ int main() {
     };
 
     b2World world(b2Vec2(0.0f, -9.81f));
-    b2BodyDef defBody;
-    defBody.position.Set(0.0f, -30.0f);
-    b2PolygonShape shape;
-    shape.Set(&groundPoints.front(), groundPoints.size());
-    b2Body* ground = world.CreateBody(&defBody);
-    ground->CreateFixture(&shape, 0.0f);
-
-    defBody.position.Set(0.0f, 30.0f);
-    defBody.type = b2_dynamicBody;
-    b2Body* box = world.CreateBody(&defBody);
-    shape.Set(&boxPoints.front(), boxPoints.size());
-    b2FixtureDef defFix;
-    defFix.shape = &shape;
-    defFix.density = 1.0f;
-    defFix.friction = 0.3f;
-    box->CreateFixture(&defFix);
+    entity::StaticEntity ground(world, b2Vec2(0.0f, -20.0f), groundPoints);
+    std::list<std::unique_ptr<entity::DynamicEntity>> boxes;
+    boxes.push_back(std::make_unique<entity::DynamicEntity>(world, b2Vec2(0.0f, 30.0f), boxPoints));
+    boxes.push_back(std::make_unique<entity::DynamicEntity>(world, b2Vec2(0.0f, 60.0f), boxPoints));
+    boxes.push_back(std::make_unique<entity::DynamicEntity>(world, b2Vec2(0.0f, 90.0f), boxPoints));
+    boxes.push_back(std::make_unique<entity::DynamicEntity>(world, b2Vec2(0.0f, 120.0f), boxPoints));
+    boxes.push_back(std::make_unique<entity::DynamicEntity>(world, b2Vec2(50.2f, 30.0f), boxPoints));
 
     if (!glfwInit()) {
         return -1;
@@ -77,8 +72,6 @@ int main() {
     visual::Camera camera;
     float timer = glfwGetTime();
 
-    glColor4f(1.0f, 1.0f, 1.0f, 1.0f); // TODO BETTER COLOURS
-
     while (!glfwWindowShouldClose(window)) {
 
         if (timer < glfwGetTime()) {
@@ -87,9 +80,20 @@ int main() {
             // process game events
             world.Step((1.0f/60.0f), 8, 3);
 
-            // draw game world
-            camera.drawPolygon(ground->GetPosition(), 0.0f, groundPoints);
-            camera.drawPolygon(box->GetPosition(), 0.0f, boxPoints);
+            // process dynamic entities
+            for (auto it = boxes.begin(); it != boxes.end(); it++) {
+                (*it)->processEvents();
+                if ((*it)->isDead()) {
+                    auto deadBox = it--;
+                    boxes.erase(deadBox);
+                } else {
+                    (*it)->draw(camera);
+                }
+            }
+            ground.draw(camera);
+
+            glColor4f(1.0f, 0.2f, 0.2f, 0.5f); // TODO REMOVE TESTING WATER BOX
+            camera.drawPolygon(b2Vec2(0.0f, -10.0f), 0.0f, groundPoints);
 
             glfwSwapBuffers(window);
             timer = glfwGetTime() + (1.0f/60.0f);

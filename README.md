@@ -12,7 +12,19 @@
 
 ## phase 2
 
-- TODO
+- test level
+- blocks
+- - ~~base~~
+- - ~~static~~
+- - ~~dynamic~~
+- - projectile
+- - target
+- damage
+- - force
+- - ~~water~~
+- - explosion
+- player position icon
+- mouse control
 
 ## phase 3
 
@@ -31,3 +43,6 @@
 - screen sizing correctly
 - menu system
 - level system
+- cannon camera if looking in the distance
+- better looking license comment...
+- 

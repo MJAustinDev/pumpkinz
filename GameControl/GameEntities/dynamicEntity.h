@@ -26,39 +26,47 @@ SOFTWARE.
 
 #pragma once
 
-#include "GLFW/glfw3.h"
-#include "box2d/box2d.h"
-
 #include <vector>
 
-namespace visual {
+#include "baseEntity.h"
 
-class Camera {
+namespace entity {
+
+/**
+ * Movable & destructible entity
+ */
+class DynamicEntity : BaseEntity {
 
 public:
 
-    Camera() = default;
-    ~Camera() = default;
+    /**
+     * @param p_world box2d world that the entity exists within
+     * @param p_position entity's position in the world
+     * @param p_shape series of points that defines the entity's shape
+     */
+    DynamicEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2Vec2> p_shape);
+    ~DynamicEntity() = default;
 
     /**
-     * Draws a polygon to the screen
-     * @param p_centre polygons centre in the world
-     * @param p_ang TODO IMPLEMENT THIS
-     * @param p_shape all coordinates of the polygon
+     * See base class
      */
-    void drawPolygon(b2Vec2 p_centre, float p_ang, std::vector<b2Vec2> &p_shape) const;
+    void processEvents() override;
+
+    /**
+     * See base class
+     */
+    void draw(const visual::Camera &p_camera) override;
+
+    /**
+     * @return if the entity's hit points are less than zero
+     */
+    bool isDead() { return m_hp < 0.0f; };
 
 private:
 
-    /**
-     * Places a point to the screen relative to the camera's position
-     * @param p_pos position of the point in the world
-     */
-    void placePoint(b2Vec2 p_pos) const;
-
-    float m_zoom = 0.01f;
-    b2Vec2 m_pos = b2Vec2(0.0f, 0.0f);
+    float m_hp = 100.0f;
+    std::vector<b2Vec2> m_shape;
 
 };
 
-}; // end of namespace visual
+}; // end of namespace entity

@@ -24,41 +24,26 @@ SOFTWARE.
 
 */
 
-#pragma once
+#include "staticEntity.h"
 
-#include "GLFW/glfw3.h"
-#include "box2d/box2d.h"
+namespace entity {
 
-#include <vector>
+StaticEntity::StaticEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2Vec2> p_shape):
+        BaseEntity(p_world, p_position, b2_dynamicBody),
+        m_shape(p_shape) {
 
-namespace visual {
+    b2PolygonShape shape;
+    shape.Set(&(m_shape.front()), m_shape.size());
+    addPolygonFixture(shape, 0.0f);
+}
 
-class Camera {
+void StaticEntity::processEvents() {
 
-public:
+}
 
-    Camera() = default;
-    ~Camera() = default;
+void StaticEntity::draw(const visual::Camera &p_camera) {
+    glColor4f(0.1f, 0.1f, 0.1f, 1.0f);
+    p_camera.drawPolygon(getPosition(), getAngle(), m_shape);
+}
 
-    /**
-     * Draws a polygon to the screen
-     * @param p_centre polygons centre in the world
-     * @param p_ang TODO IMPLEMENT THIS
-     * @param p_shape all coordinates of the polygon
-     */
-    void drawPolygon(b2Vec2 p_centre, float p_ang, std::vector<b2Vec2> &p_shape) const;
-
-private:
-
-    /**
-     * Places a point to the screen relative to the camera's position
-     * @param p_pos position of the point in the world
-     */
-    void placePoint(b2Vec2 p_pos) const;
-
-    float m_zoom = 0.01f;
-    b2Vec2 m_pos = b2Vec2(0.0f, 0.0f);
-
-};
-
-}; // end of namespace visual
+}; // end of namespace entity
