@@ -24,10 +24,6 @@
 
 #include "levels.h"
 
-namespace {
-
-}; // end of namespace
-
 namespace level {
 
 void setUpDemoLevel(b2World &p_world, std::list<std::unique_ptr<entity::DynamicEntity>> &p_blocks,

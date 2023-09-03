@@ -34,6 +34,12 @@
 
 namespace level {
 
+/**
+ * Generates the demo world
+ * @param p_world box2d world where all entities exist
+ * @param p_blocks list that stores all dynamic block entities
+ * @param p_terrain list that stores all static terrain entities
+ */
 void setUpDemoLevel(b2World &p_world, std::list<std::unique_ptr<entity::DynamicEntity>> &p_blocks,
                     std::list<std::unique_ptr<entity::StaticEntity>> &p_terrain);
 

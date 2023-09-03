@@ -26,6 +26,12 @@
 
 namespace {
 
+/**
+ * Rotates a point around (0, 0)
+ * @param p_point point to be rotated
+ * @param p_angle angle to rotate the point by
+ * @return the rotated point
+ */
 b2Vec2 affineRotate(b2Vec2 p_point, float p_angle) {
     return b2Vec2((p_point.x * cos(p_angle)) - (p_point.y * sin(p_angle)),
                   (p_point.y * cos(p_angle)) + (p_point.x * sin(p_angle)));
