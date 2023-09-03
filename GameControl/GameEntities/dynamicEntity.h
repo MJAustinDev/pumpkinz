@@ -57,6 +57,11 @@ public:
      */
     void draw(const visual::Camera &p_camera) override;
 
+    /**
+     * @return if the entity's hit points are less than zero
+     */
+    bool isDead() { return m_hp < 0.0f; };
+
 private:
 
     float m_hp = 100.0f;

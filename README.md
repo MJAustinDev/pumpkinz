@@ -16,10 +16,13 @@
 - blocks
 - - ~~base~~
 - - ~~static~~
-- - dynamic
+- - ~~dynamic~~
 - - projectile
 - - target
-- force damage
+- damage
+- - force
+- - ~~water~~
+- - explosion
 - player position icon
 - mouse control
 

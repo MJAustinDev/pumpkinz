@@ -26,6 +26,13 @@ SOFTWARE.
 
 #include "dynamicEntity.h"
 
+namespace {
+
+    constexpr float kWaterLevel() { return -10.0f; };
+    constexpr float kCrushRate() { return 1.0f; };
+
+}; // end of namespace
+
 namespace entity {
 
 DynamicEntity::DynamicEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2Vec2> p_shape):
@@ -38,7 +45,9 @@ DynamicEntity::DynamicEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2
 }
 
 void DynamicEntity::processEvents() {
-
+    if (getPosition().y < kWaterLevel()) {
+        m_hp -= kCrushRate();
+    }
 }
 
 void DynamicEntity::draw(const visual::Camera &p_camera) {

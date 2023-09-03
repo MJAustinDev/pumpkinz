@@ -15,6 +15,8 @@ SOFTWARE.
 
 #include <iostream>
 #include <time.h>
+#include <list>
+#include <memory>
 
 #include "camera.h"
 #include "staticEntity.h"
@@ -37,8 +39,13 @@ int main() {
     };
 
     b2World world(b2Vec2(0.0f, -9.81f));
-    entity::StaticEntity ground(world, b2Vec2(0.0f, -30.0f), groundPoints);
-    entity::DynamicEntity box(world, b2Vec2(0.0f, 30.0f), boxPoints);
+    entity::StaticEntity ground(world, b2Vec2(0.0f, -20.0f), groundPoints);
+    std::list<std::unique_ptr<entity::DynamicEntity>> boxes;
+    boxes.push_back(std::make_unique<entity::DynamicEntity>(world, b2Vec2(0.0f, 30.0f), boxPoints));
+    boxes.push_back(std::make_unique<entity::DynamicEntity>(world, b2Vec2(0.0f, 60.0f), boxPoints));
+    boxes.push_back(std::make_unique<entity::DynamicEntity>(world, b2Vec2(0.0f, 90.0f), boxPoints));
+    boxes.push_back(std::make_unique<entity::DynamicEntity>(world, b2Vec2(0.0f, 120.0f), boxPoints));
+    boxes.push_back(std::make_unique<entity::DynamicEntity>(world, b2Vec2(50.2f, 30.0f), boxPoints));
 
     if (!glfwInit()) {
         return -1;
@@ -73,9 +80,20 @@ int main() {
             // process game events
             world.Step((1.0f/60.0f), 8, 3);
 
-            // draw game world
+            // process dynamic entities
+            for (auto it = boxes.begin(); it != boxes.end(); it++) {
+                (*it)->processEvents();
+                if ((*it)->isDead()) {
+                    auto deadBox = it--;
+                    boxes.erase(deadBox);
+                } else {
+                    (*it)->draw(camera);
+                }
+            }
             ground.draw(camera);
-            box.draw(camera);
+
+            glColor4f(1.0f, 0.2f, 0.2f, 0.5f); // TODO REMOVE TESTING WATER BOX
+            camera.drawPolygon(b2Vec2(0.0f, -10.0f), 0.0f, groundPoints);
 
             glfwSwapBuffers(window);
             timer = glfwGetTime() + (1.0f/60.0f);
