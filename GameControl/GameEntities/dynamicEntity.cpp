@@ -26,8 +26,8 @@
 
 namespace {
 
-    constexpr float kWaterLevel() { return -10.0f; };
-    constexpr float kCrushRate() { return 1.0f; };
+constexpr float kWaterLevel() { return -10.0f; };
+constexpr float kCrushRate() { return 1.0f; };
 
 }; // end of namespace
 
