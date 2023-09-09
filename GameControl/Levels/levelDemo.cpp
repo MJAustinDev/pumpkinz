@@ -68,13 +68,16 @@ void setUpDemoLevel(b2World &p_world, std::list<std::unique_ptr<entity::DynamicE
 
     placeTower(b2Vec2(52.0f, 0.0f));
 
-
     placeTower(b2Vec2(67.0f, 0.0f));
 
     p_blocks.push_back(std::make_unique<entity::DynamicEntity>(p_world, b2Vec2(69.0f, 0.0f), kVerticalBlock));
     p_blocks.push_back(std::make_unique<entity::DynamicEntity>(p_world, b2Vec2(69.0f, 5.0f), kHorizontalBlock));
+    p_blocks.push_back(std::make_unique<entity::DynamicEntity>(p_world, b2Vec2(69.0f, 6.0f), kHorizontalBlock));
+    p_blocks.push_back(std::make_unique<entity::DynamicEntity>(p_world, b2Vec2(69.0f, 7.0f), kHorizontalBlock));
     p_blocks.push_back(std::make_unique<entity::DynamicEntity>(p_world, b2Vec2(73.5f, 0.0f), kVerticalBlock));
     p_blocks.push_back(std::make_unique<entity::DynamicEntity>(p_world, b2Vec2(74.0f, 5.0f), kHorizontalBlock));
+    p_blocks.push_back(std::make_unique<entity::DynamicEntity>(p_world, b2Vec2(74.0f, 6.0f), kHorizontalBlock));
+    p_blocks.push_back(std::make_unique<entity::DynamicEntity>(p_world, b2Vec2(74.0f, 7.0f), kHorizontalBlock));
     p_blocks.push_back(std::make_unique<entity::DynamicEntity>(p_world, b2Vec2(78.0f, 0.0f), kVerticalBlock));
 
     placeTower(b2Vec2(79.0f, 0.0f));
