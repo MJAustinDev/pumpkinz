@@ -37,6 +37,16 @@ b2Vec2 affineRotate(b2Vec2 p_point, float p_angle) {
                   (p_point.y * cos(p_angle)) + (p_point.x * sin(p_angle)));
 };
 
+/**
+ * returns how many sides a 'circle' should have
+ */
+constexpr int kCircleResolution() { return 12; };
+
+/**
+ * returns the angular size of each circle segment
+ */
+constexpr float kSegmentSize() { return (2.0f * M_PI) / static_cast<float>(kCircleResolution()); };
+
 }; // end of namespace
 
 namespace visual {
@@ -47,21 +57,20 @@ void Camera::placePoint(b2Vec2 p_pos) const {
     glVertex2f(p_pos.x, p_pos.y);
 }
 
-void Camera::drawPolygon(b2Vec2 p_centre, float p_ang, std::vector<b2Vec2> &p_shape) const {
+void Camera::drawPolygon(b2Vec2 p_centre, float p_angle, std::vector<b2Vec2> &p_shape) const {
     glBegin(GL_POLYGON);
         for (auto &point : p_shape) {
-            placePoint(p_centre + affineRotate(point, p_ang));
+            placePoint(p_centre + affineRotate(point, p_angle));
         }
     glEnd();
 }
 
-void Camera::drawCircle(b2Vec2 p_centre, float p_radius) const {
-    // TODO ACTUAL CIRCLE...
+void Camera::drawCircle(b2Vec2 p_centre, float p_angle, float p_radius) const {
     glBegin(GL_POLYGON);
-        placePoint(p_centre + b2Vec2(p_radius, 0.0f));
-        placePoint(p_centre + b2Vec2(0.0f, p_radius));
-        placePoint(p_centre + b2Vec2(-p_radius, 0.0f));
-        placePoint(p_centre + b2Vec2(0.0f, -p_radius));
+    for (int i=0; i < kCircleResolution(); i++) {
+        float angle = (i * kSegmentSize()) + p_angle;
+        placePoint(p_centre + affineRotate(b2Vec2(p_radius, 0.0f), angle));
+    }
     glEnd();
 }
 

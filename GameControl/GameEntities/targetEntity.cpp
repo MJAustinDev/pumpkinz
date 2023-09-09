@@ -41,7 +41,7 @@ void TargetEntity::processEvents() {
 
 void TargetEntity::draw(const visual::Camera &p_camera) {
     glColor4f(0.9f, 0.5f, 0.2f, 0.5f);
-    p_camera.drawCircle(getPosition(), m_radius);
+    p_camera.drawCircle(getPosition(), getAngle(), m_radius);
 }
 
 }; // end of namespace entity

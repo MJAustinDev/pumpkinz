@@ -41,17 +41,18 @@ public:
     /**
      * Draws a polygon to the screen
      * @param p_centre polygons centre in the world
-     * @param p_ang TODO IMPLEMENT THIS
+     * @param p_angle of the polygon
      * @param p_shape all coordinates of the polygon
      */
-    void drawPolygon(b2Vec2 p_centre, float p_ang, std::vector<b2Vec2> &p_shape) const;
+    void drawPolygon(b2Vec2 p_centre, float p_angle, std::vector<b2Vec2> &p_shape) const;
 
     /**
      * Draws a circle to the screen
      * @param p_centre circles centre in the world
+     * @param p_angle angle of the circle
      * @param p_radius radius of the circle
      */
-    void drawCircle(b2Vec2 p_centre, float p_radius) const;
+    void drawCircle(b2Vec2 p_centre, float p_angle, float p_radius) const;
 
 private:
 
