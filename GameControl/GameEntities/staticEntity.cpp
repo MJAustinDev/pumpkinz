@@ -32,7 +32,7 @@ StaticEntity::StaticEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2Ve
 
     b2PolygonShape shape;
     shape.Set(&(m_shape.front()), m_shape.size());
-    addPolygonFixture(shape, 0.0f);
+    addFixture(shape, 0.0f);
 }
 
 void StaticEntity::processEvents() {

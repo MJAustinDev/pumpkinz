@@ -39,7 +39,7 @@ DynamicEntity::DynamicEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2
 
     b2PolygonShape shape;
     shape.Set(&(m_shape.front()), m_shape.size());
-    addPolygonFixture(shape, 1.0f);
+    addFixture(shape, 1.0f);
 }
 
 void DynamicEntity::processEvents() {

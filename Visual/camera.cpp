@@ -55,4 +55,14 @@ void Camera::drawPolygon(b2Vec2 p_centre, float p_ang, std::vector<b2Vec2> &p_sh
     glEnd();
 }
 
+void Camera::drawCircle(b2Vec2 p_centre, float p_radius) const {
+    // TODO ACTUAL CIRCLE...
+    glBegin(GL_POLYGON);
+        placePoint(p_centre + b2Vec2(p_radius, 0.0f));
+        placePoint(p_centre + b2Vec2(0.0f, p_radius));
+        placePoint(p_centre + b2Vec2(-p_radius, 0.0f));
+        placePoint(p_centre + b2Vec2(0.0f, -p_radius));
+    glEnd();
+}
+
 }; // end of namespace visual

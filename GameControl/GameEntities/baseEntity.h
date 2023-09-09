@@ -85,10 +85,10 @@ protected:
 
     /**
      * Adds a new fixture to the entity's body
-     * @param p_shape polygon shape that the fixture has
+     * @param p_shape shape that the fixture has
      * @param p_density density of the fixture
      */
-    void addPolygonFixture(b2PolygonShape &p_shape, float p_density) {
+    void addFixture(b2Shape &p_shape, float p_density) {
         m_body->CreateFixture(&p_shape, p_density);
     };
 

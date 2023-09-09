@@ -27,7 +27,8 @@
 namespace level {
 
 void setUpDemoLevel(b2World &p_world, std::list<std::unique_ptr<entity::DynamicEntity>> &p_blocks,
-                    std::list<std::unique_ptr<entity::StaticEntity>> &p_terrain) {
+                    std::list<std::unique_ptr<entity::StaticEntity>> &p_terrain,
+                    std::list<std::unique_ptr<entity::TargetEntity>> &p_enemies) {
 
     const std::vector<b2Vec2> kGroundShape = {
         b2Vec2(0.0f, 0.0f),
@@ -81,6 +82,11 @@ void setUpDemoLevel(b2World &p_world, std::list<std::unique_ptr<entity::DynamicE
     p_blocks.push_back(std::make_unique<entity::DynamicEntity>(p_world, b2Vec2(78.0f, 0.0f), kVerticalBlock));
 
     placeTower(b2Vec2(79.0f, 0.0f));
+
+
+    p_enemies.push_back(std::make_unique<entity::TargetEntity>(p_world, b2Vec2(15.0f, 15.0f), 5.0f));
+
+    p_enemies.push_back(std::make_unique<entity::TargetEntity>(p_world, b2Vec2(18.0f, 90.0f), 10.0f));
 };
 
 }; // end of namespace level

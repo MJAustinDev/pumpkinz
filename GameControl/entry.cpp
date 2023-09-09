@@ -31,7 +31,8 @@ int main() {
     b2World world(b2Vec2(0.0f, -9.81f));
     std::list<std::unique_ptr<entity::DynamicEntity>> blocks;
     std::list<std::unique_ptr<entity::StaticEntity>> terrain;
-    level::setUpDemoLevel(world, blocks, terrain);
+    std::list<std::unique_ptr<entity::TargetEntity>> enemies;
+    level::setUpDemoLevel(world, blocks, terrain, enemies);
 
     if (!glfwInit()) {
         return -1;
@@ -75,6 +76,9 @@ int main() {
                 } else {
                     (*it)->draw(camera);
                 }
+            }
+            for (auto &enemy : enemies) {
+                enemy->draw(camera);
             }
             for (auto &ground : terrain) {
                 ground->draw(camera);

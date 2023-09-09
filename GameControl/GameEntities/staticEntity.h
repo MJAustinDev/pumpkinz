@@ -58,6 +58,7 @@ public:
 private:
 
     std::vector<b2Vec2> m_shape;
+
 };
 
 }; // end of namespace entity

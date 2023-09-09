@@ -22,48 +22,26 @@
  * SOFTWARE.
  */
 
-#pragma once
+#include "targetEntity.h"
 
-#include "GLFW/glfw3.h"
-#include "box2d/box2d.h"
+namespace entity {
 
-#include <vector>
+TargetEntity::TargetEntity(b2World &p_world, b2Vec2 p_position, float p_radius):
+    BaseEntity(p_world, p_position, b2_dynamicBody),
+    m_radius(p_radius) {
 
-namespace visual {
+    b2CircleShape shape;
+    shape.m_radius = m_radius;
+    addFixture(shape, 1.0f);
+}
 
-class Camera {
+void TargetEntity::processEvents() {
 
-public:
+}
 
-    Camera() = default;
-    ~Camera() = default;
+void TargetEntity::draw(const visual::Camera &p_camera) {
+    glColor4f(0.9f, 0.5f, 0.2f, 0.5f);
+    p_camera.drawCircle(getPosition(), m_radius);
+}
 
-    /**
-     * Draws a polygon to the screen
-     * @param p_centre polygons centre in the world
-     * @param p_ang TODO IMPLEMENT THIS
-     * @param p_shape all coordinates of the polygon
-     */
-    void drawPolygon(b2Vec2 p_centre, float p_ang, std::vector<b2Vec2> &p_shape) const;
-
-    /**
-     * Draws a circle to the screen
-     * @param p_centre circles centre in the world
-     * @param p_radius radius of the circle
-     */
-    void drawCircle(b2Vec2 p_centre, float p_radius) const;
-
-private:
-
-    /**
-     * Places a point to the screen relative to the camera's position
-     * @param p_pos position of the point in the world
-     */
-    void placePoint(b2Vec2 p_pos) const;
-
-    float m_zoom = 0.01f;
-    b2Vec2 m_pos = b2Vec2(0.0f, 0.0f);
-
-};
-
-}; // end of namespace visual
+}; // end of namespace entity

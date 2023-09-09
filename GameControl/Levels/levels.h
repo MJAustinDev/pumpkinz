@@ -31,6 +31,7 @@
 
 #include "dynamicEntity.h"
 #include "staticEntity.h"
+#include "targetEntity.h"
 
 namespace level {
 
@@ -41,6 +42,7 @@ namespace level {
  * @param p_terrain list that stores all static terrain entities
  */
 void setUpDemoLevel(b2World &p_world, std::list<std::unique_ptr<entity::DynamicEntity>> &p_blocks,
-                    std::list<std::unique_ptr<entity::StaticEntity>> &p_terrain);
+                    std::list<std::unique_ptr<entity::StaticEntity>> &p_terrain,
+                    std::list<std::unique_ptr<entity::TargetEntity>> &p_enemies);
 
 }; // end of namespace level
