@@ -18,7 +18,9 @@
 - - ~~static~~
 - - ~~dynamic~~
 - - projectile
-- - target
+- - target (~~half done~~)
+- - polygon
+- - circle
 - damage
 - - force
 - - ~~water~~
@@ -45,4 +47,4 @@
 - menu system
 - level system
 - cannon camera if looking in the distance
-- 
+- toolbox project (contains useful block shapes... good for other projects)
