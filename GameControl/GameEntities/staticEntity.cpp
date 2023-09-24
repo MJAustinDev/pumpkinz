@@ -32,7 +32,7 @@ StaticEntity::StaticEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2Ve
 
     b2PolygonShape shape;
     shape.Set(&(m_shape.front()), m_shape.size());
-    addPolygonFixture(shape, 0.0f);
+    addFixture(shape, 0.0f);
 }
 
 void StaticEntity::processEvents() {
@@ -40,7 +40,7 @@ void StaticEntity::processEvents() {
 }
 
 void StaticEntity::draw(const visual::Camera &p_camera) {
-    glColor4f(0.1f, 0.1f, 0.1f, 1.0f);
+    glColor4f(0.1f, 0.1f, 0.1f, 0.5f);
     p_camera.drawPolygon(getPosition(), getAngle(), m_shape);
 }
 

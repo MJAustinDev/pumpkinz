@@ -12,13 +12,16 @@
 
 ## phase 2
 
-- test level
+- ~~test level~~
 - blocks
 - - ~~base~~
 - - ~~static~~
 - - ~~dynamic~~
 - - projectile
-- - target
+- - block
+- - target (~~half done~~)
+- - polygon
+- - circle
 - damage
 - - force
 - - ~~water~~
@@ -45,4 +48,4 @@
 - menu system
 - level system
 - cannon camera if looking in the distance
-- 
+- toolbox project (contains useful block shapes... good for other projects)

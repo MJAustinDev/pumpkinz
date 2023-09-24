@@ -24,47 +24,39 @@
 
 #pragma once
 
-#include "GLFW/glfw3.h"
-#include "box2d/box2d.h"
+#include "baseEntity.h"
 
-#include <vector>
+namespace entity {
 
-namespace visual {
-
-class Camera {
+/**
+ * Base bad guy object, aim of game is to destroy them all
+ */
+class TargetEntity : BaseEntity {
 
 public:
 
-    Camera() = default;
-    ~Camera() = default;
+    /**
+     * @param p_world box2d world that the entity exists within
+     * @param p_position entity's position in the world
+     * @param p_radius radius of the targets circular shape
+     */
+    TargetEntity(b2World &p_world, b2Vec2 p_position, float p_radius);
+    ~TargetEntity() = default;
 
     /**
-     * Draws a polygon to the screen
-     * @param p_centre polygons centre in the world
-     * @param p_angle of the polygon
-     * @param p_shape all coordinates of the polygon
+     * See base class
      */
-    void drawPolygon(b2Vec2 p_centre, float p_angle, std::vector<b2Vec2> &p_shape) const;
+    void processEvents() override;
 
     /**
-     * Draws a circle to the screen
-     * @param p_centre circles centre in the world
-     * @param p_angle angle of the circle
-     * @param p_radius radius of the circle
+     * See base class
      */
-    void drawCircle(b2Vec2 p_centre, float p_angle, float p_radius) const;
+    void draw(const visual::Camera &p_camera) override;
 
 private:
 
-    /**
-     * Places a point to the screen relative to the camera's position
-     * @param p_pos position of the point in the world
-     */
-    void placePoint(b2Vec2 p_pos) const;
-
-    float m_zoom = 0.01f;
-    b2Vec2 m_pos = b2Vec2(0.0f, 0.0f);
+    float m_radius;
 
 };
 
-}; // end of namespace visual
+}; // end of namespace entity

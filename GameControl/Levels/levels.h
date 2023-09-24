@@ -24,47 +24,25 @@
 
 #pragma once
 
-#include "GLFW/glfw3.h"
 #include "box2d/box2d.h"
 
-#include <vector>
+#include <list>
+#include <memory>
 
-namespace visual {
+#include "dynamicEntity.h"
+#include "staticEntity.h"
+#include "targetEntity.h"
 
-class Camera {
+namespace level {
 
-public:
+/**
+ * Generates the demo world
+ * @param p_world box2d world where all entities exist
+ * @param p_blocks list that stores all dynamic block entities
+ * @param p_terrain list that stores all static terrain entities
+ */
+void setUpDemoLevel(b2World &p_world, std::list<std::unique_ptr<entity::DynamicEntity>> &p_blocks,
+                    std::list<std::unique_ptr<entity::StaticEntity>> &p_terrain,
+                    std::list<std::unique_ptr<entity::TargetEntity>> &p_enemies);
 
-    Camera() = default;
-    ~Camera() = default;
-
-    /**
-     * Draws a polygon to the screen
-     * @param p_centre polygons centre in the world
-     * @param p_angle of the polygon
-     * @param p_shape all coordinates of the polygon
-     */
-    void drawPolygon(b2Vec2 p_centre, float p_angle, std::vector<b2Vec2> &p_shape) const;
-
-    /**
-     * Draws a circle to the screen
-     * @param p_centre circles centre in the world
-     * @param p_angle angle of the circle
-     * @param p_radius radius of the circle
-     */
-    void drawCircle(b2Vec2 p_centre, float p_angle, float p_radius) const;
-
-private:
-
-    /**
-     * Places a point to the screen relative to the camera's position
-     * @param p_pos position of the point in the world
-     */
-    void placePoint(b2Vec2 p_pos) const;
-
-    float m_zoom = 0.01f;
-    b2Vec2 m_pos = b2Vec2(0.0f, 0.0f);
-
-};
-
-}; // end of namespace visual
+}; // end of namespace level

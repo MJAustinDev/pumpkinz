@@ -26,8 +26,8 @@
 
 namespace {
 
-    constexpr float kWaterLevel() { return -10.0f; };
-    constexpr float kCrushRate() { return 1.0f; };
+constexpr float kWaterLevel() { return -10.0f; };
+constexpr float kCrushRate() { return 1.0f; };
 
 }; // end of namespace
 
@@ -39,7 +39,7 @@ DynamicEntity::DynamicEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2
 
     b2PolygonShape shape;
     shape.Set(&(m_shape.front()), m_shape.size());
-    addPolygonFixture(shape, 1.0f);
+    addFixture(shape, 1.0f);
 }
 
 void DynamicEntity::processEvents() {
@@ -49,7 +49,7 @@ void DynamicEntity::processEvents() {
 }
 
 void DynamicEntity::draw(const visual::Camera &p_camera) {
-    glColor4f(0.4f, 0.4f, 0.4f, 1.0f);
+    glColor4f(0.4f, 0.4f, 0.4f, 0.5f);
     p_camera.drawPolygon(getPosition(), getAngle(), m_shape);
 }
 
