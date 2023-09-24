@@ -22,6 +22,7 @@
 - - target (~~half done~~)
 - - polygon
 - - circle
+- - restructure location
 - damage
 - - force
 - - ~~water~~
