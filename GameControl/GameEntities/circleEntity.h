@@ -24,3 +24,43 @@
 
 #pragma once
 
+#include "baseEntity.h"
+
+namespace entity {
+
+/**
+ * Base circular entity, defines the circle shape of the entity
+ */
+class CircleEntity : BaseEntity {
+
+public:
+
+    /**
+     * @param p_world box2d world that the entity exists within
+     * @param p_position entity's position in the world
+     * @param p_radius radius of the targets circular shape
+     */
+    CircleEntity(b2World &p_world, b2Vec2 p_position, float p_radius);
+    ~CircleEntity() = default;
+
+    /**
+     * See base class
+     */
+    void processEvents() = 0;
+
+    /**
+     * See base class
+     */
+    void draw(const visual::Camera &p_camera) override;
+
+protected:
+
+    float getRadius() { return m_radius; };
+
+private:
+
+    float m_radius;
+
+};
+
+}; // end of namespace entity

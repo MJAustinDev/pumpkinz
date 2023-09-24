@@ -24,14 +24,14 @@
 
 #pragma once
 
-#include "baseEntity.h"
+#include "circleEntity.h"
 
 namespace entity {
 
 /**
  * Base bad guy object, aim of game is to destroy them all
  */
-class TargetEntity : BaseEntity {
+class TargetEntity : CircleEntity {
 
 public:
 
@@ -54,8 +54,6 @@ public:
     void draw(const visual::Camera &p_camera) override;
 
 private:
-
-    float m_radius;
 
 };
 

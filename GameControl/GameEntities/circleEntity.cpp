@@ -22,21 +22,23 @@
  * SOFTWARE.
  */
 
-#include "targetEntity.h"
+#include "circleEntity.h"
 
 namespace entity {
 
-TargetEntity::TargetEntity(b2World &p_world, b2Vec2 p_position, float p_radius):
-    CircleEntity(p_world, p_position, p_radius) {
+CircleEntity::CircleEntity(b2World &p_world, b2Vec2 p_position, float p_radius):
+    BaseEntity(p_world, p_position, b2_dynamicBody),
+    m_radius(p_radius) {
 
+    b2CircleShape shape;
+    shape.m_radius = m_radius;
+    addFixture(shape, 1.0f);
 }
 
-void TargetEntity::processEvents() {
 
-}
-
-void TargetEntity::draw(const visual::Camera &p_camera) {
-    CircleEntity::draw(p_camera);
+void CircleEntity::draw(const visual::Camera &p_camera) {
+    glColor4f(0.9f, 0.5f, 0.2f, 0.5f);
+    p_camera.drawCircle(getPosition(), getAngle(), m_radius);
 }
 
 }; // end of namespace entity
