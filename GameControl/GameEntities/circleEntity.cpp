@@ -27,7 +27,7 @@
 namespace entity {
 
 CircleEntity::CircleEntity(b2World &p_world, b2Vec2 p_position, float p_radius):
-    BaseEntity(p_world, p_position, b2_dynamicBody),
+    DynamicEntity(p_world, p_position),
     m_radius(p_radius) {
 
     b2CircleShape shape;

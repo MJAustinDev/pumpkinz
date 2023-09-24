@@ -33,24 +33,15 @@ constexpr float kCrushRate() { return 1.0f; };
 
 namespace entity {
 
-DynamicEntity::DynamicEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2Vec2> p_shape):
-        BaseEntity(p_world, p_position, b2_dynamicBody),
-        m_shape(p_shape) {
+DynamicEntity::DynamicEntity(b2World &p_world, b2Vec2 p_position):
+        BaseEntity(p_world, p_position, b2_dynamicBody) {
 
-    b2PolygonShape shape;
-    shape.Set(&(m_shape.front()), m_shape.size());
-    addFixture(shape, 1.0f);
 }
 
 void DynamicEntity::processEvents() {
     if (getPosition().y < kWaterLevel()) {
         m_hp -= kCrushRate();
     }
-}
-
-void DynamicEntity::draw(const visual::Camera &p_camera) {
-    glColor4f(0.4f, 0.4f, 0.4f, 0.5f);
-    p_camera.drawPolygon(getPosition(), getAngle(), m_shape);
 }
 
 }; // end of namespace entity

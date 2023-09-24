@@ -27,12 +27,12 @@
 namespace entity {
 
 TargetEntity::TargetEntity(b2World &p_world, b2Vec2 p_position, float p_radius):
-    CircleEntity(p_world, p_position, p_radius) {
+    CircleEntity(p_world, p_position, p_radius){
 
 }
 
 void TargetEntity::processEvents() {
-
+    DynamicEntity::processEvents();
 }
 
 void TargetEntity::draw(const visual::Camera &p_camera) {

@@ -25,6 +25,7 @@
 #pragma once
 
 #include "circleEntity.h"
+#include "dynamicEntity.h"
 
 namespace entity {
 
@@ -52,6 +53,11 @@ public:
      * See base class
      */
     void draw(const visual::Camera &p_camera) override;
+
+    /**
+     * See base class
+     */
+    bool isDead() { return DynamicEntity::isDead(); };
 
 private:
 

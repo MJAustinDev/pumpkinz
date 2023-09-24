@@ -24,14 +24,14 @@
 
 #pragma once
 
-#include "baseEntity.h"
+#include "dynamicEntity.h"
 
 namespace entity {
 
 /**
  * Base circular entity, defines the circle shape of the entity
  */
-class CircleEntity : BaseEntity {
+class CircleEntity : public DynamicEntity {
 
 public:
 
@@ -52,10 +52,6 @@ public:
      * See base class
      */
     void draw(const visual::Camera &p_camera) override;
-
-protected:
-
-    float getRadius() { return m_radius; };
 
 private:
 

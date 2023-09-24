@@ -21,7 +21,7 @@
 - - block
 - - target (~~half done~~)
 - - polygon
-- - circle
+- - ~~circle~~
 - - restructure location
 - damage
 - - force
