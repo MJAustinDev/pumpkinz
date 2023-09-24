@@ -23,6 +23,17 @@
  */
 
 #include "levels.h"
+#include "blockEntity.h"
+#include "targetEntity.h"
+
+
+namespace {
+
+    template<typename T>
+    void addDynamic(std::list<std::unique_ptr<entity::DynamicEntity>> &p_dynamic, std::unique_ptr<T> p_ptr) {
+        p_dynamic.push_back(static_cast<std::unique_ptr<entity::DynamicEntity>>(p_ptr.release()));
+    }
+};
 
 namespace level {
 
@@ -59,7 +70,7 @@ void setUpDemoLevel(b2World &p_world, std::list<std::unique_ptr<entity::DynamicE
         b2Vec2 position = p_position;
         for (int j=0; j<2; j++) {
             for (int i=0; i<3; i++) {
-                p_blocks.push_back(std::make_unique<entity::DynamicEntity>(p_world, position, kVerticalBlock));
+                addDynamic(p_blocks, std::make_unique<entity::BlockEntity>(p_world, position, kVerticalBlock));
                 position.y += 5.0f;
             }
             position = p_position;
@@ -68,31 +79,33 @@ void setUpDemoLevel(b2World &p_world, std::list<std::unique_ptr<entity::DynamicE
     };
 
     placeTower(b2Vec2(52.0f, 0.0f));
-    p_enemies.push_back(std::make_unique<entity::TargetEntity>(p_world, b2Vec2(53.0f, 15.5f), 0.5f));
+    addDynamic(p_blocks, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(53.0f, 15.5f), 0.5f));
 
     placeTower(b2Vec2(67.0f, 0.0f));
-    p_enemies.push_back(std::make_unique<entity::TargetEntity>(p_world, b2Vec2(68.0f, 15.5f), 0.5f));
+    addDynamic(p_blocks, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(68.0f, 15.5f), 0.5f));
 
-    p_blocks.push_back(std::make_unique<entity::DynamicEntity>(p_world, b2Vec2(69.0f, 0.0f), kVerticalBlock));
-    p_blocks.push_back(std::make_unique<entity::DynamicEntity>(p_world, b2Vec2(69.0f, 5.0f), kHorizontalBlock));
-    p_blocks.push_back(std::make_unique<entity::DynamicEntity>(p_world, b2Vec2(69.0f, 6.0f), kHorizontalBlock));
-    p_blocks.push_back(std::make_unique<entity::DynamicEntity>(p_world, b2Vec2(69.0f, 7.0f), kHorizontalBlock));
-    p_blocks.push_back(std::make_unique<entity::DynamicEntity>(p_world, b2Vec2(73.5f, 0.0f), kVerticalBlock));
-    p_blocks.push_back(std::make_unique<entity::DynamicEntity>(p_world, b2Vec2(74.0f, 5.0f), kHorizontalBlock));
-    p_blocks.push_back(std::make_unique<entity::DynamicEntity>(p_world, b2Vec2(74.0f, 6.0f), kHorizontalBlock));
-    p_blocks.push_back(std::make_unique<entity::DynamicEntity>(p_world, b2Vec2(74.0f, 7.0f), kHorizontalBlock));
-    p_blocks.push_back(std::make_unique<entity::DynamicEntity>(p_world, b2Vec2(78.0f, 0.0f), kVerticalBlock));
+    addDynamic(p_blocks, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(69.0f, 0.0f), kVerticalBlock));
+    addDynamic(p_blocks, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(69.0f, 5.0f), kHorizontalBlock));
+    addDynamic(p_blocks, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(69.0f, 6.0f), kHorizontalBlock));
+    addDynamic(p_blocks, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(69.0f, 7.0f), kHorizontalBlock));
+    addDynamic(p_blocks, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(73.5f, 0.0f), kVerticalBlock));
+    addDynamic(p_blocks, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(74.0f, 5.0f), kHorizontalBlock));
+    addDynamic(p_blocks, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(74.0f, 6.0f), kHorizontalBlock));
+    addDynamic(p_blocks, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(74.0f, 7.0f), kHorizontalBlock));
+    addDynamic(p_blocks, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(78.0f, 0.0f), kVerticalBlock));
 
-    p_enemies.push_back(std::make_unique<entity::TargetEntity>(p_world, b2Vec2(72.0f, 0.5f), 0.5f));
-    p_enemies.push_back(std::make_unique<entity::TargetEntity>(p_world, b2Vec2(76.0f, 0.5f), 0.5f));
+    addDynamic(p_blocks, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(72.0f, 0.5f), 0.5f));
+    addDynamic(p_blocks, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(76.0f, 0.5f), 0.5f));
 
-    p_enemies.push_back(std::make_unique<entity::TargetEntity>(p_world, b2Vec2(71.0f, 8.5f), 0.5f));
-    p_enemies.push_back(std::make_unique<entity::TargetEntity>(p_world, b2Vec2(74.0f, 8.5f), 0.5f));
-    p_enemies.push_back(std::make_unique<entity::TargetEntity>(p_world, b2Vec2(77.0f, 8.5f), 0.5f));
+    addDynamic(p_blocks, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(71.0f, 8.5f), 0.5f));
+    addDynamic(p_blocks, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(74.0f, 8.5f), 0.5f));
+    addDynamic(p_blocks, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(77.0f, 8.5f), 0.5f));
 
     placeTower(b2Vec2(79.0f, 0.0f));
-    p_enemies.push_back(std::make_unique<entity::TargetEntity>(p_world, b2Vec2(80.0f, 15.5f), 0.5f));
+    addDynamic(p_blocks, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(80.0f, 15.5f), 0.5f));
 
-};
+    // addDynamic(p_blocks, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(73.5f, 1500.0f), 4.0f)); // Meteor of death... TODO remove later
+
+}
 
 }; // end of namespace level

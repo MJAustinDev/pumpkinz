@@ -22,37 +22,23 @@
  * SOFTWARE.
  */
 
-#pragma once
-
 #include "polygonEntity.h"
 
 namespace entity {
 
-/**
- * Movable & destructible entity
- */
-class BlockEntity : public PolygonEntity {
+PolygonEntity::PolygonEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2Vec2> p_shape):
+    DynamicEntity(p_world, p_position),
+    m_shape(p_shape) {
 
-public:
+    b2PolygonShape shape;
+    shape.Set(&(m_shape.front()), m_shape.size());
+    addFixture(shape, 1.0f);
+}
 
-    /**
-     * @param p_world box2d world that the entity exists within
-     * @param p_position entity's position in the world
-     * @param p_shape series of points that defines the entity's shape
-     */
-    BlockEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2Vec2> p_shape);
-    ~BlockEntity() = default;
 
-    /**
-     * See base class
-     */
-    void processEvents() override;
-
-    /**
-     * See base class
-     */
-    void draw(const visual::Camera &p_camera) override;
-
-};
+void PolygonEntity::draw(const visual::Camera &p_camera) {
+    glColor4f(0.4f, 0.4f, 0.4f, 0.5f);
+    p_camera.drawPolygon(getPosition(), getAngle(), m_shape);
+}
 
 }; // end of namespace entity

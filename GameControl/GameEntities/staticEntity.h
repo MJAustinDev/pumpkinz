@@ -33,7 +33,7 @@ namespace entity {
 /**
  * Immovable & indestructible game entities
  */
-class StaticEntity : BaseEntity {
+class StaticEntity : public BaseEntity {
 
 public:
 

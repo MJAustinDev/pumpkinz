@@ -77,16 +77,6 @@ int main() {
                     (*it)->draw(camera);
                 }
             }
-            // TODO MERGE ALL DYNAMIC INTO ONE LIST...
-            for (auto it = enemies.begin(); it != enemies.end(); it++) {
-                (*it)->processEvents();
-                if ((*it)->isDead()) {
-                    auto deadBox = it--;
-                    enemies.erase(deadBox);
-                } else {
-                    (*it)->draw(camera);
-                }
-            }
 
             for (auto &ground : terrain) {
                 ground->draw(camera);

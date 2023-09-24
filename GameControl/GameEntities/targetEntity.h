@@ -32,7 +32,7 @@ namespace entity {
 /**
  * Base bad guy object, aim of game is to destroy them all
  */
-class TargetEntity : CircleEntity {
+class TargetEntity : public CircleEntity {
 
 public:
 
