@@ -29,7 +29,7 @@
 namespace entity {
 
 /**
- * TODO WORD UP
+ * Base bad guy object, aim of game is to destroy them all
  */
 class TargetEntity : BaseEntity {
 

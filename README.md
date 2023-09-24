@@ -12,12 +12,13 @@
 
 ## phase 2
 
-- test level
+- ~~test level~~
 - blocks
 - - ~~base~~
 - - ~~static~~
 - - ~~dynamic~~
 - - projectile
+- - block
 - - target (~~half done~~)
 - - polygon
 - - circle
