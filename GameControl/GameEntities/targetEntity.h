@@ -61,6 +61,8 @@ public:
 
 private:
 
+    // TODO - Implement enemy counter
+
 };
 
 }; // end of namespace entity

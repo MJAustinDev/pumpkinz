@@ -53,7 +53,7 @@ public:
     /**
      * See base class
      */
-    void draw(const visual::Camera &p_camera) = 0;// override;
+    void draw(const visual::Camera &p_camera) = 0;
 
     /**
      * @return if the entity's hit points are less than zero

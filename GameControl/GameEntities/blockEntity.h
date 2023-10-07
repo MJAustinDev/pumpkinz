@@ -29,7 +29,7 @@
 namespace entity {
 
 /**
- * Movable & destructible entity
+ * Dynamic entity that builds up destructible terrain
  */
 class BlockEntity : public PolygonEntity {
 
