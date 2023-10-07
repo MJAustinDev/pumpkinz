@@ -41,8 +41,7 @@ namespace level {
  * @param p_blocks list that stores all dynamic block entities
  * @param p_terrain list that stores all static terrain entities
  */
-void setUpDemoLevel(b2World &p_world, std::list<std::unique_ptr<entity::DynamicEntity>> &p_blocks,
-                    std::list<std::unique_ptr<entity::StaticEntity>> &p_terrain,
-                    std::list<std::unique_ptr<entity::TargetEntity>> &p_enemies);
+void setUpDemoLevel(b2World &p_world, std::list<std::unique_ptr<entity::DynamicEntity>> &p_dynamic,
+                    std::list<std::unique_ptr<entity::StaticEntity>> &p_static);
 
 }; // end of namespace level

@@ -33,7 +33,7 @@ namespace entity {
 /**
  * Movable & destructible entity
  */
-class DynamicEntity : BaseEntity {
+class DynamicEntity : public BaseEntity {
 
 public:
 
@@ -42,7 +42,7 @@ public:
      * @param p_position entity's position in the world
      * @param p_shape series of points that defines the entity's shape
      */
-    DynamicEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2Vec2> p_shape);
+    DynamicEntity(b2World &p_world, b2Vec2 p_position);
     ~DynamicEntity() = default;
 
     /**
@@ -53,7 +53,7 @@ public:
     /**
      * See base class
      */
-    void draw(const visual::Camera &p_camera) override;
+    void draw(const visual::Camera &p_camera) = 0;
 
     /**
      * @return if the entity's hit points are less than zero
@@ -63,7 +63,6 @@ public:
 private:
 
     float m_hp = 100.0f;
-    std::vector<b2Vec2> m_shape;
 
 };
 

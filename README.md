@@ -17,11 +17,12 @@
 - - ~~base~~
 - - ~~static~~
 - - ~~dynamic~~
-- - projectile
-- - block
-- - target (~~half done~~)
-- - polygon
-- - circle
+- - projectile - TODO break into specifics
+- - ~~block~~
+- - ~~target~~
+- - ~~polygon~~
+- - ~~circle~~
+- - restructure location
 - damage
 - - force
 - - ~~water~~

@@ -29,10 +29,9 @@ int main() {
     };
 
     b2World world(b2Vec2(0.0f, -9.81f));
-    std::list<std::unique_ptr<entity::DynamicEntity>> blocks;
-    std::list<std::unique_ptr<entity::StaticEntity>> terrain;
-    std::list<std::unique_ptr<entity::TargetEntity>> enemies;
-    level::setUpDemoLevel(world, blocks, terrain, enemies);
+    std::list<std::unique_ptr<entity::DynamicEntity>> dynamicEntities;
+    std::list<std::unique_ptr<entity::StaticEntity>> staticEntities;
+    level::setUpDemoLevel(world, dynamicEntities, staticEntities);
 
     if (!glfwInit()) {
         return -1;
@@ -68,20 +67,18 @@ int main() {
             world.Step((1.0f/60.0f), 8, 3);
 
             // process dynamic entities
-            for (auto it = blocks.begin(); it != blocks.end(); it++) {
+            for (auto it = dynamicEntities.begin(); it != dynamicEntities.end(); it++) {
                 (*it)->processEvents();
                 if ((*it)->isDead()) {
-                    auto deadBox = it--;
-                    blocks.erase(deadBox);
+                    auto deadObj = it--;
+                    dynamicEntities.erase(deadObj);
                 } else {
                     (*it)->draw(camera);
                 }
             }
-            for (auto &enemy : enemies) {
-                enemy->draw(camera);
-            }
-            for (auto &ground : terrain) {
-                ground->draw(camera);
+
+            for (auto &obj : staticEntities) {
+                obj->draw(camera);
             }
 
             glColor4f(1.0f, 0.2f, 0.2f, 0.5f); // TODO REMOVE TESTING WATER BOX

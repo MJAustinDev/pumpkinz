@@ -24,14 +24,15 @@
 
 #pragma once
 
-#include "baseEntity.h"
+#include "circleEntity.h"
+#include "dynamicEntity.h"
 
 namespace entity {
 
 /**
  * Base bad guy object, aim of game is to destroy them all
  */
-class TargetEntity : BaseEntity {
+class TargetEntity : public CircleEntity {
 
 public:
 
@@ -53,9 +54,14 @@ public:
      */
     void draw(const visual::Camera &p_camera) override;
 
+    /**
+     * See base class
+     */
+    bool isDead() { return DynamicEntity::isDead(); };
+
 private:
 
-    float m_radius;
+    // TODO - Implement enemy counter
 
 };
 

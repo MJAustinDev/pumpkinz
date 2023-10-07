@@ -22,21 +22,23 @@
  * SOFTWARE.
  */
 
-#include "targetEntity.h"
+#include "polygonEntity.h"
 
 namespace entity {
 
-TargetEntity::TargetEntity(b2World &p_world, b2Vec2 p_position, float p_radius):
-    CircleEntity(p_world, p_position, p_radius){
+PolygonEntity::PolygonEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2Vec2> p_shape):
+    DynamicEntity(p_world, p_position),
+    m_shape(p_shape) {
 
+    b2PolygonShape shape;
+    shape.Set(&(m_shape.front()), m_shape.size());
+    addFixture(shape, 1.0f);
 }
 
-void TargetEntity::processEvents() {
-    DynamicEntity::processEvents();
-}
 
-void TargetEntity::draw(const visual::Camera &p_camera) {
-    CircleEntity::draw(p_camera);
+void PolygonEntity::draw(const visual::Camera &p_camera) {
+    glColor4f(0.4f, 0.4f, 0.4f, 0.5f);
+    p_camera.drawPolygon(getPosition(), getAngle(), m_shape);
 }
 
 }; // end of namespace entity

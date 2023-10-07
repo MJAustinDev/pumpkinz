@@ -22,21 +22,43 @@
  * SOFTWARE.
  */
 
-#include "targetEntity.h"
+#pragma once
+
+#include <vector>
+
+#include "dynamicEntity.h"
 
 namespace entity {
 
-TargetEntity::TargetEntity(b2World &p_world, b2Vec2 p_position, float p_radius):
-    CircleEntity(p_world, p_position, p_radius){
+/**
+ * Base polygon entity, defines the polygon shape of the entity
+ */
+class PolygonEntity : public DynamicEntity {
 
-}
+public:
 
-void TargetEntity::processEvents() {
-    DynamicEntity::processEvents();
-}
+    /**
+     * @param p_world box2d world that the entity exists within
+     * @param p_position entity's position in the world
+     * @param p_radius radius of the targets circular shape
+     */
+    PolygonEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2Vec2> p_shape);
+    ~PolygonEntity() = default;
 
-void TargetEntity::draw(const visual::Camera &p_camera) {
-    CircleEntity::draw(p_camera);
-}
+    /**
+     * See base class
+     */
+    void processEvents() = 0;
+
+    /**
+     * See base class
+     */
+    void draw(const visual::Camera &p_camera) override;
+
+private:
+
+    std::vector<b2Vec2> m_shape;
+
+};
 
 }; // end of namespace entity
