@@ -22,7 +22,7 @@
 - - ~~target~~
 - - ~~polygon~~
 - - ~~circle~~
-- - restructure location
+- - ~~restructure location~~
 - damage
 - - force
 - - ~~water~~
