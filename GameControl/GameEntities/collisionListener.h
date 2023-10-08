@@ -27,41 +27,59 @@
 #include <box2d/box2d.h>
 
 #include <cmath>
-#include <iostream> // TODO REMOVE
 
 #include "dynamicEntity.h"
 
 namespace {
 
+/**
+ * Normalises a velocity vector to work out the true speed
+ * @param p_velocity vector to be normalised
+ * @return normalised velocity
+ */
 float calcPureVelocity(b2Vec2 p_velocity) {
     return std::hypotf(p_velocity.x, p_velocity.y);
 };
 
+/**
+ * Verifies if a b2body is dynamic or not
+ * @param p_body body to check the type of
+ * @return true iff the body is dynamic
+ */
 bool isDynamic(b2Body* p_body) {
     return p_body->GetType() == b2BodyType::b2_dynamicBody;
-}
+};
 
+/**
+ * Applies kinetic energy transfer to two colliding objects
+ * @param p_bodyA physics body of the first object
+ * @param p_bodyB physics body of the second object
+ */
 void dynamicEnergyTransfer(b2Body* p_bodyA, b2Body* p_bodyB) {
         b2Vec2 relativeVelocity = p_bodyA->GetLinearVelocity() - p_bodyB->GetLinearVelocity();
         float pureVelocity = calcPureVelocity(relativeVelocity);
         float energyMultiplier = 0.5 * pureVelocity * pureVelocity;
-        float keneticEnergyA = energyMultiplier * p_bodyA->GetMass();
-        float keneticEnergyB = energyMultiplier * p_bodyB->GetMass();
+        float kineticEnergyA = energyMultiplier * p_bodyA->GetMass();
+        float kineticEnergyB = energyMultiplier * p_bodyB->GetMass();
 
         auto* dataPtr = reinterpret_cast<entity::DynamicBodyData*>(p_bodyA->GetUserData().pointer);
-        dataPtr->m_energies.push_back(keneticEnergyB);
+        dataPtr->m_energies.push_back(kineticEnergyB);
 
         dataPtr = reinterpret_cast<entity::DynamicBodyData*>(p_bodyB->GetUserData().pointer);
-        dataPtr->m_energies.push_back(keneticEnergyA);
-}
+        dataPtr->m_energies.push_back(kineticEnergyA);
+};
 
+/**
+ * Applies total kinetic energy transfer to an object colliding with an immovable wall
+ * @param p_bodyDynamic physics body of the colliding object
+ */
 void staticEnergyTransfer(b2Body* p_bodyDynamic) {
     float pureVelocity = calcPureVelocity(p_bodyDynamic->GetLinearVelocity());
-    float keneticEnergy = 0.5 * p_bodyDynamic->GetMass() * pureVelocity * pureVelocity;
+    float kineticEnergy = 0.5 * p_bodyDynamic->GetMass() * pureVelocity * pureVelocity;
 
     auto* dataPtr = reinterpret_cast<entity::DynamicBodyData*>(p_bodyDynamic->GetUserData().pointer);
-    dataPtr->m_energies.push_back(keneticEnergy);
-}
+    dataPtr->m_energies.push_back(kineticEnergy);
+};
 
 }; // end of namespace
 
