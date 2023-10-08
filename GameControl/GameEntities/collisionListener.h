@@ -26,14 +26,38 @@
 
 #include <box2d/box2d.h>
 
+#include <cmath>
 #include <iostream> // TODO REMOVE
 
 namespace {
 
-static int b = 0;
-static int e = 0;
+float calcPureVelocity(b2Vec2 p_velocity) {
+    return std::hypotf(p_velocity.x, p_velocity.y);
+};
 
-}; // TODO REMOVE
+bool isDynamic(b2Body* p_body) {
+    return p_body->GetType() == b2BodyType::b2_dynamicBody;
+}
+
+void dynamicEnergyTransfer(b2Body* p_bodyA, b2Body* p_bodyB) {
+        b2Vec2 relativeVelocity = p_bodyA->GetLinearVelocity() - p_bodyB->GetLinearVelocity();
+        float pureVelocity = calcPureVelocity(relativeVelocity);
+        float energyMultiplier = 0.5 * pureVelocity * pureVelocity;
+        float keneticEnergyA = energyMultiplier * p_bodyA->GetMass();
+        float keneticEnergyB = energyMultiplier * p_bodyB->GetMass();
+
+        std::cout << "DA_KE: " << keneticEnergyA << "\n";
+        std::cout << "DB_KE: " << keneticEnergyB << "\n";
+}
+
+void staticEnergyTransfer(b2Body* p_bodyDynamic) {
+    float pureVelocity = calcPureVelocity(p_bodyDynamic->GetLinearVelocity());
+    float keneticEnergy = 0.5 * p_bodyDynamic->GetMass() * pureVelocity * pureVelocity;
+
+    std::cout << "S__KE: " << keneticEnergy << "\n";
+}
+
+}; // end of namespace
 
 namespace entity {
 
@@ -42,12 +66,23 @@ class CollisionListener : public b2ContactListener {
 private:
 
     void BeginContact(b2Contact* contact) {
-        std::cout << "Begin: " << (b++) << "\n";  // TODO REMOVE
+        auto bodyA = contact->GetFixtureA()->GetBody();
+        auto bodyB = contact->GetFixtureB()->GetBody();
+
+        if (isDynamic(bodyA) && isDynamic(bodyB)) {
+            dynamicEnergyTransfer(bodyA, bodyB);
+
+        } else if (isDynamic(bodyA)) {
+            staticEnergyTransfer(bodyA);
+
+        } else if (isDynamic(bodyB)) {
+            staticEnergyTransfer(bodyB);
+        }
+
         // TODO APPEND KE RESULTS TO BODY'S OBJ DATA, IFF VELOCITY IS ABOVE THRESH HOLD
     };
 
     void EndContact(b2Contact* contact) {
-        std::cout << "End: " << (e++) << "\n";  // TODO REMOVE
         // TODO PROBS JUST REMOVE...
     };
 

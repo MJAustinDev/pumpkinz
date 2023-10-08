@@ -25,8 +25,8 @@
 - - restructure location
 - damage
 - - force
-- - - Contact Listener
-- - - KE transfer decided
+- - - Contact Listener ~~(half)~~
+- - - ~~KE transfer decided~~
 - - - Body User Data Structure
 - - - Application of force damage in dynamic entity
 - - ~~water~~
@@ -54,3 +54,4 @@
 - level system
 - cannon camera if looking in the distance
 - toolbox project (contains useful block shapes... good for other projects)
+- verify/research KE/force damage model

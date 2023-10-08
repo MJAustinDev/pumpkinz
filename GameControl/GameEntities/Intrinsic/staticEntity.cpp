@@ -27,7 +27,7 @@
 namespace entity {
 
 StaticEntity::StaticEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2Vec2> p_shape):
-        BaseEntity(p_world, p_position, b2_dynamicBody),
+        BaseEntity(p_world, p_position, b2_staticBody),
         m_shape(p_shape) {
 
     b2PolygonShape shape;
