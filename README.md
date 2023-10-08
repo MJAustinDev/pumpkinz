@@ -31,9 +31,17 @@
 - - - ~~Application of force damage in dynamic entity~~
 - - ~~water~~
 - - explosion
-- player position icon
+- ~~player position icon~~
+- - ~~base/pivot point~~
+- - ~~arrow/barrel~~
 - mouse control
+- - position tracking
+- - click
+- - - hold
+- - - release
+- zoom via wheel
 - ~~cleaner license~~
+- total namespace
 
 ## phase 3
 
@@ -55,3 +63,4 @@
 - cannon camera if looking in the distance
 - toolbox project (contains useful block shapes... good for other projects)
 - verify/research KE/force damage model
+- cannon moves toward mouse direction rather than snapping
