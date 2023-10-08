@@ -19,6 +19,7 @@
 #include "camera.h"
 #include "levels.h"
 #include "collisionListener.h"
+#include "player.h"
 
 int main() {
 
@@ -32,6 +33,7 @@ int main() {
     b2World world(b2Vec2(0.0f, -9.81f));
     entity::CollisionListener collisionListener;
     world.SetContactListener(&collisionListener);
+    Player player(&world, b2Vec2(0.0f, 5.0f));
 
     std::list<std::unique_ptr<entity::DynamicEntity>> dynamicEntities;
     std::list<std::unique_ptr<entity::StaticEntity>> staticEntities;
@@ -84,6 +86,9 @@ int main() {
             for (auto &obj : staticEntities) {
                 obj->draw(camera);
             }
+
+            player.processEvents();
+            player.draw(camera);
 
             glColor4f(1.0f, 0.2f, 0.2f, 0.5f); // TODO REMOVE TESTING WATER BOX
             camera.drawPolygon(b2Vec2(0.0f, -10.0f), 0.0f, waterPoints);

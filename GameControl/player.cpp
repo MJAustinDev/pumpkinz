@@ -22,37 +22,16 @@
  * SOFTWARE.
  */
 
-#pragma once
+#include "player.h"
 
-#include "polygonEntity.h"
+Player::Player(b2World* p_world, b2Vec2 p_position):
+    m_world(p_world), m_position(p_position) {
 
-namespace entity {
+}
 
-/**
- * Dynamic entity that builds up destructible terrain
- */
-class BlockEntity : public PolygonEntity {
+void Player::draw(const visual::Camera &p_camera) {
+    glColor4f(0.75f, 0.34f, 0.79f, 0.75f);
+    p_camera.drawCircle(m_position, 0.0f, 1.0f);
+    p_camera.drawPolygon(m_position, m_angle, m_arrow);
 
-public:
-
-    /**
-     * @param p_world box2d world that the entity exists within
-     * @param p_position entity's position in the world
-     * @param p_shape series of points that defines the entity's shape
-     */
-    BlockEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2Vec2> p_shape);
-    ~BlockEntity() = default;
-
-    /**
-     * See base class
-     */
-    void processEvents() override;
-
-    /**
-     * See base class
-     */
-    void draw(const visual::Camera &p_camera) override;
-
-};
-
-}; // end of namespace entity
+}

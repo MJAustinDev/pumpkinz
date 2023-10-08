@@ -24,35 +24,27 @@
 
 #pragma once
 
-#include "polygonEntity.h"
+#include "box2d/box2d.h"
 
-namespace entity {
+#include <vector>
 
-/**
- * Dynamic entity that builds up destructible terrain
- */
-class BlockEntity : public PolygonEntity {
+#include "camera.h"
+
+class Player {
 
 public:
 
-    /**
-     * @param p_world box2d world that the entity exists within
-     * @param p_position entity's position in the world
-     * @param p_shape series of points that defines the entity's shape
-     */
-    BlockEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2Vec2> p_shape);
-    ~BlockEntity() = default;
+    Player(b2World* p_world, b2Vec2 p_position);
+    ~Player() = default;
 
-    /**
-     * See base class
-     */
-    void processEvents() override;
+    void processEvents() { m_angle += 0.0174533f; }; // TODO IMPLEMETN MOUSE LOCKING
+    void draw(const visual::Camera &p_camera);
 
-    /**
-     * See base class
-     */
-    void draw(const visual::Camera &p_camera) override;
+private:
+
+    b2World* m_world;
+    b2Vec2 m_position;
+    float m_angle = 0.0f;
+    std::vector<b2Vec2> m_arrow = {b2Vec2(-0.5f, 0.5f), b2Vec2(-0.5f, -0.5f), b2Vec2(4.5f, 0.0f)};
 
 };
-
-}; // end of namespace entity
