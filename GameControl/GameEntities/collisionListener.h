@@ -29,6 +29,8 @@
 #include <cmath>
 #include <iostream> // TODO REMOVE
 
+#include "dynamicEntity.h"
+
 namespace {
 
 float calcPureVelocity(b2Vec2 p_velocity) {
@@ -46,15 +48,19 @@ void dynamicEnergyTransfer(b2Body* p_bodyA, b2Body* p_bodyB) {
         float keneticEnergyA = energyMultiplier * p_bodyA->GetMass();
         float keneticEnergyB = energyMultiplier * p_bodyB->GetMass();
 
-        std::cout << "DA_KE: " << keneticEnergyA << "\n";
-        std::cout << "DB_KE: " << keneticEnergyB << "\n";
+        auto* dataPtr = reinterpret_cast<entity::DynamicBodyData*>(p_bodyA->GetUserData().pointer);
+        dataPtr->m_energies.push_back(keneticEnergyB);
+
+        dataPtr = reinterpret_cast<entity::DynamicBodyData*>(p_bodyB->GetUserData().pointer);
+        dataPtr->m_energies.push_back(keneticEnergyA);
 }
 
 void staticEnergyTransfer(b2Body* p_bodyDynamic) {
     float pureVelocity = calcPureVelocity(p_bodyDynamic->GetLinearVelocity());
     float keneticEnergy = 0.5 * p_bodyDynamic->GetMass() * pureVelocity * pureVelocity;
 
-    std::cout << "S__KE: " << keneticEnergy << "\n";
+    auto* dataPtr = reinterpret_cast<entity::DynamicBodyData*>(p_bodyDynamic->GetUserData().pointer);
+    dataPtr->m_energies.push_back(keneticEnergy);
 }
 
 }; // end of namespace
@@ -78,14 +84,7 @@ private:
         } else if (isDynamic(bodyB)) {
             staticEnergyTransfer(bodyB);
         }
-
-        // TODO APPEND KE RESULTS TO BODY'S OBJ DATA, IFF VELOCITY IS ABOVE THRESH HOLD
     };
-
-    void EndContact(b2Contact* contact) {
-        // TODO PROBS JUST REMOVE...
-    };
-
 };
 
 }; // end of namespace entity

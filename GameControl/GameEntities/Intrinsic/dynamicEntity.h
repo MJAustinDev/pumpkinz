@@ -25,10 +25,18 @@
 #pragma once
 
 #include <vector>
+#include <list>
 
 #include "baseEntity.h"
 
 namespace entity {
+
+/**
+ * User data structure used to transfer information form the b2body to the class
+ */
+struct DynamicBodyData {
+    std::list<float> m_energies;
+};
 
 /**
  * Movable & destructible entity
@@ -63,6 +71,8 @@ public:
 private:
 
     float m_hp = 100.0f;
+    float m_durability = 0.25f;
+    DynamicBodyData m_dynamicData;
 
 };
 

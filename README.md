@@ -24,11 +24,11 @@
 - - ~~circle~~
 - - restructure location
 - damage
-- - force
-- - - Contact Listener ~~(half)~~
+- - ~~force~~
+- - - ~~Contact Listener~~
 - - - ~~KE transfer decided~~
-- - - Body User Data Structure
-- - - Application of force damage in dynamic entity
+- - - ~~Body User Data Structure~~
+- - - ~~Application of force damage in dynamic entity~~
 - - ~~water~~
 - - explosion
 - player position icon
