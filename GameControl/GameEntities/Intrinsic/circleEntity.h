@@ -39,8 +39,9 @@ public:
      * @param p_world box2d world that the entity exists within
      * @param p_position entity's position in the world
      * @param p_radius radius of the targets circular shape
+     * @param p_fragility magnifies the damage dealt by energy transfer
      */
-    CircleEntity(b2World &p_world, b2Vec2 p_position, float p_radius);
+    CircleEntity(b2World &p_world, b2Vec2 p_position, float p_radius, float p_fragility = 0.25f);
     ~CircleEntity() = default;
 
     /**

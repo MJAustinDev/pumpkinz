@@ -49,8 +49,10 @@ public:
      * @param p_world box2d world that the entity exists within
      * @param p_position entity's position in the world
      * @param p_shape series of points that defines the entity's shape
+     * @param p_fragility magnifies the damage dealt by energy transfer
      */
-    DynamicEntity(b2World &p_world, b2Vec2 p_position);
+    DynamicEntity(b2World &p_world, b2Vec2 p_position, float p_fragility);
+
     ~DynamicEntity() = default;
 
     /**
@@ -68,10 +70,15 @@ public:
      */
     bool isDead() { return m_hp < 0.0f; };
 
+    /**
+     * @return entity's current hit points
+     */
+    float getHp() { return m_hp; };
+
 private:
 
     float m_hp = 100.0f;
-    float m_durability = 0.25f;
+    float m_fragility = 0.25f;
     DynamicBodyData m_dynamicData;
 
 };

@@ -36,8 +36,9 @@ constexpr float kMinimumEnergyDamage() { return 2.0f; };
 
 namespace entity {
 
-DynamicEntity::DynamicEntity(b2World &p_world, b2Vec2 p_position):
-        BaseEntity(p_world, p_position, b2_dynamicBody, static_cast<void*>(&m_dynamicData)) {
+DynamicEntity::DynamicEntity(b2World &p_world, b2Vec2 p_position, float p_fragility):
+        BaseEntity(p_world, p_position, b2_dynamicBody, static_cast<void*>(&m_dynamicData)),
+        m_fragility(p_fragility) {
 
 }
 
@@ -47,7 +48,7 @@ void DynamicEntity::processEvents() {
                                         m_dynamicData.m_energies.end(), 0.0f);
 
     if (totalEnergy > kMinimumEnergyDamage()) {
-        m_hp -= ((totalEnergy - kMinimumEnergyDamage()) * m_durability);
+        m_hp -= (totalEnergy - kMinimumEnergyDamage()) * m_fragility;
     }
     m_dynamicData.m_energies.clear();
 
