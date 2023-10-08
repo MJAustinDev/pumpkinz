@@ -42,11 +42,15 @@ public:
      * @param p_world box2d world that the entity exists within
      * @param p_position entity's position in the world
      * @param p_type box2d body type, dynamic/static
+     * @param p_dataPtr User data ptr for passing information between b2Bodies and game classes
      */
-    BaseEntity(b2World &p_world, b2Vec2 p_position, b2BodyType p_type) {
+    BaseEntity(b2World &p_world, b2Vec2 p_position, b2BodyType p_type, void* p_dataPtr = nullptr) {
         b2BodyDef bodyDef;
         bodyDef.position = p_position;
         bodyDef.type = p_type;
+        if (p_dataPtr != nullptr) {
+            bodyDef.userData.pointer = reinterpret_cast<uintptr_t>(p_dataPtr);
+        }
 
         m_body = p_world.CreateBody(&bodyDef);
     };

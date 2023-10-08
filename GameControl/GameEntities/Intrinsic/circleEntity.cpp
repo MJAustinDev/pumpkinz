@@ -26,8 +26,8 @@
 
 namespace entity {
 
-CircleEntity::CircleEntity(b2World &p_world, b2Vec2 p_position, float p_radius):
-    DynamicEntity(p_world, p_position),
+CircleEntity::CircleEntity(b2World &p_world, b2Vec2 p_position, float p_radius, float p_fragility):
+    DynamicEntity(p_world, p_position, p_fragility),
     m_radius(p_radius) {
 
     b2CircleShape shape;
@@ -37,7 +37,7 @@ CircleEntity::CircleEntity(b2World &p_world, b2Vec2 p_position, float p_radius):
 
 
 void CircleEntity::draw(const visual::Camera &p_camera) {
-    glColor4f(0.9f, 0.5f, 0.2f, 0.5f);
+    glColor4f(0.9f, 0.5f, 0.2f, (getHp()/100.0f));
     p_camera.drawCircle(getPosition(), getAngle(), m_radius);
 }
 

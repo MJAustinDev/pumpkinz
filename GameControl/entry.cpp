@@ -18,6 +18,7 @@
 
 #include "camera.h"
 #include "levels.h"
+#include "collisionListener.h"
 
 int main() {
 
@@ -29,6 +30,9 @@ int main() {
     };
 
     b2World world(b2Vec2(0.0f, -9.81f));
+    entity::CollisionListener collisionListener;
+    world.SetContactListener(&collisionListener);
+
     std::list<std::unique_ptr<entity::DynamicEntity>> dynamicEntities;
     std::list<std::unique_ptr<entity::StaticEntity>> staticEntities;
     level::setUpDemoLevel(world, dynamicEntities, staticEntities);

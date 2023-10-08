@@ -27,7 +27,7 @@
 namespace entity {
 
 BlockEntity::BlockEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2Vec2> p_shape):
-    PolygonEntity(p_world, p_position, p_shape){
+    PolygonEntity(p_world, p_position, p_shape, 0.05f){
 
 }
 

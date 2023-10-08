@@ -24,7 +24,11 @@
 - - ~~circle~~
 - - ~~restructure location~~
 - damage
-- - force
+- - ~~force~~
+- - - ~~Contact Listener~~
+- - - ~~KE transfer decided~~
+- - - ~~Body User Data Structure~~
+- - - ~~Application of force damage in dynamic entity~~
 - - ~~water~~
 - - explosion
 - player position icon
@@ -50,3 +54,4 @@
 - level system
 - cannon camera if looking in the distance
 - toolbox project (contains useful block shapes... good for other projects)
+- verify/research KE/force damage model
