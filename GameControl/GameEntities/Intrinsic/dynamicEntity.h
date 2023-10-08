@@ -52,7 +52,6 @@ public:
      * @param p_fragility magnifies the damage dealt by energy transfer
      */
     DynamicEntity(b2World &p_world, b2Vec2 p_position, float p_fragility);
-
     ~DynamicEntity() = default;
 
     /**

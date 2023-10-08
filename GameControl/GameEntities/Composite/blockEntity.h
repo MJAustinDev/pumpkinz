@@ -41,6 +41,7 @@ public:
      * @param p_shape series of points that defines the entity's shape
      */
     BlockEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2Vec2> p_shape);
+    ~BlockEntity = default;
 
     /**
      * See base class
