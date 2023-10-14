@@ -35,7 +35,7 @@
 - - ~~base/pivot point~~
 - - ~~arrow/barrel~~
 - mouse control
-- - position tracking
+- - ~~position tracking~~
 - - recognise at boarder
 - - click
 - - - hold

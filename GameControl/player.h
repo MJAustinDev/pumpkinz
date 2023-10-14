@@ -37,7 +37,7 @@ public:
     Player(b2World* p_world, b2Vec2 p_position);
     ~Player() = default;
 
-    void processEvents() { m_angle += 0.0174533f; }; // TODO IMPLEMETN MOUSE LOCKING
+    void processEvents();
     void draw(const visual::Camera &p_camera);
 
 private:

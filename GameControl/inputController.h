@@ -27,6 +27,17 @@
 #include "GLFW/glfw3.h"
 #include "box2d/box2d.h"
 
+namespace {
+
+float calcScreenPosition(float p_position, float p_pixels, bool p_isAxisX) {
+    p_position /= p_pixels; // calculate percentage of screen, range 0 -> 1
+    p_position *= 2.0f; // stretch value to 0 -> 2 range
+    p_position -= 1.0f; // shift back to -1 -> 1 range
+    return (p_isAxisX) ? p_position : -p_position; // y axis has top as positive
+};
+
+};
+
 class InputController {
 
 public:
@@ -38,7 +49,7 @@ public:
     };
     ~InputController() = default;
 
-    b2Vec2 getMousePosition() { return b2Vec2(m_mouseX, m_mouseY); };
+    static b2Vec2 getMousePosition() { return b2Vec2(m_mouseX, m_mouseY); };
 
 private:
 
@@ -46,8 +57,8 @@ private:
     };
 
     static void handleMouseMove(GLFWwindow* p_window, double p_positionX, double p_positionY) {
-        m_mouseX = static_cast<float>(p_positionX);
-        m_mouseY = static_cast<float>(p_positionY);
+        m_mouseX = calcScreenPosition(static_cast<float>(p_positionX), 1600, true);
+        m_mouseY = calcScreenPosition(static_cast<float>(p_positionY), 900, false);
     };
 
     static void handleMouseWheel(GLFWwindow* p_window, double p_offsetX, double p_offsetY) {
@@ -57,6 +68,3 @@ private:
     static float m_mouseY;
 
 };
-
-float InputController::m_mouseX = 0.0f;
-float InputController::m_mouseY = 0.0f;
