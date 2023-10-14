@@ -20,6 +20,7 @@
 #include "levels.h"
 #include "collisionListener.h"
 #include "player.h"
+#include "inputController.h"
 
 int main() {
 
@@ -45,6 +46,7 @@ int main() {
 
     // glfwWindowHint(GLFW_MAXIMIZED, 1); // attempt to start with a maximised window // TODO ENABLE WHEN RATIO IS COMPLETED
     GLFWwindow* window = glfwCreateWindow(1600, 900, "Pumpkinz", NULL, NULL); // TODO RENAME GAME...
+    InputController userInput(window);
 
     if (!window) {
         glfwTerminate();

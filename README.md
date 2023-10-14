@@ -36,9 +36,11 @@
 - - ~~arrow/barrel~~
 - mouse control
 - - position tracking
+- - recognise at boarder
 - - click
 - - - hold
 - - - release
+- - wheel
 - zoom via wheel
 - ~~cleaner license~~
 - total namespace
