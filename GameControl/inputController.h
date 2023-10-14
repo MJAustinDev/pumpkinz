@@ -25,36 +25,38 @@
 #pragma once
 
 #include "GLFW/glfw3.h"
-#include <iostream> // TODO REMOVE LATER ON
+#include "box2d/box2d.h"
 
 class InputController {
 
 public:
 
     InputController(GLFWwindow* p_window) {
-        assert((++m_instances) <= 1); // should only have 1 input controller
         glfwSetMouseButtonCallback(p_window, handleMousePress);
-        glfwSetCursorPosCallback(p_window, cursor_position_callback);
-        glfwSetScrollCallback(p_window, scroll_callback);
+        glfwSetCursorPosCallback(p_window, handleMouseMove);
+        glfwSetScrollCallback(p_window, handleMouseWheel);
     };
     ~InputController() = default;
 
+    b2Vec2 getMousePosition() { return b2Vec2(m_mouseX, m_mouseY); };
+
 private:
 
-    static void handleMousePress(GLFWwindow* window, int button, int action, int mods) {
-        std::cout << "B: " << button << ", " << action << "\n";
+    static void handleMousePress(GLFWwindow* p_window, int p_button, int p_action, int p_modbits) {
     };
 
-    static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos) {
-        std::cout << xpos << ", " << ypos << '\n';
-    }
+    static void handleMouseMove(GLFWwindow* p_window, double p_positionX, double p_positionY) {
+        m_mouseX = static_cast<float>(p_positionX);
+        m_mouseY = static_cast<float>(p_positionY);
+    };
 
-    static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
-        std::cout << "X: " << xoffset << ", " << yoffset << "\n";
-    }
+    static void handleMouseWheel(GLFWwindow* p_window, double p_offsetX, double p_offsetY) {
+    };
 
-    static unsigned int m_instances;
+    static float m_mouseX;
+    static float m_mouseY;
 
 };
 
-unsigned int InputController::m_instances = 0u;
+float InputController::m_mouseX = 0.0f;
+float InputController::m_mouseY = 0.0f;
