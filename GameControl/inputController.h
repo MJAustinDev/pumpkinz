@@ -26,6 +26,8 @@
 
 #include "GLFW/glfw3.h"
 #include "box2d/box2d.h"
+#include<iostream>
+#include <array>
 
 namespace {
 
@@ -35,6 +37,10 @@ float calcScreenPosition(float p_position, float p_pixels, bool p_isAxisX) {
     p_position -= 1.0f; // shift back to -1 -> 1 range
     return (p_isAxisX) ? p_position : -p_position; // y axis has top as positive
 };
+
+bool isMouseButtonValid(int p_button) {
+    return (p_button >= GLFW_MOUSE_BUTTON_LEFT) && (p_button <= GLFW_MOUSE_BUTTON_RIGHT);
+}
 
 };
 
@@ -50,10 +56,20 @@ public:
     ~InputController() = default;
 
     static b2Vec2 getMousePosition() { return b2Vec2(m_mouseX, m_mouseY); };
+    static bool getMouseButtonPressed(int p_button) {
+        return (isMouseButtonValid(p_button)) && (m_mouseButton.at(p_button));
+    };
 
 private:
 
     static void handleMousePress(GLFWwindow* p_window, int p_button, int p_action, int p_modbits) {
+        if (isMouseButtonValid(p_button)) {
+            switch (p_action) {
+                case GLFW_PRESS: { m_mouseButton.at(p_button) = true; std::cout << "T\n"; break; }
+                case GLFW_RELEASE: { m_mouseButton.at(p_button) = false; std::cout << "F\n"; break;}
+                default: { break; }
+            }
+        }
     };
 
     static void handleMouseMove(GLFWwindow* p_window, double p_positionX, double p_positionY) {
@@ -62,9 +78,11 @@ private:
     };
 
     static void handleMouseWheel(GLFWwindow* p_window, double p_offsetX, double p_offsetY) {
+        std::cout << p_offsetY << "\n";
     };
 
     static float m_mouseX;
     static float m_mouseY;
+    static std::array<bool, 2> m_mouseButton;
 
 };

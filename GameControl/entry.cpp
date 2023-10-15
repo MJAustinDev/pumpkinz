@@ -24,6 +24,7 @@
 
 float InputController::m_mouseX = 0.0f;
 float InputController::m_mouseY = 0.0f;
+std::array<bool, 2> InputController::m_mouseButton = {false, false};
 
 int main() {
 

@@ -25,7 +25,6 @@
 #include <cmath>
 #include "player.h"
 #include "inputController.h"
-#include <iostream>
 
 Player::Player(b2World* p_world, b2Vec2 p_position):
     m_world(p_world), m_position(p_position) {
@@ -34,7 +33,6 @@ Player::Player(b2World* p_world, b2Vec2 p_position):
 
 void Player::processEvents() {
     b2Vec2 mousePosition = InputController::getMousePosition();
-    mousePosition;
     mousePosition.x /= 0.01f; // TODO ASSUMING CONSTANT ZOOM, ADDRESS THIS LATER
     mousePosition.y /= 0.01f;
     mousePosition -= m_position;

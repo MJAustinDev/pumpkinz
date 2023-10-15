@@ -37,9 +37,9 @@
 - mouse control
 - - ~~position tracking~~
 - - recognise at boarder
-- - click
-- - - hold
-- - - release
+- - ~~click~~
+- - - ~~hold~~
+- - - ~~release~~
 - - wheel
 - zoom via wheel
 - ~~cleaner license~~
@@ -53,7 +53,7 @@
 
 ## feature pool
 
-- control/firing
+- complete control/firing
 - block destruction (breaking up)
 - enemy behaviour
 - ammo types
