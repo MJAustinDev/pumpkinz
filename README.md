@@ -40,7 +40,7 @@
 - - ~~click~~
 - - - ~~hold~~
 - - - ~~release~~
-- - wheel
+- - ~~wheel~~
 - zoom via wheel
 - ~~cleaner license~~
 - total namespace

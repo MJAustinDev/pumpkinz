@@ -59,14 +59,15 @@ public:
     static bool getMouseButtonPressed(int p_button) {
         return (isMouseButtonValid(p_button)) && (m_mouseButton.at(p_button));
     };
+    static int getScrollY() { int scroll = m_scrollY; m_scrollY = 0; return scroll; };
 
 private:
 
     static void handleMousePress(GLFWwindow* p_window, int p_button, int p_action, int p_modbits) {
         if (isMouseButtonValid(p_button)) {
             switch (p_action) {
-                case GLFW_PRESS: { m_mouseButton.at(p_button) = true; std::cout << "T\n"; break; }
-                case GLFW_RELEASE: { m_mouseButton.at(p_button) = false; std::cout << "F\n"; break;}
+                case GLFW_PRESS: { m_mouseButton.at(p_button) = true; break; }
+                case GLFW_RELEASE: { m_mouseButton.at(p_button) = false; break;}
                 default: { break; }
             }
         }
@@ -78,11 +79,12 @@ private:
     };
 
     static void handleMouseWheel(GLFWwindow* p_window, double p_offsetX, double p_offsetY) {
-        std::cout << p_offsetY << "\n";
+        m_scrollY += static_cast<int>(p_offsetY);
     };
 
     static float m_mouseX;
     static float m_mouseY;
+    static int m_scrollY;
     static std::array<bool, 2> m_mouseButton;
 
 };
