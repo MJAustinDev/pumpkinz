@@ -48,39 +48,20 @@ class InputController {
 
 public:
 
-    InputController(GLFWwindow* p_window) {
-        glfwSetMouseButtonCallback(p_window, handleMousePress);
-        glfwSetCursorPosCallback(p_window, handleMouseMove);
-        glfwSetScrollCallback(p_window, handleMouseWheel);
-    };
+    InputController(GLFWwindow* p_window);
     ~InputController() = default;
 
-    static b2Vec2 getMousePosition() { return b2Vec2(m_mouseX, m_mouseY); };
-    static bool getMouseButtonPressed(int p_button) {
-        return (isMouseButtonValid(p_button)) && (m_mouseButton.at(p_button));
-    };
-    static int getScrollY() { int scroll = m_scrollY; m_scrollY = 0; return scroll; };
+    static b2Vec2 getMousePosition();
+    static bool getMouseButtonPressed(int p_button);
+    static int getScrollY();
 
 private:
 
-    static void handleMousePress(GLFWwindow* p_window, int p_button, int p_action, int p_modbits) {
-        if (isMouseButtonValid(p_button)) {
-            switch (p_action) {
-                case GLFW_PRESS: { m_mouseButton.at(p_button) = true; break; }
-                case GLFW_RELEASE: { m_mouseButton.at(p_button) = false; break;}
-                default: { break; }
-            }
-        }
-    };
+    static void handleMousePress(GLFWwindow* p_window, int p_button, int p_action, int p_modbits);
 
-    static void handleMouseMove(GLFWwindow* p_window, double p_positionX, double p_positionY) {
-        m_mouseX = calcScreenPosition(static_cast<float>(p_positionX), 1600, true);
-        m_mouseY = calcScreenPosition(static_cast<float>(p_positionY), 900, false);
-    };
+    static void handleMouseMove(GLFWwindow* p_window, double p_positionX, double p_positionY);
 
-    static void handleMouseWheel(GLFWwindow* p_window, double p_offsetX, double p_offsetY) {
-        m_scrollY += static_cast<int>(p_offsetY);
-    };
+    static void handleMouseWheel(GLFWwindow* p_window, double p_offsetX, double p_offsetY);
 
     static float m_mouseX;
     static float m_mouseY;
