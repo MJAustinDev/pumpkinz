@@ -29,19 +29,13 @@
 #include<iostream>
 #include <array>
 
-namespace {
+enum class ScreenBorder {
+    right = 0,
+    bottom,
+    left,
+    top,
 
-float calcScreenPosition(float p_position, float p_pixels, bool p_isAxisX) {
-    p_position /= p_pixels; // calculate percentage of screen, range 0 -> 1
-    p_position *= 2.0f; // stretch value to 0 -> 2 range
-    p_position -= 1.0f; // shift back to -1 -> 1 range
-    return (p_isAxisX) ? p_position : -p_position; // y axis has top as positive
-};
-
-bool isMouseButtonValid(int p_button) {
-    return (p_button >= GLFW_MOUSE_BUTTON_LEFT) && (p_button <= GLFW_MOUSE_BUTTON_RIGHT);
-}
-
+    totalBorders
 };
 
 class InputController {
@@ -54,6 +48,7 @@ public:
     static b2Vec2 getMousePosition();
     static bool getMouseButtonPressed(int p_button);
     static int getScrollY();
+    static bool isMouseAtBorder(ScreenBorder p_border);
 
 private:
 
@@ -67,5 +62,6 @@ private:
     static float m_mouseY;
     static int m_scrollY;
     static std::array<bool, 2> m_mouseButton;
+    static std::array<bool, 4> m_mouseAtBorder;
 
 };

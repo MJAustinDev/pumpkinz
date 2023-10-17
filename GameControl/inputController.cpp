@@ -24,10 +24,39 @@
 
 #include "inputController.h"
 
+namespace {
+
+using scrBdr = ScreenBorder;
+
+constexpr float kScreenBorder() { return 0.9f; }
+
+float calcScreenPosition(float p_position, float p_pixels, bool p_isAxisX) {
+    p_position /= p_pixels; // calculate percentage of screen, range 0 -> 1
+    p_position *= 2.0f; // stretch value to 0 -> 2 range
+    p_position -= 1.0f; // shift back to -1 -> 1 range
+    return (p_isAxisX) ? p_position : -p_position; // y axis has top as positive
+}
+
+bool isMouseButtonValid(int p_button) {
+    return (p_button >= GLFW_MOUSE_BUTTON_LEFT) && (p_button <= GLFW_MOUSE_BUTTON_RIGHT);
+}
+
+bool isAtBorder(float p_position, float p_threshold = kScreenBorder()) {
+    return (p_position >= p_threshold);
+}
+
+int borderToIndex(scrBdr p_border) {
+    assert(p_border >= scrBdr::right && p_border < scrBdr::totalBorders); // border out of range
+    return static_cast<int>(p_border);
+}
+
+};
+
 float InputController::m_mouseX = 0.0f;
 float InputController::m_mouseY = 0.0f;
 std::array<bool, 2> InputController::m_mouseButton = {false, false};
 int InputController::m_scrollY = 0;
+std::array<bool, 4> InputController::m_mouseAtBorder = {false, false, false, false};
 
 InputController::InputController(GLFWwindow* p_window) {
     glfwSetMouseButtonCallback(p_window, handleMousePress);
@@ -49,6 +78,10 @@ int InputController::getScrollY() {
     return scroll;
 };
 
+bool InputController::isMouseAtBorder(ScreenBorder p_border) {
+    return m_mouseAtBorder.at(borderToIndex(p_border));
+}
+
 void InputController::handleMousePress(GLFWwindow* p_window, int p_button, int p_action,
                                        int p_modbits) {
     if (isMouseButtonValid(p_button)) {
@@ -64,6 +97,11 @@ void InputController::handleMouseMove(GLFWwindow* p_window, double p_positionX,
                                       double p_positionY) {
     m_mouseX = calcScreenPosition(static_cast<float>(p_positionX), 1600, true);
     m_mouseY = calcScreenPosition(static_cast<float>(p_positionY), 900, false);
+
+    m_mouseAtBorder.at(borderToIndex(scrBdr::right)) = isAtBorder(m_mouseX);
+    m_mouseAtBorder.at(borderToIndex(scrBdr::left)) = isAtBorder(-m_mouseX);
+    m_mouseAtBorder.at(borderToIndex(scrBdr::top)) = isAtBorder(m_mouseY);
+    m_mouseAtBorder.at(borderToIndex(scrBdr::bottom)) = isAtBorder(-m_mouseY);
 };
 
 void InputController::handleMouseWheel(GLFWwindow* p_window, double p_offsetX, double p_offsetY) {
