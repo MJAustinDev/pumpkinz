@@ -26,8 +26,8 @@
 
 namespace entity {
 
-TargetEntity::TargetEntity(b2World &p_world, b2Vec2 p_position, float p_radius):
-    CircleEntity(p_world, p_position, p_radius){
+TargetEntity::TargetEntity(b2World &p_world, b2Vec2 p_position, float p_radius, float p_fragility):
+    CircleEntity(p_world, p_position, p_radius, p_fragility){
 
 }
 
