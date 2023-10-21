@@ -48,8 +48,9 @@ void BasicSolidShot::processEvents() {
 }
 
 void BasicSolidShot::draw(const visual::Camera &p_camera) {
-    // TODO DIFFERENT DRAW
-    ProjectileEntity::draw(p_camera);
+    glColor4f(0.70f, 0.55f, 0.34f, (getHp()/100.0f));
+    auto shape = kShape;
+    p_camera.drawPolygon(getPosition(), getAngle(), shape);
 }
 
 }; // end of namespace ammo

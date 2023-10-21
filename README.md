@@ -18,7 +18,7 @@
 - - ~~static~~
 - - ~~dynamic~~
 - - projectile
-- - - basic/solid shot
+- - - ~~basic/solid shot~~
 - - - explosive
 - - ~~block~~
 - - ~~target~~
