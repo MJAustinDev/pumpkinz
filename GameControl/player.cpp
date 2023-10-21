@@ -25,10 +25,13 @@
 #include <cmath>
 #include "player.h"
 #include "inputController.h"
+#include "basicSolidShot.h"
 
 namespace {
 
 using input = shadow_pumpkin_caster::InputController;
+using Projectile = shadow_pumpkin_caster::entity::ProjectileEntity;
+using BasicSolidShot = shadow_pumpkin_caster::entity::ammo::BasicSolidShot;
 
 constexpr float kBarrelLength() { return 4.5f;}
 constexpr int kBarrelCooldownTime() { return 50; }
@@ -42,6 +45,12 @@ b2Vec2 getMouseInWorld(b2Vec2 p_playerPosition) {
     mousePosition.x /= 0.01f; // TODO ASSUMING CONSTANT ZOOM, ADDRESS THIS LATER
     mousePosition.y /= 0.01f;
     return mousePosition - p_playerPosition;
+}
+
+std::unique_ptr<Projectile> createBasicSolidShot(b2World &p_world, b2Vec2 p_position,
+                                                     float p_angle) {
+    auto round = std::make_unique<BasicSolidShot>(p_world, p_position, p_angle, 35.0f);
+    return static_cast<std::unique_ptr<Projectile>>(std::move(round));
 }
 
 } // end of namespace
@@ -90,17 +99,21 @@ void Player::draw(const visual::Camera &p_camera) {
 void Player::fire(RoundType p_round) {
     assert(p_round < RoundType::totalRounds);
 
-    std::vector<b2Vec2> basicShape = {b2Vec2(-0.4f, 0.4f),
-                                      b2Vec2(-0.4f, -0.4f),
-                                      b2Vec2(0.4f, -0.4f),
-                                      b2Vec2(0.9f, 0.0f),
-                                      b2Vec2(0.4f, 0.4f)};
     b2Vec2 barrelPosition(std::cos(m_angle) * kBarrelLength(),
                           std::sin(m_angle) * kBarrelLength());
     barrelPosition += m_position;
-    m_firedRounds.push_back(std::make_unique<entity::ProjectileEntity>(*m_world, barrelPosition,
-                                                                       basicShape, m_angle, 35.0f,
-                                                                       0.01f));
+
+    auto round = std::unique_ptr<shadow_pumpkin_caster::entity::ProjectileEntity>(nullptr);
+    switch (p_round) {
+        case RoundType::basicSolidShot: {
+            round = createBasicSolidShot(*m_world, barrelPosition, m_angle);
+            break;
+        }
+
+        case RoundType::totalRounds: [[fallthrough]];
+        default: assert(false); // round has likely not been implemented yet!
+    }
+    m_firedRounds.push_back(std::move(round));
 }
 
 }; // end of namespace shadow_pumpkin_caster

@@ -22,32 +22,35 @@
  * SOFTWARE.
  */
 
-#pragma once
+#include "basicSolidShot.h"
 
-#include "projectileEntity.h"
+namespace {
+
+constexpr float kFragility() { return 0.1f; }
+const std::vector<b2Vec2> kShape = {b2Vec2(-0.4f, 0.4f),
+                                    b2Vec2(-0.4f, -0.4f),
+                                    b2Vec2(0.4f, -0.4f),
+                                    b2Vec2(0.9f, 0.0f),
+                                    b2Vec2(0.4f, 0.4f)};
+} // end of namespace
 
 namespace shadow_pumpkin_caster {
 namespace entity {
 namespace ammo {
 
-class BasicSolidShot : public ProjectileEntity {
+BasicSolidShot::BasicSolidShot(b2World &p_world, b2Vec2 p_position, float p_angle, float p_force):
+    ProjectileEntity(p_world, p_position, kShape, p_angle, p_force, kFragility()) {
 
-public:
+}
 
-    BasicSolidShot(b2World &p_world, b2Vec2 p_position, float p_angle, float p_force);
-    ~BasicSolidShot() = default;
+void BasicSolidShot::processEvents() {
+    ProjectileEntity::processEvents();
+}
 
-    /**
-     * See base class
-     */
-    void processEvents() override;
-
-    /**
-     * See base class
-     */
-    void draw(const visual::Camera &p_camera) override;
-
-};
+void BasicSolidShot::draw(const visual::Camera &p_camera) {
+    // TODO DIFFERENT DRAW
+    ProjectileEntity::draw(p_camera);
+}
 
 }; // end of namespace ammo
 }; // end of namespace entity

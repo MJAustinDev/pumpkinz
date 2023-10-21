@@ -45,8 +45,7 @@ public:
     /**
      * See base class
      */
-    void draw(const visual::Camera &p_camera) override; // {PolygonEntity::draw(p_camera);};
-
+    void draw(const visual::Camera &p_camera) override;
 
 private:
 
