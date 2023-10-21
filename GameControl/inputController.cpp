@@ -26,7 +26,7 @@
 
 namespace {
 
-using scrBdr = ScreenBorder;
+using scrBdr = shadow_pumpkin_caster::ScreenBorder;
 
 constexpr float kScreenBorder() { return 0.9f; }
 
@@ -74,6 +74,8 @@ int borderToIndex(scrBdr p_border) {
 }
 
 }; // end of namespace
+
+namespace shadow_pumpkin_caster{
 
 float InputController::m_mouseX = 0.0f;
 float InputController::m_mouseY = 0.0f;
@@ -130,3 +132,5 @@ void InputController::handleMouseMove(GLFWwindow* p_window, double p_positionX,
 void InputController::handleMouseWheel(GLFWwindow* p_window, double p_offsetX, double p_offsetY) {
     m_scrollY += static_cast<int>(p_offsetY);
 };
+
+}; // end of namespace shadow_pumpkin_caster

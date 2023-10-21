@@ -34,6 +34,7 @@ constexpr float kMinimumEnergyDamage() { return 2.0f; };
 
 }; // end of namespace
 
+namespace shadow_pumpkin_caster {
 namespace entity {
 
 DynamicEntity::DynamicEntity(b2World &p_world, b2Vec2 p_position, float p_fragility):
@@ -58,3 +59,4 @@ void DynamicEntity::processEvents() {
 }
 
 }; // end of namespace entity
+}; // end of namespace shadow_pumpkin_caster

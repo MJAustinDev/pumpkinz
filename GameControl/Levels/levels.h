@@ -25,14 +25,13 @@
 #pragma once
 
 #include "box2d/box2d.h"
-
 #include <list>
 #include <memory>
-
 #include "dynamicEntity.h"
 #include "staticEntity.h"
 #include "targetEntity.h"
 
+namespace shadow_pumpkin_caster {
 namespace level {
 
 /**
@@ -45,3 +44,4 @@ void setUpDemoLevel(b2World &p_world, std::list<std::unique_ptr<entity::DynamicE
                     std::list<std::unique_ptr<entity::StaticEntity>> &p_static);
 
 }; // end of namespace level
+}; // end of namespace shadow_pumpkin_caster

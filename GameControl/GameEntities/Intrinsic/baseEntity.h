@@ -25,9 +25,9 @@
 #pragma once
 
 #include "box2d/box2d.h"
-
 #include "camera.h"
 
+namespace shadow_pumpkin_caster {
 namespace entity {
 
 /**
@@ -58,7 +58,7 @@ public:
     /**
      * Handles box2d deallocation
      */
-    ~BaseEntity() {
+    virtual ~BaseEntity() {
         if (m_body != nullptr) {
             m_body->GetWorld()->DestroyBody(m_body);
         }
@@ -103,3 +103,4 @@ private:
 };
 
 }; // end of namespace entity
+}; // end of namespace shadow_pumpkin_caster

@@ -1,4 +1,4 @@
-# pumpkinz
+# Shadow of the Pumpkin-caster
 
 # TODO
 
@@ -42,7 +42,7 @@
 - - - ~~release~~
 - - ~~wheel~~
 - ~~cleaner license~~
-- total namespace
+- ~~total namespace~~
 
 ## phase 3
 
@@ -56,6 +56,7 @@
 - zoom via wheel
 - block destruction (breaking up)
 - enemy behaviour
+- look into re-vamp-ing... hehehe the input controller (more functional than class)
 - ammo types
 - shields
 - fancy graphics
@@ -66,3 +67,4 @@
 - toolbox project (contains useful block shapes... good for other projects)
 - verify/research KE/force damage model
 - cannon moves toward mouse direction rather than snapping
+- break total namespace down into modules (future use in other projects... not priority atm)

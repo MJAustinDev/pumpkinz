@@ -10,17 +10,17 @@
 
 #include "GLFW/glfw3.h"
 #include "box2d/box2d.h"
-
 #include <iostream>
 #include <time.h>
 #include <list>
 #include <memory>
-
 #include "camera.h"
 #include "levels.h"
 #include "collisionListener.h"
 #include "player.h"
 #include "inputController.h"
+
+using namespace shadow_pumpkin_caster;
 
 int main() {
 

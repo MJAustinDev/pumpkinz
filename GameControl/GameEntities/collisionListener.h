@@ -25,12 +25,12 @@
 #pragma once
 
 #include <box2d/box2d.h>
-
 #include <cmath>
-
 #include "dynamicEntity.h"
 
 namespace {
+
+using bodyData = shadow_pumpkin_caster::entity::DynamicBodyData;
 
 /**
  * Normalises a velocity vector to work out the true speed
@@ -56,17 +56,17 @@ bool isDynamic(b2Body* p_body) {
  * @param p_bodyB physics body of the second object
  */
 void dynamicEnergyTransfer(b2Body* p_bodyA, b2Body* p_bodyB) {
-        b2Vec2 relativeVelocity = p_bodyA->GetLinearVelocity() - p_bodyB->GetLinearVelocity();
-        float pureVelocity = calcPureVelocity(relativeVelocity);
-        float energyMultiplier = 0.5 * pureVelocity * pureVelocity;
-        float kineticEnergyA = energyMultiplier * p_bodyA->GetMass();
-        float kineticEnergyB = energyMultiplier * p_bodyB->GetMass();
+    b2Vec2 relativeVelocity = p_bodyA->GetLinearVelocity() - p_bodyB->GetLinearVelocity();
+    float pureVelocity = calcPureVelocity(relativeVelocity);
+    float energyMultiplier = 0.5 * pureVelocity * pureVelocity;
+    float kineticEnergyA = energyMultiplier * p_bodyA->GetMass();
+    float kineticEnergyB = energyMultiplier * p_bodyB->GetMass();
 
-        auto* dataPtr = reinterpret_cast<entity::DynamicBodyData*>(p_bodyA->GetUserData().pointer);
-        dataPtr->m_energies.push_back(kineticEnergyB);
+    auto* dataPtr = reinterpret_cast<bodyData*>(p_bodyA->GetUserData().pointer);
+    dataPtr->m_energies.push_back(kineticEnergyB);
 
-        dataPtr = reinterpret_cast<entity::DynamicBodyData*>(p_bodyB->GetUserData().pointer);
-        dataPtr->m_energies.push_back(kineticEnergyA);
+    dataPtr = reinterpret_cast<bodyData*>(p_bodyB->GetUserData().pointer);
+    dataPtr->m_energies.push_back(kineticEnergyA);
 };
 
 /**
@@ -77,12 +77,13 @@ void staticEnergyTransfer(b2Body* p_bodyDynamic) {
     float pureVelocity = calcPureVelocity(p_bodyDynamic->GetLinearVelocity());
     float kineticEnergy = 0.5 * p_bodyDynamic->GetMass() * pureVelocity * pureVelocity;
 
-    auto* dataPtr = reinterpret_cast<entity::DynamicBodyData*>(p_bodyDynamic->GetUserData().pointer);
+    auto* dataPtr = reinterpret_cast<bodyData*>(p_bodyDynamic->GetUserData().pointer);
     dataPtr->m_energies.push_back(kineticEnergy);
 };
 
 }; // end of namespace
 
+namespace shadow_pumpkin_caster {
 namespace entity {
 
 class CollisionListener : public b2ContactListener {
@@ -106,3 +107,4 @@ private:
 };
 
 }; // end of namespace entity
+}; // end of namespace shadow_pumpkin_caster

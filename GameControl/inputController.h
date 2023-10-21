@@ -28,6 +28,8 @@
 #include "box2d/box2d.h"
 #include <array>
 
+namespace shadow_pumpkin_caster {
+
 /**
  * Screen borders that are tracked via mouse position
  */
@@ -73,3 +75,5 @@ private:
     static std::array<bool, 4> m_mouseAtBorder;
 
 };
+
+}; // end of namespace shadow_pumpkin_caster

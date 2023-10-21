@@ -23,11 +23,10 @@
  */
 
 #pragma once
-
 #include <vector>
-
 #include "dynamicEntity.h"
 
+namespace shadow_pumpkin_caster {
 namespace entity {
 
 /**
@@ -63,3 +62,4 @@ private:
 };
 
 }; // end of namespace entity
+}; // end of namespace shadow_pumpkin_caster
