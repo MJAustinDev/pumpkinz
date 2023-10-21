@@ -22,21 +22,35 @@
  * SOFTWARE.
  */
 
-#include "blockEntity.h"
+#include <cmath>
+#include "projectileEntity.h"
+
+namespace {
+
+constexpr float kDegradeRate() { return 0.3f; }
+
+} // end of namespace
 
 namespace shadow_pumpkin_caster {
 namespace entity {
 
-BlockEntity::BlockEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2Vec2> p_shape):
-    PolygonEntity(p_world, p_position, p_shape, 0.0f, 0.05f){
+ProjectileEntity::ProjectileEntity(b2World &p_world, b2Vec2 p_position,
+                                   std::vector<b2Vec2> p_shape, float p_angle, float p_force,
+                                   float p_fragility):
+    PolygonEntity(p_world, p_position, p_shape, p_angle, p_fragility) {
 
+    b2Vec2 force(std::cos(p_angle) * p_force, std::sin(p_angle) * p_force);
+    applyImpulse(force);
 }
 
-void BlockEntity::processEvents() {
+void ProjectileEntity::processEvents() {
     DynamicEntity::processEvents();
+    if (getHp() < 100.0f) {
+        applyDamage(kDegradeRate());
+    }
 }
 
-void BlockEntity::draw(const visual::Camera &p_camera) {
+void ProjectileEntity::draw(const visual::Camera &p_camera) {
     PolygonEntity::draw(p_camera);
 }
 

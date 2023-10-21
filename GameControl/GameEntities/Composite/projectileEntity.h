@@ -22,23 +22,35 @@
  * SOFTWARE.
  */
 
-#include "blockEntity.h"
+#pragma once
+
+#include "polygonEntity.h"
 
 namespace shadow_pumpkin_caster {
 namespace entity {
 
-BlockEntity::BlockEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2Vec2> p_shape):
-    PolygonEntity(p_world, p_position, p_shape, 0.0f, 0.05f){
+class ProjectileEntity : public PolygonEntity {
 
-}
+public:
 
-void BlockEntity::processEvents() {
-    DynamicEntity::processEvents();
-}
+    ProjectileEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2Vec2> p_shape,
+                     float p_angle, float p_force, float p_fragility = 0.1f);
+    ~ProjectileEntity() = default;
 
-void BlockEntity::draw(const visual::Camera &p_camera) {
-    PolygonEntity::draw(p_camera);
-}
+    /**
+     * See base class
+     */
+    void processEvents() override;
+
+    /**
+     * See base class
+     */
+    void draw(const visual::Camera &p_camera) override; // {PolygonEntity::draw(p_camera);};
+
+
+private:
+
+};
 
 }; // end of namespace entity
 }; // end of namespace shadow_pumpkin_caster

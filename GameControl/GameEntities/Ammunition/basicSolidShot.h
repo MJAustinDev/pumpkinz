@@ -22,23 +22,20 @@
  * SOFTWARE.
  */
 
-#include "blockEntity.h"
+#pragma once
 
 namespace shadow_pumpkin_caster {
 namespace entity {
+namespace ammo {
 
-BlockEntity::BlockEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2Vec2> p_shape):
-    PolygonEntity(p_world, p_position, p_shape, 0.0f, 0.05f){
+class BasicSolidShot : public ProjectileEntity {
 
-}
+public:
 
-void BlockEntity::processEvents() {
-    DynamicEntity::processEvents();
-}
+private:
 
-void BlockEntity::draw(const visual::Camera &p_camera) {
-    PolygonEntity::draw(p_camera);
-}
+};
 
+}; // end of namespace ammo
 }; // end of namespace entity
 }; // end of namespace shadow_pumpkin_caster

@@ -44,10 +44,11 @@ public:
      * @param p_type box2d body type, dynamic/static
      * @param p_dataPtr User data ptr for passing information between b2Bodies and game classes
      */
-    BaseEntity(b2World &p_world, b2Vec2 p_position, b2BodyType p_type, void* p_dataPtr = nullptr) {
+    BaseEntity(b2World &p_world, b2Vec2 p_position, b2BodyType p_type, float p_angle = 0.0f, void* p_dataPtr = nullptr) {
         b2BodyDef bodyDef;
         bodyDef.position = p_position;
         bodyDef.type = p_type;
+        bodyDef.angle = p_angle;
         if (p_dataPtr != nullptr) {
             bodyDef.userData.pointer = reinterpret_cast<uintptr_t>(p_dataPtr);
         }
@@ -94,6 +95,14 @@ protected:
      */
     void addFixture(b2Shape &p_shape, float p_density) {
         m_body->CreateFixture(&p_shape, p_density);
+    };
+
+    /**
+     * Instantly apply force to the entity
+     * @param p_force, force vector to apply to the centre of the entity
+     */
+    void applyImpulse(b2Vec2 p_force) {
+        m_body->ApplyLinearImpulseToCenter(p_force, true);
     };
 
 private:

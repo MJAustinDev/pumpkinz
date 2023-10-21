@@ -17,7 +17,9 @@
 - - ~~base~~
 - - ~~static~~
 - - ~~dynamic~~
-- - projectile - TODO break into specifics
+- - projectile
+- - - basic/solid shot
+- - - explosive
 - - ~~block~~
 - - ~~target~~
 - - ~~polygon~~
@@ -53,11 +55,12 @@
 ## feature pool
 
 - complete control/firing
+- struct to clean up entity parameter passing
 - zoom via wheel
 - block destruction (breaking up)
 - enemy behaviour
 - look into re-vamp-ing... hehehe the input controller (more functional than class)
-- ammo types
+- more advanced ammo types
 - shields
 - fancy graphics
 - screen sizing correctly

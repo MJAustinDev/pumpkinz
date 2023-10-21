@@ -27,8 +27,9 @@
 namespace shadow_pumpkin_caster {
 namespace entity {
 
-PolygonEntity::PolygonEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2Vec2> p_shape, float p_fragility):
-    DynamicEntity(p_world, p_position, p_fragility),
+PolygonEntity::PolygonEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2Vec2> p_shape,
+                             float p_fragility, float p_angle):
+    DynamicEntity(p_world, p_position, p_angle, p_fragility),
     m_shape(p_shape) {
 
     b2PolygonShape shape;
