@@ -26,6 +26,7 @@
 
 #include "polygonEntity.h"
 
+namespace shadow_pumpkin_caster {
 namespace entity {
 
 /**
@@ -56,3 +57,4 @@ public:
 };
 
 }; // end of namespace entity
+}; // end of namespace shadow_pumpkin_caster

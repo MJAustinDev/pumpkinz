@@ -24,6 +24,7 @@
 
 #include "staticEntity.h"
 
+namespace shadow_pumpkin_caster {
 namespace entity {
 
 StaticEntity::StaticEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2Vec2> p_shape):
@@ -45,3 +46,4 @@ void StaticEntity::draw(const visual::Camera &p_camera) {
 }
 
 }; // end of namespace entity
+}; // end of namespace shadow_pumpkin_caster

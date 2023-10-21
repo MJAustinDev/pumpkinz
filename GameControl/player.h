@@ -25,10 +25,10 @@
 #pragma once
 
 #include "box2d/box2d.h"
-
 #include <vector>
-
 #include "camera.h"
+
+namespace shadow_pumpkin_caster {
 
 class Player {
 
@@ -48,3 +48,5 @@ private:
     std::vector<b2Vec2> m_arrow = {b2Vec2(-0.5f, 0.5f), b2Vec2(-0.5f, -0.5f), b2Vec2(4.5f, 0.0f)};
 
 };
+
+}; // end of namespace shadow_pumpkin_caster

@@ -26,6 +26,8 @@
 #include "player.h"
 #include "inputController.h"
 
+namespace shadow_pumpkin_caster{
+
 Player::Player(b2World* p_world, b2Vec2 p_position):
     m_world(p_world), m_position(p_position) {
 
@@ -46,3 +48,5 @@ void Player::draw(const visual::Camera &p_camera) {
     p_camera.drawPolygon(m_position, m_angle, m_arrow);
 
 }
+
+}; // end of namespace shadow_pumpkin_caster
