@@ -24,27 +24,52 @@
 
 #pragma once
 
+#include "GLFW/glfw3.h"
 #include "box2d/box2d.h"
+#include <array>
 
-#include <vector>
+/**
+ * Screen borders that are tracked via mouse position
+ */
+enum class ScreenBorder {
+    right = 0,
+    bottom,
+    left,
+    top,
 
-#include "camera.h"
+    totalBorders
+};
 
-class Player {
+/**
+ * Class that binds all input handling together
+ */
+class InputController {
 
 public:
 
-    Player(b2World* p_world, b2Vec2 p_position);
-    ~Player() = default;
+    InputController(GLFWwindow* p_window);
+    ~InputController() = default;
 
-    void processEvents();
-    void draw(const visual::Camera &p_camera);
+    static b2Vec2 getMousePosition();
+    static bool getMouseButtonPressed(int p_button);
+    static int getScrollY();
+    static bool isMouseAtBorder(ScreenBorder p_border);
 
 private:
 
-    b2World* m_world;
-    b2Vec2 m_position;
-    float m_angle = 0.0f;
-    std::vector<b2Vec2> m_arrow = {b2Vec2(-0.5f, 0.5f), b2Vec2(-0.5f, -0.5f), b2Vec2(4.5f, 0.0f)};
+    /// GLFW compatible mouse button press handler
+    static void handleMousePress(GLFWwindow* p_window, int p_button, int p_action, int p_modbits);
+
+    /// GLFW compatible mouse movement handler
+    static void handleMouseMove(GLFWwindow* p_window, double p_positionX, double p_positionY);
+
+    /// GLFW compatible mouse wheel scroll handler
+    static void handleMouseWheel(GLFWwindow* p_window, double p_offsetX, double p_offsetY);
+
+    static float m_mouseX;
+    static float m_mouseY;
+    static int m_scrollY;
+    static std::array<bool, 2> m_mouseButton;
+    static std::array<bool, 4> m_mouseAtBorder;
 
 };

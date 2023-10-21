@@ -22,11 +22,22 @@
  * SOFTWARE.
  */
 
+#include <cmath>
 #include "player.h"
+#include "inputController.h"
 
 Player::Player(b2World* p_world, b2Vec2 p_position):
     m_world(p_world), m_position(p_position) {
 
+}
+
+void Player::processEvents() {
+    b2Vec2 mousePosition = InputController::getMousePosition();
+    mousePosition.x /= 0.01f; // TODO ASSUMING CONSTANT ZOOM, ADDRESS THIS LATER
+    mousePosition.y /= 0.01f;
+    mousePosition -= m_position;
+
+    m_angle = std::atan2(mousePosition.y, mousePosition.x);
 }
 
 void Player::draw(const visual::Camera &p_camera) {

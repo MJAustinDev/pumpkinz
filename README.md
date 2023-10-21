@@ -34,12 +34,13 @@
 - ~~player position icon~~
 - - ~~base/pivot point~~
 - - ~~arrow/barrel~~
-- mouse control
-- - position tracking
-- - click
-- - - hold
-- - - release
-- zoom via wheel
+- ~~mouse control~~
+- - ~~position tracking~~
+- - ~~recognise at boarder~~
+- - ~~click~~
+- - - ~~hold~~
+- - - ~~release~~
+- - ~~wheel~~
 - ~~cleaner license~~
 - total namespace
 
@@ -51,7 +52,8 @@
 
 ## feature pool
 
-- control/firing
+- complete control/firing
+- zoom via wheel
 - block destruction (breaking up)
 - enemy behaviour
 - ammo types

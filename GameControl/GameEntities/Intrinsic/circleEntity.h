@@ -41,7 +41,7 @@ public:
      * @param p_radius radius of the targets circular shape
      * @param p_fragility magnifies the damage dealt by energy transfer
      */
-    CircleEntity(b2World &p_world, b2Vec2 p_position, float p_radius, float p_fragility = 0.25f);
+    CircleEntity(b2World &p_world, b2Vec2 p_position, float p_radius, float p_fragility);
     ~CircleEntity() = default;
 
     /**
