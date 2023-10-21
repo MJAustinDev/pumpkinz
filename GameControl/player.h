@@ -32,6 +32,12 @@
 
 namespace shadow_pumpkin_caster {
 
+enum class RoundType {
+    basicSolidShot = 0,
+
+    totalRounds
+};
+
 class Player {
 
 public:
@@ -42,13 +48,14 @@ public:
     void processEvents();
     void draw(const visual::Camera &p_camera);
 
-    void fire();
-
 private:
+
+    void fire(RoundType p_round);
 
     b2World* m_world;
     b2Vec2 m_position;
     float m_angle = 0.0f;
+    int m_barrelCooldown = 0;
     std::vector<b2Vec2> m_arrow = {b2Vec2(-0.5f, 0.5f), b2Vec2(-0.5f, -0.5f), b2Vec2(4.5f, 0.0f)};
     std::list<std::unique_ptr<entity::ProjectileEntity>> m_firedRounds = {};
 

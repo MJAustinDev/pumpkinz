@@ -28,7 +28,21 @@
 
 namespace {
 
+using input = shadow_pumpkin_caster::InputController;
+
 constexpr float kBarrelLength() { return 4.5f;}
+constexpr int kBarrelCooldownTime() { return 50; }
+
+bool canFire(int p_cooldown) {
+    return (p_cooldown == 0) && (input::getMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT));
+}
+
+b2Vec2 getMouseInWorld(b2Vec2 p_playerPosition) {
+    b2Vec2 mousePosition = input::getMousePosition();
+    mousePosition.x /= 0.01f; // TODO ASSUMING CONSTANT ZOOM, ADDRESS THIS LATER
+    mousePosition.y /= 0.01f;
+    return mousePosition - p_playerPosition;
+}
 
 } // end of namespace
 
@@ -44,12 +58,14 @@ Player::~Player() {
 }
 
 void Player::processEvents() {
-    b2Vec2 mousePosition = InputController::getMousePosition();
-    mousePosition.x /= 0.01f; // TODO ASSUMING CONSTANT ZOOM, ADDRESS THIS LATER
-    mousePosition.y /= 0.01f;
-    mousePosition -= m_position;
-
+    b2Vec2 mousePosition = getMouseInWorld(m_position);
     m_angle = std::atan2(mousePosition.y, mousePosition.x);
+
+    m_barrelCooldown = (--m_barrelCooldown < 0) ? 0 : m_barrelCooldown;
+    if (canFire(m_barrelCooldown)) {
+        fire(RoundType::basicSolidShot);
+        m_barrelCooldown = kBarrelCooldownTime();
+    }
 
     // process events for all fired rounds
     for (auto it = m_firedRounds.begin(); it != m_firedRounds.end(); it++) {
@@ -71,7 +87,9 @@ void Player::draw(const visual::Camera &p_camera) {
     }
 }
 
-void Player::fire() {
+void Player::fire(RoundType p_round) {
+    assert(p_round < RoundType::totalRounds);
+
     std::vector<b2Vec2> basicShape = {b2Vec2(-0.4f, 0.4f),
                                       b2Vec2(-0.4f, -0.4f),
                                       b2Vec2(0.4f, -0.4f),
