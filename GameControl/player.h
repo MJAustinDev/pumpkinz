@@ -26,7 +26,9 @@
 
 #include "box2d/box2d.h"
 #include <vector>
+#include <memory>
 #include "camera.h"
+#include "projectileEntity.h"
 
 namespace shadow_pumpkin_caster {
 
@@ -35,10 +37,12 @@ class Player {
 public:
 
     Player(b2World* p_world, b2Vec2 p_position);
-    ~Player() = default;
+    ~Player();
 
     void processEvents();
     void draw(const visual::Camera &p_camera);
+
+    void fire();
 
 private:
 
@@ -46,6 +50,7 @@ private:
     b2Vec2 m_position;
     float m_angle = 0.0f;
     std::vector<b2Vec2> m_arrow = {b2Vec2(-0.5f, 0.5f), b2Vec2(-0.5f, -0.5f), b2Vec2(4.5f, 0.0f)};
+    std::list<std::unique_ptr<entity::ProjectileEntity>> m_firedRounds = {};
 
 };
 

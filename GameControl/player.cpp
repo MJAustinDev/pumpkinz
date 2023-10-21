@@ -26,11 +26,21 @@
 #include "player.h"
 #include "inputController.h"
 
+namespace {
+
+constexpr float kBarrelLength() { return 4.5f;}
+
+} // end of namespace
+
 namespace shadow_pumpkin_caster{
 
 Player::Player(b2World* p_world, b2Vec2 p_position):
     m_world(p_world), m_position(p_position) {
 
+}
+
+Player::~Player() {
+    m_firedRounds.clear();
 }
 
 void Player::processEvents() {
@@ -40,6 +50,15 @@ void Player::processEvents() {
     mousePosition -= m_position;
 
     m_angle = std::atan2(mousePosition.y, mousePosition.x);
+
+    // process events for all fired rounds
+    for (auto it = m_firedRounds.begin(); it != m_firedRounds.end(); it++) {
+        (*it)->processEvents();
+        if ((*it)->isDead()) {
+            auto deadObj = it--;
+            m_firedRounds.erase(deadObj);
+        }
+    }
 }
 
 void Player::draw(const visual::Camera &p_camera) {
@@ -47,6 +66,23 @@ void Player::draw(const visual::Camera &p_camera) {
     p_camera.drawCircle(m_position, 0.0f, 1.0f);
     p_camera.drawPolygon(m_position, m_angle, m_arrow);
 
+    for (auto &round : m_firedRounds) {
+        round->draw(p_camera);
+    }
+}
+
+void Player::fire() {
+    std::vector<b2Vec2> basicShape = {b2Vec2(-0.4f, 0.4f),
+                                      b2Vec2(-0.4f, -0.4f),
+                                      b2Vec2(0.4f, -0.4f),
+                                      b2Vec2(0.9f, 0.0f),
+                                      b2Vec2(0.4f, 0.4f)};
+    b2Vec2 barrelPosition(std::cos(m_angle) * kBarrelLength(),
+                          std::sin(m_angle) * kBarrelLength());
+    barrelPosition += m_position;
+    m_firedRounds.push_back(std::make_unique<entity::ProjectileEntity>(*m_world, barrelPosition,
+                                                                       basicShape, m_angle, 35.0f,
+                                                                       0.01f));
 }
 
 }; // end of namespace shadow_pumpkin_caster

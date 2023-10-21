@@ -19,6 +19,7 @@
 #include "collisionListener.h"
 #include "player.h"
 #include "inputController.h"
+#include "projectileEntity.h"
 
 using namespace shadow_pumpkin_caster;
 
@@ -65,6 +66,7 @@ int main() {
     srand(time(NULL));
     visual::Camera camera;
     float timer = glfwGetTime();
+    bool released = false;
 
     while (!glfwWindowShouldClose(window)) {
 
@@ -91,6 +93,17 @@ int main() {
 
             player.processEvents();
             player.draw(camera);
+
+            // TODO BIND THIS WIHTIN PLAYER CLASS...
+            if (InputController::getMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)) {
+                if (released) {
+                    player.fire();
+                    released = false;
+                }
+            } else if (!InputController::getMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)) {
+                released = true;
+            }
+
 
             glColor4f(1.0f, 0.2f, 0.2f, 0.5f); // TODO REMOVE TESTING WATER BOX
             camera.drawPolygon(b2Vec2(0.0f, -10.0f), 0.0f, waterPoints);
