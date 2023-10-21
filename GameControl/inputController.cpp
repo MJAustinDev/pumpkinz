@@ -30,6 +30,13 @@ using scrBdr = ScreenBorder;
 
 constexpr float kScreenBorder() { return 0.9f; }
 
+/**
+ * Converts raw pixel position coordinate to GLFW screen coordinate (-1.0f to 1.0f)
+ * @param p_position raw pixel position, assumes 0 is left/top
+ * @param p_pixels total size of the screen's dimension in pixels
+ * @param p_isAxisX if conversion is horizontal or vertical
+ * @return equivalent GLFW screen coordinate
+ */
 float calcScreenPosition(float p_position, float p_pixels, bool p_isAxisX) {
     p_position /= p_pixels; // calculate percentage of screen, range 0 -> 1
     p_position *= 2.0f; // stretch value to 0 -> 2 range
@@ -37,20 +44,36 @@ float calcScreenPosition(float p_position, float p_pixels, bool p_isAxisX) {
     return (p_isAxisX) ? p_position : -p_position; // y axis has top as positive
 }
 
+/**
+ * Checks if the mouse button is currently handled
+ * @param p_button button to verify
+ * @return if the button is currently handled
+ */
 bool isMouseButtonValid(int p_button) {
     return (p_button >= GLFW_MOUSE_BUTTON_LEFT) && (p_button <= GLFW_MOUSE_BUTTON_RIGHT);
 }
 
+/**
+ * Calculates if a GLFW coordinate is within the border region
+ * @param p_position GLFW position to check
+ * @param p_threshold GLFW position where the border starts (inclusive)
+ * @return true if the coordinate is within the border region
+ */
 bool isAtBorder(float p_position, float p_threshold = kScreenBorder()) {
     return (p_position >= p_threshold);
 }
 
+/**
+ * Converts a screen boarder enumeration to an equivalent integer index
+ * @param p_border border enumeration to be converted
+ * @return the corresponding integer index
+ */
 int borderToIndex(scrBdr p_border) {
     assert(p_border >= scrBdr::right && p_border < scrBdr::totalBorders); // border out of range
     return static_cast<int>(p_border);
 }
 
-};
+}; // end of namespace
 
 float InputController::m_mouseX = 0.0f;
 float InputController::m_mouseY = 0.0f;

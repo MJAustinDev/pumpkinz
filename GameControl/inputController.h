@@ -26,9 +26,11 @@
 
 #include "GLFW/glfw3.h"
 #include "box2d/box2d.h"
-#include<iostream>
 #include <array>
 
+/**
+ * Screen borders that are tracked via mouse position
+ */
 enum class ScreenBorder {
     right = 0,
     bottom,
@@ -38,6 +40,9 @@ enum class ScreenBorder {
     totalBorders
 };
 
+/**
+ * Class that binds all input handling together
+ */
 class InputController {
 
 public:
@@ -52,10 +57,13 @@ public:
 
 private:
 
+    /// GLFW compatible mouse button press handler
     static void handleMousePress(GLFWwindow* p_window, int p_button, int p_action, int p_modbits);
 
+    /// GLFW compatible mouse movement handler
     static void handleMouseMove(GLFWwindow* p_window, double p_positionX, double p_positionY);
 
+    /// GLFW compatible mouse wheel scroll handler
     static void handleMouseWheel(GLFWwindow* p_window, double p_offsetX, double p_offsetY);
 
     static float m_mouseX;
