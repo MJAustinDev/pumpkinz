@@ -24,33 +24,28 @@
 
 #pragma once
 
-#include "polygonEntity.h"
-#include "projectileMarker.h"
+#include "camera.h"
 
 namespace shadow_pumpkin_caster {
 namespace entity {
 
-class ProjectileEntity : public PolygonEntity, public ProjectileMarker {
+/**
+ * Virtual class that marks entities as projectiles
+ */
+class ProjectileMarker {
 
 public:
 
-    ProjectileEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2Vec2> p_shape,
-                     float p_angle, float p_force, float p_fragility = 0.1f);
-    ~ProjectileEntity() = default;
+    ProjectileMarker() = default;
+    virtual ~ProjectileMarker() = default;
 
-    /**
-     * See base class
-     */
-    void processEvents() override;
+    virtual void processEvents() = 0;
+    virtual void draw(const visual::Camera &p_camera) = 0;
+    virtual bool isDead() = 0;
 
-    /**
-     * See base class
-     */
-    void draw(const visual::Camera &p_camera) override;
+protected:
 
-    bool isDead();
-
-private:
+    constexpr float kDegradeRate() { return 0.3f; };
 
 };
 

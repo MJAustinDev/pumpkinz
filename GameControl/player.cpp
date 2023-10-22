@@ -30,7 +30,7 @@
 namespace {
 
 using input = shadow_pumpkin_caster::InputController;
-using Projectile = shadow_pumpkin_caster::entity::ProjectileEntity;
+using Projectile = shadow_pumpkin_caster::entity::ProjectileMarker;
 using BasicSolidShot = shadow_pumpkin_caster::entity::ammo::BasicSolidShot;
 
 constexpr float kBarrelLength() { return 4.5f;}
@@ -103,7 +103,7 @@ void Player::fire(RoundType p_round) {
                           std::sin(m_angle) * kBarrelLength());
     barrelPosition += m_position;
 
-    auto round = std::unique_ptr<shadow_pumpkin_caster::entity::ProjectileEntity>(nullptr);
+    auto round = std::unique_ptr<Projectile>(nullptr);
     switch (p_round) {
         case RoundType::basicSolidShot: {
             round = createBasicSolidShot(*m_world, barrelPosition, m_angle);

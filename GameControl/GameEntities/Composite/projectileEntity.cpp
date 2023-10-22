@@ -25,12 +25,6 @@
 #include <cmath>
 #include "projectileEntity.h"
 
-namespace {
-
-constexpr float kDegradeRate() { return 0.3f; }
-
-} // end of namespace
-
 namespace shadow_pumpkin_caster {
 namespace entity {
 
@@ -53,6 +47,10 @@ void ProjectileEntity::processEvents() {
 void ProjectileEntity::draw(const visual::Camera &p_camera) {
     PolygonEntity::draw(p_camera);
 }
+
+bool ProjectileEntity::isDead() {
+    return DynamicEntity::isDead();
+};
 
 }; // end of namespace entity
 }; // end of namespace shadow_pumpkin_caster

@@ -34,6 +34,7 @@ namespace shadow_pumpkin_caster {
 
 enum class RoundType {
     basicSolidShot = 0,
+    basicBomb,
 
     totalRounds
 };
@@ -57,7 +58,7 @@ private:
     float m_angle = 0.0f;
     int m_barrelCooldown = 0;
     std::vector<b2Vec2> m_arrow = {b2Vec2(-0.5f, 0.5f), b2Vec2(-0.5f, -0.5f), b2Vec2(4.5f, 0.0f)};
-    std::list<std::unique_ptr<entity::ProjectileEntity>> m_firedRounds = {};
+    std::list<std::unique_ptr<entity::ProjectileMarker>> m_firedRounds = {};
 
 };
 
