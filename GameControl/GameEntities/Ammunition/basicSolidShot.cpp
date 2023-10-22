@@ -39,12 +39,12 @@ namespace entity {
 namespace ammo {
 
 BasicSolidShot::BasicSolidShot(b2World &p_world, b2Vec2 p_position, float p_angle, float p_force):
-    ProjectileEntity(p_world, p_position, kShape, p_angle, p_force, kFragility()) {
+    PolygonProjectileEntity(p_world, p_position, kShape, p_angle, p_force, kFragility()) {
 
 }
 
 void BasicSolidShot::processEvents() {
-    ProjectileEntity::processEvents();
+    PolygonProjectileEntity::processEvents();
 }
 
 void BasicSolidShot::draw(const visual::Camera &p_camera) {

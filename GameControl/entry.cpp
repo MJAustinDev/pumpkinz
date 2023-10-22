@@ -19,7 +19,6 @@
 #include "collisionListener.h"
 #include "player.h"
 #include "inputController.h"
-#include "projectileEntity.h"
 
 using namespace shadow_pumpkin_caster;
 

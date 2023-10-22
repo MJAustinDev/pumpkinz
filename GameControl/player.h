@@ -28,7 +28,7 @@
 #include <vector>
 #include <memory>
 #include "camera.h"
-#include "projectileEntity.h"
+#include "polygonProjectileEntity.h"
 
 namespace shadow_pumpkin_caster {
 

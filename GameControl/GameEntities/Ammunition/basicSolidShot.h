@@ -24,13 +24,13 @@
 
 #pragma once
 
-#include "projectileEntity.h"
+#include "polygonProjectileEntity.h"
 
 namespace shadow_pumpkin_caster {
 namespace entity {
 namespace ammo {
 
-class BasicSolidShot : public ProjectileEntity {
+class BasicSolidShot : public PolygonProjectileEntity {
 
 public:
 

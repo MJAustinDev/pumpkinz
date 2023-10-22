@@ -22,36 +22,34 @@
  * SOFTWARE.
  */
 
-#pragma once
-
-#include "polygonEntity.h"
-#include "projectileMarker.h"
+#include <cmath>
+#include "polygonProjectileEntity.h"
 
 namespace shadow_pumpkin_caster {
 namespace entity {
 
-class ProjectileEntity : public PolygonEntity, public ProjectileMarker {
+PolygonProjectileEntity::PolygonProjectileEntity(b2World &p_world, b2Vec2 p_position,
+                                                 std::vector<b2Vec2> p_shape, float p_angle,
+                                                 float p_force, float p_fragility):
+    PolygonEntity(p_world, p_position, p_shape, p_angle, p_fragility) {
 
-public:
+    b2Vec2 force(std::cos(p_angle) * p_force, std::sin(p_angle) * p_force);
+    applyImpulse(force);
+}
 
-    ProjectileEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2Vec2> p_shape,
-                     float p_angle, float p_force, float p_fragility = 0.1f);
-    ~ProjectileEntity() = default;
+void PolygonProjectileEntity::processEvents() {
+    DynamicEntity::processEvents();
+    if (getHp() < 100.0f) {
+        applyDamage(kDegradeRate());
+    }
+}
 
-    /**
-     * See base class
-     */
-    void processEvents() override;
+void PolygonProjectileEntity::draw(const visual::Camera &p_camera) {
+    PolygonEntity::draw(p_camera);
+}
 
-    /**
-     * See base class
-     */
-    void draw(const visual::Camera &p_camera) override;
-
-    bool isDead();
-
-private:
-
+bool PolygonProjectileEntity::isDead() {
+    return DynamicEntity::isDead();
 };
 
 }; // end of namespace entity
