@@ -28,6 +28,10 @@ namespace {
 
 constexpr float kFragility() { return 0.01f; }
 constexpr float kRadius() { return 1.0f; }
+constexpr float kGasRadius() { return 0.2f; }
+constexpr float kAnglePerParticle() {return 0.1f; }
+constexpr float kExplosiveForce() { return 50.0f; }
+constexpr float kDissipateRate() { return 9.0f; }
 
 } // end of namespace
 
@@ -35,9 +39,22 @@ namespace shadow_pumpkin_caster {
 namespace entity {
 namespace ammo {
 
-BasicBomb::BasicBomb(b2World &p_world, b2Vec2 p_position, float p_angle, float p_force):
-    CircleProjectileEntity(p_world, p_position, kRadius(), p_angle, p_force, kFragility()) {
+BasicBomb::BasicBomb(b2World &p_world, b2Vec2 p_position, float p_angle, float p_force,
+                     std::list<std::unique_ptr<ExplosionParticle>> &p_particleList):
+    CircleProjectileEntity(p_world, p_position, kRadius(), p_angle, p_force, kFragility()),
+    m_explosionStorage(&p_world, p_particleList) {
 
+}
+
+BasicBomb::~BasicBomb() {
+    float angle = 0.0f;
+    while (angle <= 2.0f * M_PI) {
+        b2Vec2 position(std::cos(angle) * kRadius(), std::sin(angle) * kRadius());
+        position += getPosition();
+        m_explosionStorage.addParticle(position, kGasRadius(), angle, kExplosiveForce(),
+                                       kDissipateRate());
+        angle += kAnglePerParticle();
+    }
 }
 
 void BasicBomb::processEvents() {

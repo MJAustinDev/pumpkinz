@@ -34,8 +34,9 @@ using input = shadow_pumpkin_caster::InputController;
 using Projectile = shadow_pumpkin_caster::entity::ProjectileMarker;
 using BasicSolidShot = shadow_pumpkin_caster::entity::ammo::BasicSolidShot;
 using BasicBomb = shadow_pumpkin_caster::entity::ammo::BasicBomb;
+using ExplosionParticlePtr = std::unique_ptr<shadow_pumpkin_caster::entity::ExplosionParticle>;
 
-constexpr float kBarrelLength() { return 4.5f;}
+constexpr float kBarrelLength() { return 4.5f; }
 constexpr int kBarrelCooldownTime() { return 50; }
 
 bool canFire(int p_cooldown) {
@@ -56,8 +57,9 @@ std::unique_ptr<Projectile> createBasicSolidShot(b2World &p_world, b2Vec2 p_posi
 }
 
 
-std::unique_ptr<Projectile> createBasicBomb(b2World &p_world, b2Vec2 p_position, float p_angle) {
-    auto round = std::make_unique<BasicBomb>(p_world, p_position, p_angle, 135.0f);
+std::unique_ptr<Projectile> createBasicBomb(b2World &p_world, b2Vec2 p_position, float p_angle,
+                                            std::list<ExplosionParticlePtr> &p_particleList) {
+    auto round = std::make_unique<BasicBomb>(p_world, p_position, p_angle, 135.0f, p_particleList);
     return static_cast<std::unique_ptr<Projectile>>(std::move(round));
 }
 
@@ -72,6 +74,7 @@ Player::Player(b2World* p_world, b2Vec2 p_position):
 
 Player::~Player() {
     m_firedRounds.clear();
+    m_particles.clear();
 }
 
 void Player::processEvents() {
@@ -80,8 +83,7 @@ void Player::processEvents() {
 
     m_barrelCooldown = (--m_barrelCooldown < 0) ? 0 : m_barrelCooldown;
     if (canFire(m_barrelCooldown)) {
-        //fire(RoundType::basicSolidShot);
-        fire(RoundType::basicBomb);
+        fire(RoundType::basicSolidShot);
         m_barrelCooldown = kBarrelCooldownTime();
     }
 
@@ -93,6 +95,13 @@ void Player::processEvents() {
             m_firedRounds.erase(deadObj);
         }
     }
+    for (auto it = m_particles.begin(); it != m_particles.end(); it++) {
+        (*it)->processEvents();
+        if ((*it)->isDead()) {
+            auto deadObj = it--;
+            m_particles.erase(deadObj);
+        }
+    }
 }
 
 void Player::draw(const visual::Camera &p_camera) {
@@ -102,6 +111,9 @@ void Player::draw(const visual::Camera &p_camera) {
 
     for (auto &round : m_firedRounds) {
         round->draw(p_camera);
+    }
+    for (auto &particle: m_particles) {
+        particle->draw(p_camera);
     }
 }
 
@@ -119,7 +131,7 @@ void Player::fire(RoundType p_round) {
             break;
         }
         case RoundType::basicBomb: {
-            round = createBasicBomb(*m_world, barrelPosition, m_angle);
+            round = createBasicBomb(*m_world, barrelPosition, m_angle, m_particles);
             break;
         }
 

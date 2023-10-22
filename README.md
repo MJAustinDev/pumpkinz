@@ -13,26 +13,26 @@
 ## phase 2
 
 - ~~test level~~
-- blocks
+- ~~blocks~~
 - - ~~base~~
 - - ~~static~~
 - - ~~dynamic~~
-- - projectile
+- - ~~projectile~~
 - - - ~~basic/solid shot~~
-- - - explosive
+- - - ~~explosive~~
 - - ~~block~~
 - - ~~target~~
 - - ~~polygon~~
 - - ~~circle~~
 - - ~~restructure location~~
-- damage
+- ~~damage~~
 - - ~~force~~
 - - - ~~Contact Listener~~
 - - - ~~KE transfer decided~~
 - - - ~~Body User Data Structure~~
 - - - ~~Application of force damage in dynamic entity~~
 - - ~~water~~
-- - explosion
+- - ~~explosion (done via particle collision)~~
 - ~~player position icon~~
 - - ~~base/pivot point~~
 - - ~~arrow/barrel~~

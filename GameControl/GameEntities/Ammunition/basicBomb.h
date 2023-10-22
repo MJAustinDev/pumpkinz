@@ -25,6 +25,7 @@
 #pragma once
 
 #include "circleProjectileEntity.h"
+#include "explosionParticle.h"
 
 namespace shadow_pumpkin_caster {
 namespace entity {
@@ -34,8 +35,8 @@ class BasicBomb : public CircleProjectileEntity {
 
 public:
 
-    BasicBomb(b2World &p_world, b2Vec2 p_position, float p_angle, float p_force);
-    ~BasicBomb() = default;
+    BasicBomb(b2World &p_world, b2Vec2 p_position, float p_angle, float p_force, std::list<std::unique_ptr<ExplosionParticle>> &p_particleList);
+    ~BasicBomb();
 
     /**
      * See base class
@@ -49,7 +50,7 @@ public:
 
 private:
 
-    // TODO REFERENCE TO GAS PARTICLE LIST
+    ParticleContainer m_explosionStorage; // not owning
 
 };
 

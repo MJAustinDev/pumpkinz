@@ -55,6 +55,11 @@ public:
      */
     void draw(const visual::Camera &p_camera) override;
 
+    /**
+     * @return radius of the circle entity
+     */
+    float getRadius() { return m_radius; };
+
 private:
 
     float m_radius;
