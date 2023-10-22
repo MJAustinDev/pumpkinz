@@ -26,12 +26,14 @@
 #include "player.h"
 #include "inputController.h"
 #include "basicSolidShot.h"
+#include "basicBomb.h"
 
 namespace {
 
 using input = shadow_pumpkin_caster::InputController;
 using Projectile = shadow_pumpkin_caster::entity::ProjectileMarker;
 using BasicSolidShot = shadow_pumpkin_caster::entity::ammo::BasicSolidShot;
+using BasicBomb = shadow_pumpkin_caster::entity::ammo::BasicBomb;
 
 constexpr float kBarrelLength() { return 4.5f;}
 constexpr int kBarrelCooldownTime() { return 50; }
@@ -50,6 +52,12 @@ b2Vec2 getMouseInWorld(b2Vec2 p_playerPosition) {
 std::unique_ptr<Projectile> createBasicSolidShot(b2World &p_world, b2Vec2 p_position,
                                                      float p_angle) {
     auto round = std::make_unique<BasicSolidShot>(p_world, p_position, p_angle, 35.0f);
+    return static_cast<std::unique_ptr<Projectile>>(std::move(round));
+}
+
+
+std::unique_ptr<Projectile> createBasicBomb(b2World &p_world, b2Vec2 p_position, float p_angle) {
+    auto round = std::make_unique<BasicBomb>(p_world, p_position, p_angle, 135.0f);
     return static_cast<std::unique_ptr<Projectile>>(std::move(round));
 }
 
@@ -72,7 +80,8 @@ void Player::processEvents() {
 
     m_barrelCooldown = (--m_barrelCooldown < 0) ? 0 : m_barrelCooldown;
     if (canFire(m_barrelCooldown)) {
-        fire(RoundType::basicSolidShot);
+        //fire(RoundType::basicSolidShot);
+        fire(RoundType::basicBomb);
         m_barrelCooldown = kBarrelCooldownTime();
     }
 
@@ -107,6 +116,10 @@ void Player::fire(RoundType p_round) {
     switch (p_round) {
         case RoundType::basicSolidShot: {
             round = createBasicSolidShot(*m_world, barrelPosition, m_angle);
+            break;
+        }
+        case RoundType::basicBomb: {
+            round = createBasicBomb(*m_world, barrelPosition, m_angle);
             break;
         }
 
