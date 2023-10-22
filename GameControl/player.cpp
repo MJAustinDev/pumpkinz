@@ -39,8 +39,8 @@ using ExplosionParticlePtr = std::unique_ptr<shadow_pumpkin_caster::entity::Expl
 constexpr float kBarrelLength() { return 4.5f; }
 constexpr int kBarrelCooldownTime() { return 50; }
 
-bool canFire(int p_cooldown) {
-    return (p_cooldown == 0) && (input::getMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT));
+bool canFire(int p_cooldown, int p_button) {
+    return (p_cooldown == 0) && (input::getMouseButtonPressed(p_button));
 }
 
 b2Vec2 getMouseInWorld(b2Vec2 p_playerPosition) {
@@ -82,8 +82,12 @@ void Player::processEvents() {
     m_angle = std::atan2(mousePosition.y, mousePosition.x);
 
     m_barrelCooldown = (--m_barrelCooldown < 0) ? 0 : m_barrelCooldown;
-    if (canFire(m_barrelCooldown)) {
+    if (canFire(m_barrelCooldown, GLFW_MOUSE_BUTTON_LEFT)) {
         fire(RoundType::basicSolidShot);
+        m_barrelCooldown = kBarrelCooldownTime();
+    }
+    else if (canFire(m_barrelCooldown, GLFW_MOUSE_BUTTON_RIGHT)) {
+        fire(RoundType::basicBomb);
         m_barrelCooldown = kBarrelCooldownTime();
     }
 
