@@ -62,7 +62,7 @@ private:
     void placePoint(b2Vec2 p_pos) const;
 
     float m_zoom = 0.01f;
-    b2Vec2 m_pos = b2Vec2(0.0f, 0.0f);
+    b2Vec2 m_pos = b2Vec2(40.0f, 0.0f);
 
 };
 

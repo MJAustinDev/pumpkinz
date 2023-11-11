@@ -47,7 +47,7 @@ int main() {
         case 1: level::setUpLevel_1(world, dynamicEntities, staticEntities); break;
         case 2: level::setUpLevel_2(world, dynamicEntities, staticEntities); break;
         case 3: level::setUpLevel_3(world, dynamicEntities, staticEntities); break;
-        case 4:
+        case 4: level::setUpLevel_4(world, dynamicEntities, staticEntities); break;
         case 5:
 
         default: level::setUpDemoLevel(world, dynamicEntities, staticEntities);

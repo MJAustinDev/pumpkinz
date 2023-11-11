@@ -47,6 +47,8 @@ b2Vec2 getMouseInWorld(b2Vec2 p_playerPosition) {
     b2Vec2 mousePosition = input::getMousePosition();
     mousePosition.x /= 0.01f; // TODO ASSUMING CONSTANT ZOOM, ADDRESS THIS LATER
     mousePosition.y /= 0.01f;
+    mousePosition += b2Vec2(40.0f, 0.0f); // TODO INTERGRATE CAMERA POSITION
+
     return mousePosition - p_playerPosition;
 }
 
