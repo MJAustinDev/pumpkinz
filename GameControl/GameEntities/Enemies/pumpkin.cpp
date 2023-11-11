@@ -22,50 +22,33 @@
  * SOFTWARE.
  */
 
-#pragma once
+#include "pumpkin.h"
 
-#include "circleEntity.h"
-#include "dynamicEntity.h"
+namespace {
+
+constexpr float kFragility() { return 0.25f; };
+
+}; // end of namespace
 
 namespace shadow_pumpkin_caster {
 namespace entity {
+namespace enemy {
 
-/**
- * Base bad guy object, aim of game is to destroy them all
- */
-class TargetEntity : public CircleEntity {
+Pumpkin::Pumpkin(b2World &p_world, b2Vec2 p_position, float p_radius):
+    TargetEntity(p_world, p_position, p_radius, kFragility()) {
 
-public:
+}
 
-    /**
-     * @param p_world box2d world that the entity exists within
-     * @param p_position entity's position in the world
-     * @param p_radius radius of the targets circular shape
-     * @param p_fragility magnifies the damage dealt by energy transfer
-     */
-    TargetEntity(b2World &p_world, b2Vec2 p_position, float p_radius, float p_fragility = 0.25f);
-    ~TargetEntity() = default;
+void Pumpkin::processEvents() {
+    TargetEntity::processEvents();
+}
 
-    /**
-     * @see base class
-     */
-    void processEvents() override;
+void Pumpkin::draw(const visual::Camera &p_camera) {
+    float fade = 0.1 + (0.9 * (getHp()/100.0f));
+    glColor4f(0.9f, 0.5f, 0.2f, fade);
+    p_camera.drawCircle(getPosition(), getAngle(), getRadius());
+}
 
-    /**
-     * @see base class
-     */
-    void draw(const visual::Camera &p_camera) override;
-
-    /**
-     * @see base class
-     */
-    bool isDead() { return DynamicEntity::isDead(); };
-
-private:
-
-    // TODO - Implement enemy counter
-
-};
-
+}; // end of namespace enemy
 }; // end of namespace entity
 }; // end of namespace shadow_pumpkin_caster

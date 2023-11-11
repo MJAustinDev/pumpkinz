@@ -24,27 +24,26 @@
 
 #pragma once
 
-#include "circleEntity.h"
-#include "dynamicEntity.h"
+#include "targetEntity.h"
 
 namespace shadow_pumpkin_caster {
 namespace entity {
+namespace enemy {
 
 /**
- * Base bad guy object, aim of game is to destroy them all
+ * Weakest enemy, no special ability
  */
-class TargetEntity : public CircleEntity {
+class Pumpkin : public TargetEntity {
 
 public:
 
     /**
-     * @param p_world box2d world that the entity exists within
-     * @param p_position entity's position in the world
-     * @param p_radius radius of the targets circular shape
-     * @param p_fragility magnifies the damage dealt by energy transfer
+     * @param p_world box2d world that the pumpkin exists within
+     * @param p_position pumpkin's position in the world
+     * @param p_radius radius of the pumpkin
      */
-    TargetEntity(b2World &p_world, b2Vec2 p_position, float p_radius, float p_fragility = 0.25f);
-    ~TargetEntity() = default;
+    Pumpkin(b2World &p_world, b2Vec2 p_position, float p_radius);
+    ~Pumpkin() = default;
 
     /**
      * @see base class
@@ -56,16 +55,8 @@ public:
      */
     void draw(const visual::Camera &p_camera) override;
 
-    /**
-     * @see base class
-     */
-    bool isDead() { return DynamicEntity::isDead(); };
-
-private:
-
-    // TODO - Implement enemy counter
-
 };
 
+}; // end of namespace enemy
 }; // end of namespace entity
 }; // end of namespace shadow_pumpkin_caster

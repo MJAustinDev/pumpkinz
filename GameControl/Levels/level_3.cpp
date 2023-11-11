@@ -25,6 +25,7 @@
 #include "levels.h"
 #include "blockEntity.h"
 #include "targetEntity.h"
+#include "pumpkin.h"
 
 namespace shadow_pumpkin_caster {
 namespace level {
@@ -55,7 +56,7 @@ void setUpLevel_3(b2World &p_world, std::list<std::unique_ptr<entity::DynamicEnt
         b2Vec2(0.0f, 1.25f)
     };
 
-    addDynamic(p_dynamic, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(58.25f, 0.0f), 1.0f)); // TODO PUMPKIN
+    addDynamic(p_dynamic, std::make_unique<entity::enemy::Pumpkin>(p_world, b2Vec2(58.25f, 0.0f), 1.0f));
     const int kTowerHeight = 5;
     for (int i = 0; i < kTowerHeight; i++) {
         auto height = static_cast<float>(i) * 9.0f;
