@@ -29,14 +29,14 @@
 namespace shadow_pumpkin_caster {
 namespace level {
 
-void setUpLevel_1(b2World &p_world, std::list<std::unique_ptr<entity::DynamicEntity>> &p_dynamic,
+void setUpLevel_3(b2World &p_world, std::list<std::unique_ptr<entity::DynamicEntity>> &p_dynamic,
                   std::list<std::unique_ptr<entity::StaticEntity>> &p_static) {
 
     const std::vector<b2Vec2> kGroundShape = {
         b2Vec2(0.0f, 0.0f),
         b2Vec2(0.0f, -5.0f),
-        b2Vec2(100.0f, -5.0f),
-        b2Vec2(100.0f, 0.0f)
+        b2Vec2(70.0f, -5.0f),
+        b2Vec2(70.0f, 0.0f)
     };
 
     p_static.push_back(std::make_unique<entity::StaticEntity>(p_world, b2Vec2(-5.0f, 0.0f), kGroundShape));
@@ -56,15 +56,16 @@ void setUpLevel_1(b2World &p_world, std::list<std::unique_ptr<entity::DynamicEnt
     };
 
     addDynamic(p_dynamic, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(58.25f, 0.0f), 1.0f)); // TODO PUMPKIN
-
-    const int kTowerHeight = 3;
+    const int kTowerHeight = 5;
     for (int i = 0; i < kTowerHeight; i++) {
         auto height = static_cast<float>(i) * 9.0f;
         addDynamic(p_dynamic, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(60.0f, height + 0.0f), kVerticalBlock));
         addDynamic(p_dynamic, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(55.0f, height + 0.0f), kVerticalBlock));
         addDynamic(p_dynamic, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(54.5f, height + 7.5f), kHorizontalBlock));
-        addDynamic(p_dynamic, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(58.25f, height + 9.0f), 1.0f)); // TODO PUMPKIN
+        addDynamic(p_dynamic, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(58.25f, height + 9.0f), 1.0f)); // TODO GHOST
     }
+    addDynamic(p_dynamic, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(45.25f, 39.0f), 1.0f)); // TODO GHOST
+    addDynamic(p_dynamic, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(70.0f, 39.0f), 1.0f)); // TODO GHOST
 }
 
 }; // end of namespace level
