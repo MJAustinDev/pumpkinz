@@ -11,7 +11,7 @@
 - - necromancer
 - - witch
 - - gravestone
-- 5 basic levels (1/5)
+- 5 basic levels (2/5)
 
 ## phase 4
 
