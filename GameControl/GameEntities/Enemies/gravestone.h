@@ -24,26 +24,26 @@
 
 #pragma once
 
-#include "targetEntity.h"
+#include "circleEntity.h"
 
 namespace shadow_pumpkin_caster {
 namespace entity {
 namespace enemy {
 
 /**
- * Standard enemy, becomes a gravestone after death
+ * Not an enemy, but can be reanimated into a skeleton
  */
-class Skeleton : public TargetEntity {
+class Gravestone : public CircleEntity {
 
 public:
 
     /**
-     * @param p_world box2d world that the skeleton exists within
-     * @param p_position skeleton's position in the world
-     * @param p_radius radius of the skeleton
+     * @param p_world box2d world that the gravestone exists within
+     * @param p_position gravestone's position in the world
+     * @param p_radius radius of the gravestone
      */
-    Skeleton(b2World &p_world, b2Vec2 p_position, float p_radius);
-    ~Skeleton() = default;
+    Gravestone(b2World &p_world, b2Vec2 p_position, float p_radius);
+    ~Gravestone() = default;
 
     /**
      * @see base class
@@ -60,4 +60,3 @@ public:
 }; // end of namespace enemy
 }; // end of namespace entity
 }; // end of namespace shadow_pumpkin_caster
-

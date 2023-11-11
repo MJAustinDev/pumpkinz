@@ -26,6 +26,8 @@
 #include "blockEntity.h"
 #include "targetEntity.h"
 #include "pumpkin.h"
+#include "skeleton.h"
+#include "gravestone.h"
 
 namespace shadow_pumpkin_caster {
 namespace level {
@@ -74,7 +76,7 @@ void setUpDemoLevel(b2World &p_world, std::list<std::unique_ptr<entity::DynamicE
     addDynamic(p_dynamic, std::make_unique<entity::enemy::Pumpkin>(p_world, b2Vec2(53.0f, 15.5f), 0.5f));
 
     placeTower(b2Vec2(67.0f, 0.0f));
-    addDynamic(p_dynamic, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(68.0f, 15.5f), 0.5f));
+    addDynamic(p_dynamic, std::make_unique<entity::enemy::Skeleton>(p_world, b2Vec2(68.0f, 15.5f), 0.5f));
 
     addDynamic(p_dynamic, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(69.0f, 0.0f), kVerticalBlock));
     addDynamic(p_dynamic, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(69.0f, 5.0f), kHorizontalBlock));
@@ -86,7 +88,7 @@ void setUpDemoLevel(b2World &p_world, std::list<std::unique_ptr<entity::DynamicE
     addDynamic(p_dynamic, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(74.0f, 7.0f), kHorizontalBlock));
     addDynamic(p_dynamic, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(78.0f, 0.0f), kVerticalBlock));
 
-    addDynamic(p_dynamic, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(72.0f, 0.5f), 0.5f));
+    addDynamic(p_dynamic, std::make_unique<entity::enemy::Gravestone>(p_world, b2Vec2(72.0f, 0.5f), 0.5f));
     addDynamic(p_dynamic, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(76.0f, 0.5f), 0.5f));
 
     addDynamic(p_dynamic, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(71.0f, 8.5f), 0.5f));

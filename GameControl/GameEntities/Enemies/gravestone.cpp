@@ -22,42 +22,33 @@
  * SOFTWARE.
  */
 
-#pragma once
+#include "gravestone.h"
 
-#include "targetEntity.h"
+namespace {
+
+constexpr float kFragility() { return 0.05f; };
+
+}; // end of namespace
 
 namespace shadow_pumpkin_caster {
 namespace entity {
 namespace enemy {
 
-/**
- * Standard enemy, becomes a gravestone after death
- */
-class Skeleton : public TargetEntity {
+Gravestone::Gravestone(b2World &p_world, b2Vec2 p_position, float p_radius):
+    CircleEntity(p_world, p_position, p_radius, kFragility()) {
 
-public:
+}
 
-    /**
-     * @param p_world box2d world that the skeleton exists within
-     * @param p_position skeleton's position in the world
-     * @param p_radius radius of the skeleton
-     */
-    Skeleton(b2World &p_world, b2Vec2 p_position, float p_radius);
-    ~Skeleton() = default;
+void Gravestone::processEvents() {
+    DynamicEntity::processEvents();
+}
 
-    /**
-     * @see base class
-     */
-    void processEvents() override;
-
-    /**
-     * @see base class
-     */
-    void draw(const visual::Camera &p_camera) override;
-
-};
+void Gravestone::draw(const visual::Camera &p_camera) {
+    float fade = 0.3 + (0.7 * (getHp()/100.0f));
+    glColor4f(0.3f, 0.3f, 0.55f, fade);
+    p_camera.drawCircle(getPosition(), getAngle(), getRadius());
+}
 
 }; // end of namespace enemy
 }; // end of namespace entity
 }; // end of namespace shadow_pumpkin_caster
-
