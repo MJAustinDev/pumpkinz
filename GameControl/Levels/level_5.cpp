@@ -25,6 +25,7 @@
 #include "levels.h"
 #include "blockEntity.h"
 #include "targetEntity.h"
+#include "skeleton.h"
 
 namespace shadow_pumpkin_caster {
 namespace level {
@@ -60,7 +61,7 @@ void setUpLevel_5(b2World &p_world, std::list<std::unique_ptr<entity::DynamicEnt
         addDynamic(p_dynamic, std::make_unique<entity::BlockEntity>(p_world, p_position, kVerticalBlock));
         addDynamic(p_dynamic, std::make_unique<entity::BlockEntity>(p_world, p_position + b2Vec2(5.0f, 0.0f), kVerticalBlock));
         addDynamic(p_dynamic, std::make_unique<entity::BlockEntity>(p_world, p_position + b2Vec2(0.0f, 7.5f), kHorizontalBlock));
-        addDynamic(p_dynamic, std::make_unique<entity::TargetEntity>(p_world, p_position + b2Vec2(3.0f, 8.75f), 1.0f)); // TODO SKELETON
+        addDynamic(p_dynamic, std::make_unique<entity::enemy::Skeleton>(p_world, p_position + b2Vec2(3.0f, 8.75f), 1.0f));
     };
 
     for (int i = 0; i < 8; i++) {
