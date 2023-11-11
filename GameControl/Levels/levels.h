@@ -39,11 +39,6 @@ void addDynamic(std::list<std::unique_ptr<shadow_pumpkin_caster::entity::Dynamic
     p_dynamic.push_back(static_cast<std::unique_ptr<shadow_pumpkin_caster::entity::DynamicEntity>>(p_ptr.release()));
 }
 
-template<typename T>
-void addTarget(std::list<std::unique_ptr<shadow_pumpkin_caster::entity::TargetEntity>> &p_dynamic, std::unique_ptr<T> p_ptr) {
-    p_dynamic.push_back(static_cast<std::unique_ptr<shadow_pumpkin_caster::entity::TargetEntity>>(p_ptr.release()));
-}
-
 /**
  * Generates the demo world
  * @param p_world box2d world where all entities exist
