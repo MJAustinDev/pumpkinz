@@ -38,7 +38,20 @@ int main() {
 
     std::list<std::unique_ptr<entity::DynamicEntity>> dynamicEntities;
     std::list<std::unique_ptr<entity::StaticEntity>> staticEntities;
-    level::setUpDemoLevel(world, dynamicEntities, staticEntities);
+
+    std::cout << "Level: ";
+    int level;
+    std::cin >> level;
+    std::cout << '\n';
+    switch (level) {
+        case 1: level::setUpLevel_1(world, dynamicEntities, staticEntities); break;
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+
+        default: level::setUpDemoLevel(world, dynamicEntities, staticEntities);
+    }
 
     if (!glfwInit()) {
         return -1;

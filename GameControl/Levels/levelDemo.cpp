@@ -26,14 +26,6 @@
 #include "blockEntity.h"
 #include "targetEntity.h"
 
-namespace {
-
-    template<typename T>
-    void addDynamic(std::list<std::unique_ptr<shadow_pumpkin_caster::entity::DynamicEntity>> &p_dynamic, std::unique_ptr<T> p_ptr) {
-        p_dynamic.push_back(static_cast<std::unique_ptr<shadow_pumpkin_caster::entity::DynamicEntity>>(p_ptr.release()));
-    }
-};
-
 namespace shadow_pumpkin_caster {
 namespace level {
 
