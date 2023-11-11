@@ -5,7 +5,7 @@
 ## phase 3
 
 - enemy types
-- - pumpkin
+- - ~~pumpkin~~
 - - skeleton
 - - ghost
 - - necromancer
