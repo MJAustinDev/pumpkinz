@@ -50,7 +50,7 @@ float calcScreenPosition(float p_position, float p_pixels, bool p_isAxisX) {
  * @return if the button is currently handled
  */
 bool isMouseButtonValid(int p_button) {
-    return (p_button >= GLFW_MOUSE_BUTTON_LEFT) && (p_button <= GLFW_MOUSE_BUTTON_RIGHT);
+    return (p_button >= GLFW_MOUSE_BUTTON_LEFT) && (p_button <= GLFW_MOUSE_BUTTON_MIDDLE);
 }
 
 /**
@@ -79,7 +79,7 @@ namespace shadow_pumpkin_caster{
 
 float InputController::m_mouseX = 0.0f;
 float InputController::m_mouseY = 0.0f;
-std::array<bool, 2> InputController::m_mouseButton = {false, false};
+std::array<bool, 3> InputController::m_mouseButton = {false, false, false};
 int InputController::m_scrollY = 0;
 std::array<bool, 4> InputController::m_mouseAtBorder = {false, false, false, false};
 

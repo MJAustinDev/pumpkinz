@@ -71,7 +71,7 @@ private:
     static float m_mouseX;
     static float m_mouseY;
     static int m_scrollY;
-    static std::array<bool, 2> m_mouseButton;
+    static std::array<bool, 3> m_mouseButton;
     static std::array<bool, 4> m_mouseAtBorder;
 
 };

@@ -14,6 +14,7 @@
 #include <time.h>
 #include <list>
 #include <memory>
+#include <limits>
 #include "camera.h"
 #include "levels.h"
 #include "collisionListener.h"
@@ -21,6 +22,25 @@
 #include "inputController.h"
 
 using namespace shadow_pumpkin_caster;
+
+// TODO REMOVE
+void setUpLevel(b2World &world, std::list<std::unique_ptr<entity::DynamicEntity>> &dynamicEntities,
+                std::list<std::unique_ptr<entity::StaticEntity>> &staticEntities) {
+    std::cout << "Level: ";
+    int level;
+    std::cin >> level;
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    switch (level) {
+        case 1: level::setUpLevel_1(world, dynamicEntities, staticEntities); break;
+        case 2: level::setUpLevel_2(world, dynamicEntities, staticEntities); break;
+        case 3: level::setUpLevel_3(world, dynamicEntities, staticEntities); break;
+        case 4: level::setUpLevel_4(world, dynamicEntities, staticEntities); break;
+        case 5: level::setUpLevel_5(world, dynamicEntities, staticEntities); break;
+
+        default: level::setUpDemoLevel(world, dynamicEntities, staticEntities);
+    }
+}
 
 int main() {
 
@@ -39,19 +59,7 @@ int main() {
     std::list<std::unique_ptr<entity::DynamicEntity>> dynamicEntities;
     std::list<std::unique_ptr<entity::StaticEntity>> staticEntities;
 
-    std::cout << "Level: ";
-    int level;
-    std::cin >> level;
-    std::cout << '\n';
-    switch (level) {
-        case 1: level::setUpLevel_1(world, dynamicEntities, staticEntities); break;
-        case 2: level::setUpLevel_2(world, dynamicEntities, staticEntities); break;
-        case 3: level::setUpLevel_3(world, dynamicEntities, staticEntities); break;
-        case 4: level::setUpLevel_4(world, dynamicEntities, staticEntities); break;
-        case 5: level::setUpLevel_5(world, dynamicEntities, staticEntities); break;
-
-        default: level::setUpDemoLevel(world, dynamicEntities, staticEntities);
-    }
+    setUpLevel(world, dynamicEntities, staticEntities);
 
     if (!glfwInit()) {
         return -1;
@@ -78,8 +86,22 @@ int main() {
     srand(time(NULL));
     visual::Camera camera;
     float timer = glfwGetTime();
+    bool reset = false; // TODO REMOVE TEMPORY LEVEL SELECTION SYSTEM
 
     while (!glfwWindowShouldClose(window)) {
+
+        if (InputController::getMouseButtonPressed(GLFW_MOUSE_BUTTON_MIDDLE)) {
+            if (!reset) {
+                reset = true;
+                dynamicEntities.clear();
+                staticEntities.clear();
+                player.clearAllDynamicEntities();
+            }
+        }
+        if (reset && !InputController::getMouseButtonPressed(GLFW_MOUSE_BUTTON_MIDDLE)) {
+            reset = false;
+            setUpLevel(world,dynamicEntities, staticEntities);
+        }
 
         if (timer < glfwGetTime()) {
             glClear(GL_COLOR_BUFFER_BIT);
