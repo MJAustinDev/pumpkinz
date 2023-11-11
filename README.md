@@ -11,7 +11,7 @@
 - - necromancer
 - - witch
 - - gravestone
-- 5 basic levels (0/5)
+- ~~5 basic levels (5/5)~~
 
 ## phase 4
 
@@ -19,6 +19,7 @@
 - screen sizing correctly
 - menu system
 - level system
+- clean level code
 
 ## feature pool
 

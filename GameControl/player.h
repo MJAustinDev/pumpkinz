@@ -47,6 +47,11 @@ public:
     Player(b2World* p_world, b2Vec2 p_position);
     ~Player();
 
+    void clearAllDynamicEntities() { // TODO VERY TEMPORY FUNCTION, REMOVE LATER
+        m_firedRounds.clear();
+        m_particles.clear();
+    }
+
     void processEvents();
     void draw(const visual::Camera &p_camera);
 

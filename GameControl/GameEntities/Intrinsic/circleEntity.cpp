@@ -38,7 +38,7 @@ CircleEntity::CircleEntity(b2World &p_world, b2Vec2 p_position, float p_radius, 
 
 
 void CircleEntity::draw(const visual::Camera &p_camera) {
-    glColor4f(0.9f, 0.5f, 0.2f, (getHp()/100.0f));
+    glColor4f(0.9f, 0.1f, 0.9f, (getHp()/100.0f));
     p_camera.drawCircle(getPosition(), getAngle(), m_radius);
 }
 
