@@ -51,7 +51,7 @@ public:
      * @param p_shape series of points that defines the entity's shape
      * @param p_fragility magnifies the damage dealt by energy transfer
      */
-    DynamicEntity(b2World &p_world, b2Vec2 p_position, float p_fragility);
+    DynamicEntity(b2World &p_world, b2Vec2 p_position, float p_fragility, float p_angle = 0.0f);
     ~DynamicEntity() = default;
 
     /**
@@ -73,6 +73,16 @@ public:
      * @return entity's current hit points
      */
     float getHp() { return m_hp; };
+
+protected:
+
+    /**
+     * Manually applies hp loss to the entity
+     * @param p_hpLoss hit points to remove from the entity
+     */
+    void applyDamage(float p_hpLoss) {
+        m_hp -= p_hpLoss;
+    }
 
 private:
 

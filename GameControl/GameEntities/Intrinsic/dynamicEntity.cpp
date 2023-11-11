@@ -37,8 +37,9 @@ constexpr float kMinimumEnergyDamage() { return 2.0f; };
 namespace shadow_pumpkin_caster {
 namespace entity {
 
-DynamicEntity::DynamicEntity(b2World &p_world, b2Vec2 p_position, float p_fragility):
-        BaseEntity(p_world, p_position, b2_dynamicBody, static_cast<void*>(&m_dynamicData)),
+DynamicEntity::DynamicEntity(b2World &p_world, b2Vec2 p_position, float p_fragility,
+                             float p_angle):
+        BaseEntity(p_world, p_position, b2_dynamicBody, p_angle, static_cast<void*>(&m_dynamicData)),
         m_fragility(p_fragility) {
 
 }

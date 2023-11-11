@@ -2,6 +2,44 @@
 
 # TODO
 
+## phase 3
+
+- enemy types
+- - pumpkin
+- - skeleton
+- - ghost
+- - necromancer
+- - witch
+- - gravestone
+- 5 basic levels (0/5)
+
+## phase 4
+
+- keyboard input
+- screen sizing correctly
+- menu system
+- level system
+
+## feature pool
+
+- complete control/firing
+- struct to clean up entity parameter passing
+- zoom via wheel
+- block destruction (breaking up)
+- look into re-vamp-ing... hehehe the input controller (more functional than class)
+- more advanced ammo types
+- shields
+- fancy graphics
+- cannon camera if looking in the distance
+- toolbox project (contains useful block shapes... good for other projects)
+- verify/research KE/force damage model
+- cannon moves toward mouse direction rather than snapping
+- break total namespace down into modules (future use in other projects... not priority atm)
+- enemy types
+- - vampire
+
+# Completed Phases
+
 ## phase 1
 
 - ~~lisence~~
@@ -13,24 +51,26 @@
 ## phase 2
 
 - ~~test level~~
-- blocks
+- ~~blocks~~
 - - ~~base~~
 - - ~~static~~
 - - ~~dynamic~~
-- - projectile - TODO break into specifics
+- - ~~projectile~~
+- - - ~~basic/solid shot~~
+- - - ~~explosive~~
 - - ~~block~~
 - - ~~target~~
 - - ~~polygon~~
 - - ~~circle~~
 - - ~~restructure location~~
-- damage
+- ~~damage~~
 - - ~~force~~
 - - - ~~Contact Listener~~
 - - - ~~KE transfer decided~~
 - - - ~~Body User Data Structure~~
 - - - ~~Application of force damage in dynamic entity~~
 - - ~~water~~
-- - explosion
+- - ~~explosion (done via particle collision)~~
 - ~~player position icon~~
 - - ~~base/pivot point~~
 - - ~~arrow/barrel~~
@@ -43,28 +83,3 @@
 - - ~~wheel~~
 - ~~cleaner license~~
 - ~~total namespace~~
-
-## phase 3
-
-- TODO
-
-
-
-## feature pool
-
-- complete control/firing
-- zoom via wheel
-- block destruction (breaking up)
-- enemy behaviour
-- look into re-vamp-ing... hehehe the input controller (more functional than class)
-- ammo types
-- shields
-- fancy graphics
-- screen sizing correctly
-- menu system
-- level system
-- cannon camera if looking in the distance
-- toolbox project (contains useful block shapes... good for other projects)
-- verify/research KE/force damage model
-- cannon moves toward mouse direction rather than snapping
-- break total namespace down into modules (future use in other projects... not priority atm)

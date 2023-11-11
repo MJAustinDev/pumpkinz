@@ -25,6 +25,45 @@
 #include <cmath>
 #include "player.h"
 #include "inputController.h"
+#include "basicSolidShot.h"
+#include "basicBomb.h"
+
+namespace {
+
+using input = shadow_pumpkin_caster::InputController;
+using Projectile = shadow_pumpkin_caster::entity::ProjectileMarker;
+using BasicSolidShot = shadow_pumpkin_caster::entity::ammo::BasicSolidShot;
+using BasicBomb = shadow_pumpkin_caster::entity::ammo::BasicBomb;
+using ExplosionParticlePtr = std::unique_ptr<shadow_pumpkin_caster::entity::ExplosionParticle>;
+
+constexpr float kBarrelLength() { return 4.5f; }
+constexpr int kBarrelCooldownTime() { return 50; }
+
+bool canFire(int p_cooldown, int p_button) {
+    return (p_cooldown == 0) && (input::getMouseButtonPressed(p_button));
+}
+
+b2Vec2 getMouseInWorld(b2Vec2 p_playerPosition) {
+    b2Vec2 mousePosition = input::getMousePosition();
+    mousePosition.x /= 0.01f; // TODO ASSUMING CONSTANT ZOOM, ADDRESS THIS LATER
+    mousePosition.y /= 0.01f;
+    return mousePosition - p_playerPosition;
+}
+
+std::unique_ptr<Projectile> createBasicSolidShot(b2World &p_world, b2Vec2 p_position,
+                                                     float p_angle) {
+    auto round = std::make_unique<BasicSolidShot>(p_world, p_position, p_angle, 35.0f);
+    return static_cast<std::unique_ptr<Projectile>>(std::move(round));
+}
+
+
+std::unique_ptr<Projectile> createBasicBomb(b2World &p_world, b2Vec2 p_position, float p_angle,
+                                            std::list<ExplosionParticlePtr> &p_particleList) {
+    auto round = std::make_unique<BasicBomb>(p_world, p_position, p_angle, 135.0f, p_particleList);
+    return static_cast<std::unique_ptr<Projectile>>(std::move(round));
+}
+
+} // end of namespace
 
 namespace shadow_pumpkin_caster{
 
@@ -33,13 +72,40 @@ Player::Player(b2World* p_world, b2Vec2 p_position):
 
 }
 
-void Player::processEvents() {
-    b2Vec2 mousePosition = InputController::getMousePosition();
-    mousePosition.x /= 0.01f; // TODO ASSUMING CONSTANT ZOOM, ADDRESS THIS LATER
-    mousePosition.y /= 0.01f;
-    mousePosition -= m_position;
+Player::~Player() {
+    m_firedRounds.clear();
+    m_particles.clear();
+}
 
+void Player::processEvents() {
+    b2Vec2 mousePosition = getMouseInWorld(m_position);
     m_angle = std::atan2(mousePosition.y, mousePosition.x);
+
+    m_barrelCooldown = (--m_barrelCooldown < 0) ? 0 : m_barrelCooldown;
+    if (canFire(m_barrelCooldown, GLFW_MOUSE_BUTTON_LEFT)) {
+        fire(RoundType::basicSolidShot);
+        m_barrelCooldown = kBarrelCooldownTime();
+    }
+    else if (canFire(m_barrelCooldown, GLFW_MOUSE_BUTTON_RIGHT)) {
+        fire(RoundType::basicBomb);
+        m_barrelCooldown = kBarrelCooldownTime();
+    }
+
+    // process events for all fired rounds
+    for (auto it = m_firedRounds.begin(); it != m_firedRounds.end(); it++) {
+        (*it)->processEvents();
+        if ((*it)->isDead()) {
+            auto deadObj = it--;
+            m_firedRounds.erase(deadObj);
+        }
+    }
+    for (auto it = m_particles.begin(); it != m_particles.end(); it++) {
+        (*it)->processEvents();
+        if ((*it)->isDead()) {
+            auto deadObj = it--;
+            m_particles.erase(deadObj);
+        }
+    }
 }
 
 void Player::draw(const visual::Camera &p_camera) {
@@ -47,6 +113,36 @@ void Player::draw(const visual::Camera &p_camera) {
     p_camera.drawCircle(m_position, 0.0f, 1.0f);
     p_camera.drawPolygon(m_position, m_angle, m_arrow);
 
+    for (auto &round : m_firedRounds) {
+        round->draw(p_camera);
+    }
+    for (auto &particle: m_particles) {
+        particle->draw(p_camera);
+    }
+}
+
+void Player::fire(RoundType p_round) {
+    assert(p_round < RoundType::totalRounds);
+
+    b2Vec2 barrelPosition(std::cos(m_angle) * kBarrelLength(),
+                          std::sin(m_angle) * kBarrelLength());
+    barrelPosition += m_position;
+
+    auto round = std::unique_ptr<Projectile>(nullptr);
+    switch (p_round) {
+        case RoundType::basicSolidShot: {
+            round = createBasicSolidShot(*m_world, barrelPosition, m_angle);
+            break;
+        }
+        case RoundType::basicBomb: {
+            round = createBasicBomb(*m_world, barrelPosition, m_angle, m_particles);
+            break;
+        }
+
+        case RoundType::totalRounds: [[fallthrough]];
+        default: assert(false); // round has likely not been implemented yet!
+    }
+    m_firedRounds.push_back(std::move(round));
 }
 
 }; // end of namespace shadow_pumpkin_caster

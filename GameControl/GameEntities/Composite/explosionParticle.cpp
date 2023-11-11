@@ -22,46 +22,35 @@
  * SOFTWARE.
  */
 
-#pragma once
-
-#include "box2d/box2d.h"
-#include <vector>
-#include <memory>
-#include "camera.h"
-#include "polygonProjectileEntity.h"
 #include "explosionParticle.h"
 
+namespace {
+
+constexpr float kFragility() { return 0.0f; }
+
+} // end of namespace
+
 namespace shadow_pumpkin_caster {
+namespace entity {
 
-enum class RoundType {
-    basicSolidShot = 0,
-    basicBomb,
+ExplosionParticle::ExplosionParticle(b2World &p_world, b2Vec2 p_position, float p_radius,
+                                     float p_angle, float p_force, float p_dissipateRate):
+    CircleEntity(p_world, p_position, p_radius, kFragility()), m_dissipateRate(p_dissipateRate) {
 
-    totalRounds
-};
+    b2Vec2 force(std::cos(p_angle) * p_force, std::sin(p_angle) * p_force);
+    applyImpulse(force);
+}
 
-class Player {
+void ExplosionParticle::processEvents() {
+    applyDamage(m_dissipateRate);
+    DynamicEntity::processEvents();
+}
 
-public:
 
-    Player(b2World* p_world, b2Vec2 p_position);
-    ~Player();
+void ExplosionParticle::draw(const visual::Camera &p_camera) {
+    glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
+    p_camera.drawCircle(getPosition(), 0.0f, getRadius());
+}
 
-    void processEvents();
-    void draw(const visual::Camera &p_camera);
-
-private:
-
-    void fire(RoundType p_round);
-
-    b2World* m_world;
-    b2Vec2 m_position;
-    float m_angle = 0.0f;
-    int m_barrelCooldown = 0;
-    std::vector<b2Vec2> m_arrow = {b2Vec2(-0.5f, 0.5f), b2Vec2(-0.5f, -0.5f), b2Vec2(4.5f, 0.0f)};
-    std::list<std::unique_ptr<entity::ProjectileMarker>> m_firedRounds = {};
-    std::list<std::unique_ptr<entity::ExplosionParticle>> m_particles = {};
-
-};
-
+}; // end of namespace entity
 }; // end of namespace shadow_pumpkin_caster

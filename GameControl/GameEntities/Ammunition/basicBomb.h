@@ -24,44 +24,36 @@
 
 #pragma once
 
-#include "box2d/box2d.h"
-#include <vector>
-#include <memory>
-#include "camera.h"
-#include "polygonProjectileEntity.h"
+#include "circleProjectileEntity.h"
 #include "explosionParticle.h"
 
 namespace shadow_pumpkin_caster {
+namespace entity {
+namespace ammo {
 
-enum class RoundType {
-    basicSolidShot = 0,
-    basicBomb,
-
-    totalRounds
-};
-
-class Player {
+class BasicBomb : public CircleProjectileEntity {
 
 public:
 
-    Player(b2World* p_world, b2Vec2 p_position);
-    ~Player();
+    BasicBomb(b2World &p_world, b2Vec2 p_position, float p_angle, float p_force, std::list<std::unique_ptr<ExplosionParticle>> &p_particleList);
+    ~BasicBomb();
 
-    void processEvents();
-    void draw(const visual::Camera &p_camera);
+    /**
+     * See base class
+     */
+    void processEvents() override;
+
+    /**
+     * See base class
+     */
+    void draw(const visual::Camera &p_camera) override;
 
 private:
 
-    void fire(RoundType p_round);
-
-    b2World* m_world;
-    b2Vec2 m_position;
-    float m_angle = 0.0f;
-    int m_barrelCooldown = 0;
-    std::vector<b2Vec2> m_arrow = {b2Vec2(-0.5f, 0.5f), b2Vec2(-0.5f, -0.5f), b2Vec2(4.5f, 0.0f)};
-    std::list<std::unique_ptr<entity::ProjectileMarker>> m_firedRounds = {};
-    std::list<std::unique_ptr<entity::ExplosionParticle>> m_particles = {};
+    ParticleContainer m_explosionStorage; // not owning
 
 };
 
+}; // end of namespace ammo
+}; // end of namespace entity
 }; // end of namespace shadow_pumpkin_caster

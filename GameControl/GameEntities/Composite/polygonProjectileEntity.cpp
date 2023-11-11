@@ -22,46 +22,35 @@
  * SOFTWARE.
  */
 
-#pragma once
-
-#include "box2d/box2d.h"
-#include <vector>
-#include <memory>
-#include "camera.h"
+#include <cmath>
 #include "polygonProjectileEntity.h"
-#include "explosionParticle.h"
 
 namespace shadow_pumpkin_caster {
+namespace entity {
 
-enum class RoundType {
-    basicSolidShot = 0,
-    basicBomb,
+PolygonProjectileEntity::PolygonProjectileEntity(b2World &p_world, b2Vec2 p_position,
+                                                 std::vector<b2Vec2> p_shape, float p_angle,
+                                                 float p_force, float p_fragility):
+    PolygonEntity(p_world, p_position, p_shape, p_angle, p_fragility) {
 
-    totalRounds
+    b2Vec2 force(std::cos(p_angle) * p_force, std::sin(p_angle) * p_force);
+    applyImpulse(force);
+}
+
+void PolygonProjectileEntity::processEvents() {
+    DynamicEntity::processEvents();
+    if (getHp() < 100.0f) {
+        applyDamage(kDegradeRate());
+    }
+}
+
+void PolygonProjectileEntity::draw(const visual::Camera &p_camera) {
+    PolygonEntity::draw(p_camera);
+}
+
+bool PolygonProjectileEntity::isDead() {
+    return DynamicEntity::isDead();
 };
 
-class Player {
-
-public:
-
-    Player(b2World* p_world, b2Vec2 p_position);
-    ~Player();
-
-    void processEvents();
-    void draw(const visual::Camera &p_camera);
-
-private:
-
-    void fire(RoundType p_round);
-
-    b2World* m_world;
-    b2Vec2 m_position;
-    float m_angle = 0.0f;
-    int m_barrelCooldown = 0;
-    std::vector<b2Vec2> m_arrow = {b2Vec2(-0.5f, 0.5f), b2Vec2(-0.5f, -0.5f), b2Vec2(4.5f, 0.0f)};
-    std::list<std::unique_ptr<entity::ProjectileMarker>> m_firedRounds = {};
-    std::list<std::unique_ptr<entity::ExplosionParticle>> m_particles = {};
-
-};
-
+}; // end of namespace entity
 }; // end of namespace shadow_pumpkin_caster

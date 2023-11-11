@@ -103,8 +103,6 @@ void setUpDemoLevel(b2World &p_world, std::list<std::unique_ptr<entity::DynamicE
     placeTower(b2Vec2(79.0f, 0.0f));
     addDynamic(p_dynamic, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(80.0f, 15.5f), 0.5f));
 
-    // addDynamic(p_dynamic, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(73.5f, 1500.0f), 4.0f)); // Meteor of death... TODO remove later
-
 }
 
 }; // end of namespace level

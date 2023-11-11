@@ -24,44 +24,30 @@
 
 #pragma once
 
-#include "box2d/box2d.h"
-#include <vector>
-#include <memory>
 #include "camera.h"
-#include "polygonProjectileEntity.h"
-#include "explosionParticle.h"
 
 namespace shadow_pumpkin_caster {
+namespace entity {
 
-enum class RoundType {
-    basicSolidShot = 0,
-    basicBomb,
-
-    totalRounds
-};
-
-class Player {
+/**
+ * Virtual class that marks entities as projectiles
+ */
+class ProjectileMarker {
 
 public:
 
-    Player(b2World* p_world, b2Vec2 p_position);
-    ~Player();
+    ProjectileMarker() = default;
+    virtual ~ProjectileMarker() = default;
 
-    void processEvents();
-    void draw(const visual::Camera &p_camera);
+    virtual void processEvents() = 0;
+    virtual void draw(const visual::Camera &p_camera) = 0;
+    virtual bool isDead() = 0;
 
-private:
+protected:
 
-    void fire(RoundType p_round);
-
-    b2World* m_world;
-    b2Vec2 m_position;
-    float m_angle = 0.0f;
-    int m_barrelCooldown = 0;
-    std::vector<b2Vec2> m_arrow = {b2Vec2(-0.5f, 0.5f), b2Vec2(-0.5f, -0.5f), b2Vec2(4.5f, 0.0f)};
-    std::list<std::unique_ptr<entity::ProjectileMarker>> m_firedRounds = {};
-    std::list<std::unique_ptr<entity::ExplosionParticle>> m_particles = {};
+    constexpr float kDegradeRate() { return 0.3f; };
 
 };
 
+}; // end of namespace entity
 }; // end of namespace shadow_pumpkin_caster

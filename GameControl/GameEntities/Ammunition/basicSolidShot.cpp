@@ -22,46 +22,37 @@
  * SOFTWARE.
  */
 
-#pragma once
+#include "basicSolidShot.h"
 
-#include "box2d/box2d.h"
-#include <vector>
-#include <memory>
-#include "camera.h"
-#include "polygonProjectileEntity.h"
-#include "explosionParticle.h"
+namespace {
+
+constexpr float kFragility() { return 0.1f; }
+const std::vector<b2Vec2> kShape = {b2Vec2(-0.4f, 0.4f),
+                                    b2Vec2(-0.4f, -0.4f),
+                                    b2Vec2(0.4f, -0.4f),
+                                    b2Vec2(0.9f, 0.0f),
+                                    b2Vec2(0.4f, 0.4f)};
+} // end of namespace
 
 namespace shadow_pumpkin_caster {
+namespace entity {
+namespace ammo {
 
-enum class RoundType {
-    basicSolidShot = 0,
-    basicBomb,
+BasicSolidShot::BasicSolidShot(b2World &p_world, b2Vec2 p_position, float p_angle, float p_force):
+    PolygonProjectileEntity(p_world, p_position, kShape, p_angle, p_force, kFragility()) {
 
-    totalRounds
-};
+}
 
-class Player {
+void BasicSolidShot::processEvents() {
+    PolygonProjectileEntity::processEvents();
+}
 
-public:
+void BasicSolidShot::draw(const visual::Camera &p_camera) {
+    glColor4f(0.70f, 0.55f, 0.34f, (getHp()/100.0f));
+    auto shape = kShape;
+    p_camera.drawPolygon(getPosition(), getAngle(), shape);
+}
 
-    Player(b2World* p_world, b2Vec2 p_position);
-    ~Player();
-
-    void processEvents();
-    void draw(const visual::Camera &p_camera);
-
-private:
-
-    void fire(RoundType p_round);
-
-    b2World* m_world;
-    b2Vec2 m_position;
-    float m_angle = 0.0f;
-    int m_barrelCooldown = 0;
-    std::vector<b2Vec2> m_arrow = {b2Vec2(-0.5f, 0.5f), b2Vec2(-0.5f, -0.5f), b2Vec2(4.5f, 0.0f)};
-    std::list<std::unique_ptr<entity::ProjectileMarker>> m_firedRounds = {};
-    std::list<std::unique_ptr<entity::ExplosionParticle>> m_particles = {};
-
-};
-
+}; // end of namespace ammo
+}; // end of namespace entity
 }; // end of namespace shadow_pumpkin_caster

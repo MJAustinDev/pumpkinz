@@ -24,44 +24,62 @@
 
 #pragma once
 
-#include "box2d/box2d.h"
-#include <vector>
+#include <list>
 #include <memory>
-#include "camera.h"
-#include "polygonProjectileEntity.h"
-#include "explosionParticle.h"
+#include "circleEntity.h"
 
 namespace shadow_pumpkin_caster {
+namespace entity {
 
-enum class RoundType {
-    basicSolidShot = 0,
-    basicBomb,
-
-    totalRounds
-};
-
-class Player {
+class ExplosionParticle : public CircleEntity {
 
 public:
 
-    Player(b2World* p_world, b2Vec2 p_position);
-    ~Player();
+    ExplosionParticle(b2World &p_world, b2Vec2 p_position, float p_radius, float p_angle,
+                      float p_force, float p_dissipateRate);
+    ~ExplosionParticle() = default;
 
-    void processEvents();
-    void draw(const visual::Camera &p_camera);
+    /**
+     * See base class
+     */
+    void processEvents() override;
+
+    /**
+     * See base class
+     */
+    void draw(const visual::Camera &p_camera) override;
 
 private:
 
-    void fire(RoundType p_round);
-
-    b2World* m_world;
-    b2Vec2 m_position;
-    float m_angle = 0.0f;
-    int m_barrelCooldown = 0;
-    std::vector<b2Vec2> m_arrow = {b2Vec2(-0.5f, 0.5f), b2Vec2(-0.5f, -0.5f), b2Vec2(4.5f, 0.0f)};
-    std::list<std::unique_ptr<entity::ProjectileMarker>> m_firedRounds = {};
-    std::list<std::unique_ptr<entity::ExplosionParticle>> m_particles = {};
+    float m_dissipateRate;
 
 };
 
+class ParticleContainer {
+
+using ParticleList = std::list<std::unique_ptr<ExplosionParticle>>;
+
+public:
+
+    ParticleContainer(b2World* p_world, ParticleList &p_particles):
+        m_world(p_world), m_particles(&p_particles) {
+
+    };
+    ~ParticleContainer() = default;
+
+    void addParticle(b2Vec2 p_position, float p_radius, float p_angle, float p_force,
+                     float p_dissipateRate) {
+        auto particle = std::make_unique<ExplosionParticle>(*m_world, p_position, p_radius,
+                                                            p_angle, p_force, p_dissipateRate);
+        m_particles->push_back(std::move(particle));
+    };
+
+private:
+
+    b2World* m_world;
+    ParticleList* m_particles;
+
+};
+
+}; // end of namespace entity
 }; // end of namespace shadow_pumpkin_caster

@@ -24,44 +24,31 @@
 
 #pragma once
 
-#include "box2d/box2d.h"
-#include <vector>
-#include <memory>
-#include "camera.h"
 #include "polygonProjectileEntity.h"
-#include "explosionParticle.h"
 
 namespace shadow_pumpkin_caster {
+namespace entity {
+namespace ammo {
 
-enum class RoundType {
-    basicSolidShot = 0,
-    basicBomb,
-
-    totalRounds
-};
-
-class Player {
+class BasicSolidShot : public PolygonProjectileEntity {
 
 public:
 
-    Player(b2World* p_world, b2Vec2 p_position);
-    ~Player();
+    BasicSolidShot(b2World &p_world, b2Vec2 p_position, float p_angle, float p_force);
+    ~BasicSolidShot() = default;
 
-    void processEvents();
-    void draw(const visual::Camera &p_camera);
+    /**
+     * See base class
+     */
+    void processEvents() override;
 
-private:
-
-    void fire(RoundType p_round);
-
-    b2World* m_world;
-    b2Vec2 m_position;
-    float m_angle = 0.0f;
-    int m_barrelCooldown = 0;
-    std::vector<b2Vec2> m_arrow = {b2Vec2(-0.5f, 0.5f), b2Vec2(-0.5f, -0.5f), b2Vec2(4.5f, 0.0f)};
-    std::list<std::unique_ptr<entity::ProjectileMarker>> m_firedRounds = {};
-    std::list<std::unique_ptr<entity::ExplosionParticle>> m_particles = {};
+    /**
+     * See base class
+     */
+    void draw(const visual::Camera &p_camera) override;
 
 };
 
+}; // end of namespace ammo
+}; // end of namespace entity
 }; // end of namespace shadow_pumpkin_caster
