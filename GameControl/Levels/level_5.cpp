@@ -29,20 +29,17 @@
 namespace shadow_pumpkin_caster {
 namespace level {
 
-void setUpLevel_4(b2World &p_world, std::list<std::unique_ptr<entity::DynamicEntity>> &p_dynamic,
+void setUpLevel_5(b2World &p_world, std::list<std::unique_ptr<entity::DynamicEntity>> &p_dynamic,
                   std::list<std::unique_ptr<entity::StaticEntity>> &p_static) {
 
     const std::vector<b2Vec2> kGroundShape = {
         b2Vec2(0.0f, 0.0f),
         b2Vec2(0.0f, -5.0f),
-        b2Vec2(25.0f, -5.0f),
-        b2Vec2(25.0f, 0.0f)
+        b2Vec2(150.0f, -5.0f),
+        b2Vec2(150.0f, 0.0f)
     };
 
     p_static.push_back(std::make_unique<entity::StaticEntity>(p_world, b2Vec2(-5.0f, 0.0f), kGroundShape));
-    p_static.push_back(std::make_unique<entity::StaticEntity>(p_world, b2Vec2(20.0f, 0.0f), kGroundShape));
-    p_static.push_back(std::make_unique<entity::StaticEntity>(p_world, b2Vec2(45.0f, 0.0f), kGroundShape));
-    p_static.push_back(std::make_unique<entity::StaticEntity>(p_world, b2Vec2(95.0f, 0.0f), kGroundShape));
 
     auto placeTower = [&p_world, &p_dynamic](b2Vec2 p_position) {
 
@@ -66,19 +63,22 @@ void setUpLevel_4(b2World &p_world, std::list<std::unique_ptr<entity::DynamicEnt
         addDynamic(p_dynamic, std::make_unique<entity::TargetEntity>(p_world, p_position + b2Vec2(3.0f, 8.75f), 1.0f)); // TODO SKELETON
     };
 
-    for (int i = 0; i < 4; i++) {
-        placeTower(b2Vec2(35.0f + (6.0f * static_cast<float>(i)), 0.0f));
-        addDynamic(p_dynamic, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(38.0f + (6.0f * static_cast<float>(i)), 0.0f), 1.0f)); // TODO NECROMANCER
+    for (int i = 0; i < 8; i++) {
+        placeTower(b2Vec2(50.0f + (6.0f * static_cast<float>(i)), 0.0f));
+        placeTower(b2Vec2(50.0f + (6.0f * static_cast<float>(i)), 8.75f));
+        addDynamic(p_dynamic, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(53.0f + (6.0f * static_cast<float>(i)), 0.0f), 1.0f)); // TODO WITCH
     }
 
     for (int i = 0; i < 3; i++) {
+        placeTower(b2Vec2(50.0f, static_cast<float>(i + 2) * 8.75f));
+        placeTower(b2Vec2(50.0f + 18.0f, static_cast<float>(i + 2) * 8.75f));
+        placeTower(b2Vec2(50.0f + 24.0f, static_cast<float>(i + 2) * 8.75f));
+        placeTower(b2Vec2(50.0f + 24.0f + 18.0f, static_cast<float>(i + 2) * 8.75f));
 
-        placeTower(b2Vec2(35.25f, static_cast<float>(i + 1) * 8.75f));
-        placeTower(b2Vec2(52.75f, static_cast<float>(i + 1) * 8.75f));
-
-        placeTower(b2Vec2(105.0f, static_cast<float>(i) * 8.75f));
+        placeTower(b2Vec2(115.0f, static_cast<float>(i) * 8.75f));
     }
-    addDynamic(p_dynamic, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(108.25f, 0.0f), 1.0f)); // TODO NECROMANCER
+
+    addDynamic(p_dynamic, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(118.25f, 0.0f), 1.0f)); // TODO NECROMANCER
 }
 
 }; // end of namespace level
