@@ -82,21 +82,21 @@ void setUpLevel_2(b2World &p_world, std::list<std::unique_ptr<entity::DynamicEnt
     addDynamic(p_dynamic, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(55.0f, 0.0f), kVerticalBlock));
     addDynamic(p_dynamic, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(60.0f, 0.0f), kVerticalBlock));
     addDynamic(p_dynamic, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(65.0f, 0.0f), kVerticalBlock));
-    addDynamic(p_dynamic, std::make_unique<entity::enemy::Skeleton>(p_world, b2Vec2(52.5f, 0.0f), 1.0f));
-    addDynamic(p_dynamic, std::make_unique<entity::enemy::Pumpkin>(p_world, b2Vec2(57.5f, 0.0f), 1.0f));
-    addDynamic(p_dynamic, std::make_unique<entity::enemy::Skeleton>(p_world, b2Vec2(62.5f, 0.0f), 1.0f));
+    addDynamic(p_dynamic, std::make_unique<entity::enemy::Skeleton>(p_world, b2Vec2(52.5f, 1.0f), 1.0f));
+    addDynamic(p_dynamic, std::make_unique<entity::enemy::Pumpkin>(p_world, b2Vec2(57.5f, 1.0f), 1.0f));
+    addDynamic(p_dynamic, std::make_unique<entity::enemy::Skeleton>(p_world, b2Vec2(62.5f, 1.0f), 1.0f));
 
     addDynamic(p_dynamic, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(50.0f, 7.5f), kBlockLeft));
     addDynamic(p_dynamic, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(55.0f, 7.5f), kHorizontalBlock));
     addDynamic(p_dynamic, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(60.0f, 7.5f), kBlockRight));
-    addDynamic(p_dynamic, std::make_unique<entity::enemy::Skeleton>(p_world, b2Vec2(52.5f, 8.75f), 1.0f));
-    addDynamic(p_dynamic, std::make_unique<entity::enemy::Pumpkin>(p_world, b2Vec2(57.5f, 8.75f), 1.0f));
-    addDynamic(p_dynamic, std::make_unique<entity::enemy::Skeleton>(p_world, b2Vec2(62.5f, 8.75f), 1.0f));
+    addDynamic(p_dynamic, std::make_unique<entity::enemy::Skeleton>(p_world, b2Vec2(52.5f, 9.75f), 1.0f));
+    addDynamic(p_dynamic, std::make_unique<entity::enemy::Pumpkin>(p_world, b2Vec2(57.5f, 9.75f), 1.0f));
+    addDynamic(p_dynamic, std::make_unique<entity::enemy::Skeleton>(p_world, b2Vec2(62.5f, 9.75f), 1.0f));
 
     addDynamic(p_dynamic, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(55.0f, 8.75f), kVerticalBlock));
     addDynamic(p_dynamic, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(60.0f, 8.75f), kVerticalBlock));
     addDynamic(p_dynamic, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(55.0f, 16.25f), kRoofBlock));
-    addDynamic(p_dynamic, std::make_unique<entity::enemy::Skeleton>(p_world, b2Vec2(57.5f, 17.5f), 1.0f));
+    addDynamic(p_dynamic, std::make_unique<entity::enemy::Skeleton>(p_world, b2Vec2(57.5f, 18.5f), 1.0f));
 
 }
 
