@@ -30,8 +30,7 @@
 namespace shadow_pumpkin_caster {
 namespace level {
 
-void setUpLevel_4(b2World &p_world, std::list<std::unique_ptr<entity::DynamicEntity>> &p_dynamic,
-                  std::list<std::unique_ptr<entity::StaticEntity>> &p_static) {
+void setUpLevel_4(b2World &p_world, LevelManager::LevelEntities &p_entities) {
 
     const std::vector<b2Vec2> kGroundShape = {
         b2Vec2(0.0f, 0.0f),
@@ -40,12 +39,12 @@ void setUpLevel_4(b2World &p_world, std::list<std::unique_ptr<entity::DynamicEnt
         b2Vec2(25.0f, 0.0f)
     };
 
-    p_static.push_back(std::make_unique<entity::StaticEntity>(p_world, b2Vec2(-5.0f, 0.0f), kGroundShape));
-    p_static.push_back(std::make_unique<entity::StaticEntity>(p_world, b2Vec2(20.0f, 0.0f), kGroundShape));
-    p_static.push_back(std::make_unique<entity::StaticEntity>(p_world, b2Vec2(45.0f, 0.0f), kGroundShape));
-    p_static.push_back(std::make_unique<entity::StaticEntity>(p_world, b2Vec2(95.0f, 0.0f), kGroundShape));
+    p_entities.m_static.push_back(std::make_unique<entity::StaticEntity>(p_world, b2Vec2(-5.0f, 0.0f), kGroundShape));
+    p_entities.m_static.push_back(std::make_unique<entity::StaticEntity>(p_world, b2Vec2(20.0f, 0.0f), kGroundShape));
+    p_entities.m_static.push_back(std::make_unique<entity::StaticEntity>(p_world, b2Vec2(45.0f, 0.0f), kGroundShape));
+    p_entities.m_static.push_back(std::make_unique<entity::StaticEntity>(p_world, b2Vec2(95.0f, 0.0f), kGroundShape));
 
-    auto placeTower = [&p_world, &p_dynamic](b2Vec2 p_position) {
+    auto placeTower = [&p_world, &p_entities](b2Vec2 p_position) {
 
         const std::vector<b2Vec2> kVerticalBlock = {
             b2Vec2(0.0f, 0.0f),
@@ -61,15 +60,15 @@ void setUpLevel_4(b2World &p_world, std::list<std::unique_ptr<entity::DynamicEnt
             b2Vec2(0.0f, 1.25f)
         };
 
-        addDynamic(p_dynamic, std::make_unique<entity::BlockEntity>(p_world, p_position, kVerticalBlock));
-        addDynamic(p_dynamic, std::make_unique<entity::BlockEntity>(p_world, p_position + b2Vec2(5.0f, 0.0f), kVerticalBlock));
-        addDynamic(p_dynamic, std::make_unique<entity::BlockEntity>(p_world, p_position + b2Vec2(0.0f, 7.5f), kHorizontalBlock));
-        addDynamic(p_dynamic, std::make_unique<entity::enemy::Skeleton>(p_world, p_position + b2Vec2(3.0f, 9.75f), 1.0f));
+        addDynamic(p_entities.m_dynamic, std::make_unique<entity::BlockEntity>(p_world, p_position, kVerticalBlock));
+        addDynamic(p_entities.m_dynamic, std::make_unique<entity::BlockEntity>(p_world, p_position + b2Vec2(5.0f, 0.0f), kVerticalBlock));
+        addDynamic(p_entities.m_dynamic, std::make_unique<entity::BlockEntity>(p_world, p_position + b2Vec2(0.0f, 7.5f), kHorizontalBlock));
+        addDynamic(p_entities.m_dynamic, std::make_unique<entity::enemy::Skeleton>(p_world, p_position + b2Vec2(3.0f, 9.75f), 1.0f));
     };
 
     for (int i = 0; i < 4; i++) {
         placeTower(b2Vec2(35.0f + (6.0f * static_cast<float>(i)), 0.0f));
-        addDynamic(p_dynamic, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(38.0f + (6.0f * static_cast<float>(i)), 1.0f), 1.0f)); // TODO NECROMANCER
+        addDynamic(p_entities.m_dynamic, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(38.0f + (6.0f * static_cast<float>(i)), 1.0f), 1.0f)); // TODO NECROMANCER
     }
 
     for (int i = 0; i < 3; i++) {
@@ -79,7 +78,7 @@ void setUpLevel_4(b2World &p_world, std::list<std::unique_ptr<entity::DynamicEnt
 
         placeTower(b2Vec2(105.0f, static_cast<float>(i) * 8.75f));
     }
-    addDynamic(p_dynamic, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(108.25f, 1.0f), 1.0f)); // TODO NECROMANCER
+    addDynamic(p_entities.m_dynamic, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(108.25f, 1.0f), 1.0f)); // TODO NECROMANCER
 }
 
 }; // end of namespace level

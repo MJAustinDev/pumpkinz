@@ -30,8 +30,7 @@
 namespace shadow_pumpkin_caster {
 namespace level {
 
-void setUpLevel_3(b2World &p_world, std::list<std::unique_ptr<entity::DynamicEntity>> &p_dynamic,
-                  std::list<std::unique_ptr<entity::StaticEntity>> &p_static) {
+void setUpLevel_3(b2World &p_world, LevelManager::LevelEntities &p_entities) {
 
     const std::vector<b2Vec2> kGroundShape = {
         b2Vec2(0.0f, 0.0f),
@@ -40,7 +39,7 @@ void setUpLevel_3(b2World &p_world, std::list<std::unique_ptr<entity::DynamicEnt
         b2Vec2(70.0f, 0.0f)
     };
 
-    p_static.push_back(std::make_unique<entity::StaticEntity>(p_world, b2Vec2(-5.0f, 0.0f), kGroundShape));
+    p_entities.m_static.push_back(std::make_unique<entity::StaticEntity>(p_world, b2Vec2(-5.0f, 0.0f), kGroundShape));
 
     const std::vector<b2Vec2> kVerticalBlock = {
         b2Vec2(0.0f, 0.0f),
@@ -56,17 +55,17 @@ void setUpLevel_3(b2World &p_world, std::list<std::unique_ptr<entity::DynamicEnt
         b2Vec2(0.0f, 1.25f)
     };
 
-    addDynamic(p_dynamic, std::make_unique<entity::enemy::Pumpkin>(p_world, b2Vec2(58.25f, 1.0f), 1.0f));
+    addDynamic(p_entities.m_dynamic, std::make_unique<entity::enemy::Pumpkin>(p_world, b2Vec2(58.25f, 1.0f), 1.0f));
     const int kTowerHeight = 5;
     for (int i = 0; i < kTowerHeight; i++) {
         auto height = static_cast<float>(i) * 8.75f;
-        addDynamic(p_dynamic, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(60.0f, height + 0.0f), kVerticalBlock));
-        addDynamic(p_dynamic, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(55.0f, height + 0.0f), kVerticalBlock));
-        addDynamic(p_dynamic, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(54.5f, height + 7.5f), kHorizontalBlock));
-        addDynamic(p_dynamic, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(58.25f, height + 10.0f), 1.0f)); // TODO GHOST
+        addDynamic(p_entities.m_dynamic, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(60.0f, height + 0.0f), kVerticalBlock));
+        addDynamic(p_entities.m_dynamic, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(55.0f, height + 0.0f), kVerticalBlock));
+        addDynamic(p_entities.m_dynamic, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(54.5f, height + 7.5f), kHorizontalBlock));
+        addDynamic(p_entities.m_dynamic, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(58.25f, height + 10.0f), 1.0f)); // TODO GHOST
     }
-    addDynamic(p_dynamic, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(45.25f, 40.0f), 1.0f)); // TODO GHOST
-    addDynamic(p_dynamic, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(70.0f, 40.0f), 1.0f)); // TODO GHOST
+    addDynamic(p_entities.m_dynamic, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(45.25f, 40.0f), 1.0f)); // TODO GHOST
+    addDynamic(p_entities.m_dynamic, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(70.0f, 40.0f), 1.0f)); // TODO GHOST
 }
 
 }; // end of namespace level

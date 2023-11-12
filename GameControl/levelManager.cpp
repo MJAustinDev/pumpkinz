@@ -77,13 +77,13 @@ void LevelManager::reset() {
     std::cin.clear();
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     switch (level) {
-        case 1: level::setUpLevel_1(m_world, m_entities.m_dynamic, m_entities.m_static); break;
-        case 2: level::setUpLevel_2(m_world, m_entities.m_dynamic, m_entities.m_static); break;
-        case 3: level::setUpLevel_3(m_world, m_entities.m_dynamic, m_entities.m_static); break;
-        case 4: level::setUpLevel_4(m_world, m_entities.m_dynamic, m_entities.m_static); break;
-        case 5: level::setUpLevel_5(m_world, m_entities.m_dynamic, m_entities.m_static); break;
+        case 1: level::setUpLevel_1(m_world, m_entities); break;
+        case 2: level::setUpLevel_2(m_world, m_entities); break;
+        case 3: level::setUpLevel_3(m_world, m_entities); break;
+        case 4: level::setUpLevel_4(m_world, m_entities); break;
+        case 5: level::setUpLevel_5(m_world, m_entities); break;
 
-        default: level::setUpDemoLevel(m_world, m_entities.m_dynamic, m_entities.m_static);
+        default: level::setUpDemoLevel(m_world, m_entities);
     }
 }
 
