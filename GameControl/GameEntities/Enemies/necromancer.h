@@ -24,68 +24,39 @@
 
 #pragma once
 
-#include "box2d/box2d.h"
-#include <memory>
-#include "camera.h"
-#include "collisionListener.h"
-#include "staticEntity.h"
-#include "dynamicEntity.h"
-#include "player.h"
-#include "skeleton.h"
-#include "gravestone.h"
-#include "necromancer.h"
+#include "targetEntity.h"
 
 namespace shadow_pumpkin_caster {
+namespace entity {
+namespace enemy {
 
 /**
- * Stores and controls all game entities
+ * Specialist enemy, can reanimate skeletons from gravestones
  */
-class LevelManager {
+class Necromancer : public TargetEntity {
 
 public:
 
-    LevelManager();
-    ~LevelManager();
+    /**
+     * @param p_world box2d world that the necromancer exists within
+     * @param p_position necromancer's position in the world
+     * @param p_radius radius of the necromancer
+     */
+    Necromancer(b2World &p_world, b2Vec2 p_position, float p_radius);
+    ~Necromancer() = default;
 
     /**
-     * Process game events
+     * @see base class
      */
-    void processEvents();
+    void processEvents() override;
 
     /**
-     * Draws the game to the screen
-     * @param p_camera camera that draws the world to the screen
+     * @see base class
      */
-    void draw(const visual::Camera &p_camera);
-
-    /**
-     * Resets the game to a different level
-     */
-    void reset();
-
-    /**
-     * Structure that binds all game entities together
-     */
-    struct LevelEntities {
-        std::list<std::unique_ptr<entity::StaticEntity>> m_static;
-        std::list<std::unique_ptr<entity::DynamicEntity>> m_dynamic;
-        std::list<std::unique_ptr<entity::enemy::Skeleton>> m_skeletons;
-        std::list<std::unique_ptr<entity::enemy::Gravestone>> m_gravestones;
-        std::list<std::unique_ptr<entity::enemy::Necromancer>> m_necromancers;
-    };
-
-private:
-
-    entity::CollisionListener m_collisionListener;
-    b2World m_world;
-    LevelEntities m_entities;
-    Player m_player;
-
-    /**
-     * Removes all dynamically allocated entities
-     */
-    void clearAll();
+    void draw(const visual::Camera &p_camera) override;
 
 };
 
+}; // end of namespace enemy
+}; // end of namespace entity
 }; // end of namespace shadow_pumpkin_caster

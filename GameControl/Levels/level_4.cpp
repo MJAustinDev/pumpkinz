@@ -68,7 +68,7 @@ void setUpLevel_4(b2World &p_world, LevelManager::LevelEntities &p_entities) {
 
     for (int i = 0; i < 4; i++) {
         placeTower(b2Vec2(35.0f + (6.0f * static_cast<float>(i)), 0.0f));
-        addDynamic(p_entities.m_dynamic, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(38.0f + (6.0f * static_cast<float>(i)), 1.0f), 1.0f)); // TODO NECROMANCER
+        p_entities.m_necromancers.push_back(std::make_unique<entity::enemy::Necromancer>(p_world, b2Vec2(38.0f + (6.0f * static_cast<float>(i)), 1.0f), 1.0f));
     }
 
     for (int i = 0; i < 3; i++) {
@@ -78,7 +78,7 @@ void setUpLevel_4(b2World &p_world, LevelManager::LevelEntities &p_entities) {
 
         placeTower(b2Vec2(105.0f, static_cast<float>(i) * 8.75f));
     }
-    addDynamic(p_entities.m_dynamic, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(108.25f, 1.0f), 1.0f)); // TODO NECROMANCER
+    p_entities.m_necromancers.push_back(std::make_unique<entity::enemy::Necromancer>(p_world, b2Vec2(108.25f, 1.0f), 1.0f));
 }
 
 }; // end of namespace level

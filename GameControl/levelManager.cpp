@@ -102,6 +102,7 @@ void LevelManager::processEvents() {
     processEntityList(m_entities.m_dynamic);
     processEntityList(m_world, m_entities.m_skeletons, m_entities.m_gravestones);
     processEntityList(m_entities.m_gravestones); // TODO RENANIMATION
+    processEntityList(m_world, m_entities.m_necromancers, m_entities.m_gravestones);
 
     m_player.processEvents();
 }
@@ -111,6 +112,7 @@ void LevelManager::draw(const visual::Camera &p_camera) {
     drawEntityList(m_entities.m_static, p_camera);
     drawEntityList(m_entities.m_skeletons, p_camera);
     drawEntityList(m_entities.m_gravestones, p_camera);
+    drawEntityList(m_entities.m_necromancers, p_camera);
 
     m_player.draw(p_camera);
 }
@@ -138,6 +140,7 @@ void LevelManager::clearAll() {
     m_entities.m_dynamic.clear();
     m_entities.m_skeletons.clear();
     m_entities.m_gravestones.clear();
+    m_entities.m_necromancers.clear();
     m_player.clearAllDynamicEntities();
 }
 
