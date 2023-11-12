@@ -22,25 +22,41 @@
  * SOFTWARE.
  */
 
-#include "circleEntity.h"
+#pragma once
+
+#include "targetEntity.h"
 
 namespace shadow_pumpkin_caster {
 namespace entity {
+namespace enemy {
 
-CircleEntity::CircleEntity(b2World &p_world, b2Vec2 p_position, float p_radius, float p_fragility):
-    DynamicEntity(p_world, p_position, p_fragility),
-    m_radius(p_radius) {
+/**
+ * Specialist enemy, can heal entities
+ */
+class Witch : public TargetEntity {
 
-    b2CircleShape shape;
-    shape.m_radius = m_radius;
-    addFixture(shape, 1.0f);
-}
+public:
 
+    /**
+     * @param p_world box2d world that the witch exists within
+     * @param p_position witch's position in the world
+     * @param p_radius radius of the witch
+     */
+    Witch(b2World &p_world, b2Vec2 p_position, float p_radius);
+    ~Witch() = default;
 
-void CircleEntity::draw(const visual::Camera &p_camera) {
-    glColor4f(0.1f, 0.9f, 0.9f, (getHp()/100.0f));
-    p_camera.drawCircle(getPosition(), getAngle(), m_radius);
-}
+    /**
+     * @see base class
+     */
+    void processEvents() override;
 
+    /**
+     * @see base class
+     */
+    void draw(const visual::Camera &p_camera) override;
+
+};
+
+}; // end of namespace enemy
 }; // end of namespace entity
 }; // end of namespace shadow_pumpkin_caster
