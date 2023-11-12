@@ -25,6 +25,7 @@
 #pragma once
 
 #include "targetEntity.h"
+#include "spellCaster.h"
 
 namespace shadow_pumpkin_caster {
 namespace entity {
@@ -33,7 +34,7 @@ namespace enemy {
 /**
  * Specialist enemy, can reanimate skeletons from gravestones
  */
-class Necromancer : public TargetEntity {
+class Necromancer : public TargetEntity, public SpellCaster {
 
 public:
 
@@ -54,24 +55,6 @@ public:
      * @see base class
      */
     void draw(const visual::Camera &p_camera) override;
-
-    /**
-     * Starts to cast it's spell
-     */
-    void beginCasting();
-
-    /**
-     * Indicates if the spell has been fully cast or not
-     * @return true iif the spell has completed
-     */
-    bool isSpellCasted();
-
-private:
-
-    bool m_isCasting = false;
-    float m_coolDown = 0.0f;
-    float m_spellProgress = 0.0f;
-    float m_castRate = 1.0f;
 
 };
 

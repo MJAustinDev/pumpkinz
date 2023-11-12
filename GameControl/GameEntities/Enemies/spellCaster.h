@@ -24,70 +24,55 @@
 
 #pragma once
 
-#include "box2d/box2d.h"
-#include <memory>
-#include "camera.h"
-#include "collisionListener.h"
-#include "staticEntity.h"
-#include "dynamicEntity.h"
-#include "player.h"
-#include "skeleton.h"
-#include "gravestone.h"
-#include "necromancer.h"
-#include "witch.h"
+#include "targetEntity.h"
 
 namespace shadow_pumpkin_caster {
+namespace entity {
+namespace enemy {
 
 /**
- * Stores and controls all game entities
+ * Inherited class that binds spell casting functionality
  */
-class LevelManager {
+class SpellCaster {
 
 public:
 
-    LevelManager();
-    ~LevelManager();
+    SpellCaster() = default;
+    ~SpellCaster() = default;
 
     /**
-     * Process game events
+     * Progresses with casting the spell
      */
     void processEvents();
 
     /**
-     * Draws the game to the screen
-     * @param p_camera camera that draws the world to the screen
+     * Starts to cast it's spell
      */
-    void draw(const visual::Camera &p_camera);
+    void beginCasting();
 
     /**
-     * Resets the game to a different level
+     * Indicates if the spell has been fully cast or not
+     * @return true iif the spell has completed
      */
-    void reset();
+    bool isSpellCasted();
+
+protected:
 
     /**
-     * Structure that binds all game entities together
+     * How far through casting the spell the spell caster is
+     * @return spell progress ranged between 0.0f (none) and 1.0f (complete)
      */
-    struct LevelEntities {
-        std::list<std::unique_ptr<entity::StaticEntity>> m_static;
-        std::list<std::unique_ptr<entity::DynamicEntity>> m_dynamic;
-        std::list<std::unique_ptr<entity::enemy::Skeleton>> m_skeletons;
-        std::list<std::unique_ptr<entity::enemy::Gravestone>> m_gravestones;
-        std::list<std::unique_ptr<entity::enemy::Necromancer>> m_necromancers;
-        std::list<std::unique_ptr<entity::enemy::Witch>> m_witches;
-    };
+    float getSpellProgress();
 
 private:
 
-    entity::CollisionListener m_collisionListener;
-    b2World m_world;
-    LevelEntities m_entities;
-    Player m_player;
-
-    /**
-     * Removes all dynamically allocated entities
-     */
-    void clearAll();
+    bool m_isCasting = false;
+    float m_coolDown = 0.0f;
+    float m_spellProgress = 0.0f;
+    float m_castRate = 1.0f;
 
 };
 
+}; // end of namespace enemy
+}; // end of namespace entity
 }; // end of namespace shadow_pumpkin_caster

@@ -40,6 +40,7 @@ Witch::Witch(b2World &p_world, b2Vec2 p_position, float p_radius):
 }
 
 void Witch::processEvents() {
+    SpellCaster::processEvents();
     TargetEntity::processEvents();
 }
 

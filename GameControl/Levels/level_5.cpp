@@ -67,7 +67,7 @@ void setUpLevel_5(b2World &p_world, LevelManager::LevelEntities &p_entities) {
     for (int i = 0; i < 8; i++) {
         placeTower(b2Vec2(50.0f + (6.0f * static_cast<float>(i)), 0.0f));
         placeTower(b2Vec2(50.0f + (6.0f * static_cast<float>(i)), 8.75f));
-        addDynamic(p_entities.m_dynamic, std::make_unique<entity::enemy::Witch>(p_world, b2Vec2(53.0f + (6.0f * static_cast<float>(i)), 1.0f), 1.0f)); // TODO WITCH
+        p_entities.m_witches.push_back(std::make_unique<entity::enemy::Witch>(p_world, b2Vec2(53.0f + (6.0f * static_cast<float>(i)), 1.0f), 1.0f));
     }
 
     for (int i = 0; i < 3; i++) {

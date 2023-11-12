@@ -87,6 +87,10 @@ void reanimation(b2World &p_world, LevelEntities &p_entities) {
                                                                 gravestonePtr->getRadius()));
 }
 
+void healing(b2World &p_world, LevelEntities &p_entities) {
+
+}
+
 /**
  * Process game events for entities that become gravestones after death
  * @param p_world box2d world that all entities exist within
@@ -148,6 +152,8 @@ void LevelManager::processEvents() {
     processEntityList(m_entities.m_gravestones);
     bool canCastSpell = (m_entities.m_gravestones.size() != 0);
     processEntityList(m_world, m_entities.m_necromancers, m_entities, canCastSpell, reanimation);
+    canCastSpell = false;
+    processEntityList(m_world, m_entities.m_witches, m_entities, canCastSpell, healing);
 
     m_player.processEvents();
 }
@@ -158,6 +164,7 @@ void LevelManager::draw(const visual::Camera &p_camera) {
     drawEntityList(m_entities.m_skeletons, p_camera);
     drawEntityList(m_entities.m_gravestones, p_camera);
     drawEntityList(m_entities.m_necromancers, p_camera);
+    drawEntityList(m_entities.m_witches, p_camera);
 
     m_player.draw(p_camera);
 }
@@ -186,6 +193,7 @@ void LevelManager::clearAll() {
     m_entities.m_skeletons.clear();
     m_entities.m_gravestones.clear();
     m_entities.m_necromancers.clear();
+    m_entities.m_witches.clear();
     m_player.clearAllDynamicEntities();
 }
 

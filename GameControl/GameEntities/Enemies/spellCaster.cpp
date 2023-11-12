@@ -22,41 +22,58 @@
  * SOFTWARE.
  */
 
-#pragma once
-
-#include "targetEntity.h"
 #include "spellCaster.h"
+
+namespace {
+
+constexpr float kMinCastingSpeed() { return 0.1f; }
+constexpr float kMaxCastingSpeed() { return 1.0f; }
+constexpr float kCastingLimit() { return 100.0f; }
+constexpr float kCooldownReduction() { return 1.0f; }
+constexpr float kMinCooldownTime() { return 50.0f; }
+constexpr float kMaxCooldownTime() { return 200.0f; }
+
+float randZeroToOne() {
+    return static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+}
+
+float randRanged(float p_min, float p_max) {
+    return ((p_max - p_min) * randZeroToOne()) + p_min;
+}
+
+}; // end of namespace
 
 namespace shadow_pumpkin_caster {
 namespace entity {
 namespace enemy {
 
-/**
- * Specialist enemy, can heal entities
- */
-class Witch : public TargetEntity, public SpellCaster {
+void SpellCaster::beginCasting() {
+    if (!m_isCasting && m_coolDown <= 0.0f) {
+        m_isCasting = true;
+        m_castRate = randRanged(kMinCastingSpeed(), kMaxCastingSpeed());
+    }
+}
 
-public:
+void SpellCaster::processEvents() {
+    m_coolDown -= (m_coolDown > 0.0f) ? kCooldownReduction() : 0.0f;
+    if (m_isCasting) {
+        m_spellProgress += m_castRate;
+    }
+}
 
-    /**
-     * @param p_world box2d world that the witch exists within
-     * @param p_position witch's position in the world
-     * @param p_radius radius of the witch
-     */
-    Witch(b2World &p_world, b2Vec2 p_position, float p_radius);
-    ~Witch() = default;
+bool SpellCaster::isSpellCasted() {
+    if (m_spellProgress >= kCastingLimit()) {
+        m_spellProgress = 0.0f;
+        m_coolDown = randRanged(kMinCooldownTime(), kMaxCooldownTime());
+        m_isCasting = false;
+        return true;
+    }
+    return false;
+}
 
-    /**
-     * @see base class
-     */
-    void processEvents() override;
-
-    /**
-     * @see base class
-     */
-    void draw(const visual::Camera &p_camera) override;
-
-};
+float SpellCaster::getSpellProgress() {
+    return m_spellProgress / kCastingLimit();
+}
 
 }; // end of namespace enemy
 }; // end of namespace entity
