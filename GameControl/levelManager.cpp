@@ -24,6 +24,7 @@
 
 #include <iostream>
 #include <limits>
+#include <functional>
 #include "levelManager.h"
 #include "levels.h"
 
@@ -34,6 +35,8 @@ constexpr int kVelocityIterations() { return 8; }
 constexpr int kPositionIterations() { return 3; }
 
 using Gavestone = shadow_pumpkin_caster::entity::enemy::Gravestone;
+using Skeleton = shadow_pumpkin_caster::entity::enemy::Skeleton;
+using LevelEntities = shadow_pumpkin_caster::LevelManager::LevelEntities;
 
 /**
  * Process game events for entities with no special after death abilities
@@ -50,6 +53,13 @@ void processEntityList(std::list<std::unique_ptr<T>> &p_entities) {
     }
 }
 
+template <typename T>
+void becomeGravestone(b2World &p_world, std::list<std::unique_ptr<Gavestone>> &p_gravestones,
+                      std::unique_ptr<T> p_ptr) {
+    p_gravestones.push_back(std::make_unique<Gavestone>(p_world, p_ptr->getPosition(),
+                                                        p_ptr->getRadius()));
+}
+
 /**
  * Process game events for entities that become gravestones after death
  * @param p_world box2d world that all entities exist within
@@ -63,10 +73,44 @@ void processEntityList(b2World &p_world, std::list<std::unique_ptr<T>> &p_entiti
         (*it)->processEvents();
         if ((*it)->isDead()) {
             auto deadEntity = it--;
-            p_gravestones.push_back(std::make_unique<Gavestone>(p_world,
-                                                                (*deadEntity)->getPosition(),
-                                                                (*deadEntity)->getRadius()));
+            becomeGravestone(p_world, p_gravestones, std::move(*deadEntity));
             p_entities.erase(deadEntity);
+        }
+    }
+}
+
+void reanimation(b2World &p_world, LevelEntities &p_entities) {
+    auto gravestonePtr = std::move(p_entities.m_gravestones.front());
+    p_entities.m_gravestones.pop_front();
+    p_entities.m_skeletons.push_back(std::make_unique<Skeleton>(p_world,
+                                                                gravestonePtr->getPosition(),
+                                                                gravestonePtr->getRadius()));
+}
+
+/**
+ * Process game events for entities that become gravestones after death
+ * @param p_world box2d world that all entities exist within
+ * @param p_entities list of entities contains within unique pointers
+ * @param p_gravestones list of gravestones contains within unique pointers
+ */
+template <typename T>
+void processEntityList(b2World &p_world, std::list<std::unique_ptr<T>> &p_entities,
+                       shadow_pumpkin_caster::LevelManager::LevelEntities &p_allEntities,
+                       bool p_canCastSpell,
+                       std::function<void(b2World &p_world, LevelEntities &p_entities)> p_spell) {
+    for (auto it = p_entities.begin(); it != p_entities.end(); it++) {
+        if (p_canCastSpell) {
+            (*it)->beginCasting();
+        }
+
+        (*it)->processEvents();
+        if ((*it)->isDead()) {
+            auto deadEntity = it--;
+            becomeGravestone(p_world, p_allEntities.m_gravestones, std::move((*deadEntity)));
+            p_entities.erase(deadEntity);
+        } else if ((*it)->isSpellCasted() && p_allEntities.m_gravestones.size() > 0) {
+            //reanimateCorpse(p_world, p_allEntities);
+            p_spell(p_world, p_allEntities);
         }
     }
 }
@@ -101,8 +145,9 @@ void LevelManager::processEvents() {
     m_world.Step(kTimeStep(), kVelocityIterations(), kPositionIterations());
     processEntityList(m_entities.m_dynamic);
     processEntityList(m_world, m_entities.m_skeletons, m_entities.m_gravestones);
-    processEntityList(m_entities.m_gravestones); // TODO RENANIMATION
-    processEntityList(m_world, m_entities.m_necromancers, m_entities.m_gravestones);
+    processEntityList(m_entities.m_gravestones);
+    bool canCastSpell = (m_entities.m_gravestones.size() != 0);
+    processEntityList(m_world, m_entities.m_necromancers, m_entities, canCastSpell, reanimation);
 
     m_player.processEvents();
 }

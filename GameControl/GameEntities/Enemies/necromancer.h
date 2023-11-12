@@ -55,6 +55,24 @@ public:
      */
     void draw(const visual::Camera &p_camera) override;
 
+    /**
+     * Starts to cast it's spell
+     */
+    void beginCasting();
+
+    /**
+     * Indicates if the spell has been fully cast or not
+     * @return true iif the spell has completed
+     */
+    bool isSpellCasted();
+
+private:
+
+    bool m_isCasting = false;
+    float m_coolDown = 0.0f;
+    float m_spellProgress = 0.0f;
+    float m_castRate = 1.0f;
+
 };
 
 }; // end of namespace enemy

@@ -8,9 +8,9 @@
 - - ~~pumpkin~~
 - - ~~skeleton~~
 - - ~~ghost~~
-- - necromancer
+- - ~~necromancer~~
 - - witch
-- - gravestone
+- - ~~gravestone~~
 - ~~5 basic levels (5/5)~~
 - counter
 - ~~level class (better object management)~~
