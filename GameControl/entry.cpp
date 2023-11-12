@@ -20,27 +20,9 @@
 #include "collisionListener.h"
 #include "player.h"
 #include "inputController.h"
+#include "levelManager.h"
 
 using namespace shadow_pumpkin_caster;
-
-// TODO REMOVE
-void setUpLevel(b2World &world, std::list<std::unique_ptr<entity::DynamicEntity>> &dynamicEntities,
-                std::list<std::unique_ptr<entity::StaticEntity>> &staticEntities) {
-    std::cout << "Level: ";
-    int level;
-    std::cin >> level;
-    std::cin.clear();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    switch (level) {
-        case 1: level::setUpLevel_1(world, dynamicEntities, staticEntities); break;
-        case 2: level::setUpLevel_2(world, dynamicEntities, staticEntities); break;
-        case 3: level::setUpLevel_3(world, dynamicEntities, staticEntities); break;
-        case 4: level::setUpLevel_4(world, dynamicEntities, staticEntities); break;
-        case 5: level::setUpLevel_5(world, dynamicEntities, staticEntities); break;
-
-        default: level::setUpDemoLevel(world, dynamicEntities, staticEntities);
-    }
-}
 
 int main() {
 
@@ -50,16 +32,6 @@ int main() {
         b2Vec2(500.0f, -0.5f),
         b2Vec2(500.0f, 0.5f)
     };
-
-    b2World world(b2Vec2(0.0f, -9.81f));
-    entity::CollisionListener collisionListener;
-    world.SetContactListener(&collisionListener);
-    Player player(&world, b2Vec2(0.0f, 5.0f));
-
-    std::list<std::unique_ptr<entity::DynamicEntity>> dynamicEntities;
-    std::list<std::unique_ptr<entity::StaticEntity>> staticEntities;
-
-    setUpLevel(world, dynamicEntities, staticEntities);
 
     if (!glfwInit()) {
         return -1;
@@ -83,49 +55,32 @@ int main() {
 
     glViewport(0, 0, 1600, 900); // TODO CHANGE VIEWPORT SO RATIO-ED
 
+    glfwSwapBuffers(window);
+
     srand(time(NULL));
     visual::Camera camera;
     float timer = glfwGetTime();
     bool reset = false; // TODO REMOVE TEMPORY LEVEL SELECTION SYSTEM
+    LevelManager levelManager;
 
     while (!glfwWindowShouldClose(window)) {
 
         if (InputController::getMouseButtonPressed(GLFW_MOUSE_BUTTON_MIDDLE)) {
             if (!reset) {
                 reset = true;
-                dynamicEntities.clear();
-                staticEntities.clear();
-                player.clearAllDynamicEntities();
             }
         }
         if (reset && !InputController::getMouseButtonPressed(GLFW_MOUSE_BUTTON_MIDDLE)) {
             reset = false;
-            setUpLevel(world,dynamicEntities, staticEntities);
+            levelManager.reset();
         }
 
         if (timer < glfwGetTime()) {
             glClear(GL_COLOR_BUFFER_BIT);
 
             // process game events
-            world.Step((1.0f/60.0f), 8, 3);
-
-            // process dynamic entities
-            for (auto it = dynamicEntities.begin(); it != dynamicEntities.end(); it++) {
-                (*it)->processEvents();
-                if ((*it)->isDead()) {
-                    auto deadObj = it--;
-                    dynamicEntities.erase(deadObj);
-                } else {
-                    (*it)->draw(camera);
-                }
-            }
-
-            for (auto &obj : staticEntities) {
-                obj->draw(camera);
-            }
-
-            player.processEvents();
-            player.draw(camera);
+            levelManager.processEvents();
+            levelManager.draw(camera);
 
             glColor4f(1.0f, 0.2f, 0.2f, 0.5f); // TODO REMOVE TESTING WATER BOX
             camera.drawPolygon(b2Vec2(0.0f, -10.0f), 0.0f, waterPoints);
