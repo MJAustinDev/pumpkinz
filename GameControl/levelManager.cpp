@@ -33,11 +33,47 @@ constexpr float kTimeStep() { return 1.0f/60.0f; }
 constexpr int kVelocityIterations() { return 8; }
 constexpr int kPositionIterations() { return 3; }
 
+using Gavestone = shadow_pumpkin_caster::entity::enemy::Gravestone;
+
+template <typename T>
+void processEntityList(std::list<std::unique_ptr<T>> &p_entities) {
+    for (auto it = p_entities.begin(); it != p_entities.end(); it++) {
+        (*it)->processEvents();
+        if ((*it)->isDead()) {
+            auto deadEntity = it--;
+            p_entities.erase(deadEntity);
+        }
+    }
+}
+
+template <typename T>
+void processEntityList(b2World &p_world, std::list<std::unique_ptr<T>> &p_entities,
+                       std::list<std::unique_ptr<Gavestone>> &m_gravestones) {
+    for (auto it = p_entities.begin(); it != p_entities.end(); it++) {
+        (*it)->processEvents();
+        if ((*it)->isDead()) {
+            auto deadEntity = it--;
+            m_gravestones.push_back(std::make_unique<Gavestone>(p_world,
+                                                                (*deadEntity)->getPosition(),
+                                                                (*deadEntity)->getRadius()));
+            p_entities.erase(deadEntity);
+        }
+    }
+}
+
+template <typename T>
+void drawEntityList(std::list<std::unique_ptr<T>> &p_entities, const visual::Camera &p_camera) {
+    for (auto &entity : p_entities) {
+        entity->draw(p_camera);
+    }
+}
+
 };
 
 namespace shadow_pumpkin_caster {
 
-LevelManager::LevelManager(): m_world(b2Vec2(0.0f, -9.81f)), m_player(&m_world, b2Vec2(0.0f, 5.0f)) {
+LevelManager::LevelManager(): m_world(b2Vec2(0.0f, -9.81f)),
+                              m_player(&m_world, b2Vec2(0.0f, 5.0f)) {
     reset();
     m_world.SetContactListener(&m_collisionListener);
 }
@@ -48,23 +84,18 @@ LevelManager::~LevelManager() {
 
 void LevelManager::processEvents() {
     m_world.Step(kTimeStep(), kVelocityIterations(), kPositionIterations());
-    for (auto it = m_entities.m_dynamic.begin(); it != m_entities.m_dynamic.end(); it++) {
-        (*it)->processEvents();
-        if ((*it)->isDead()) {
-            auto deadObj = it--;
-            m_entities.m_dynamic.erase(deadObj);
-        }
-    }
+    processEntityList(m_entities.m_dynamic);
+    processEntityList(m_world, m_entities.m_skeletons, m_entities.m_gravestones);
+    processEntityList(m_entities.m_gravestones);
+
     m_player.processEvents();
 }
 
 void LevelManager::draw(const visual::Camera &p_camera) {
-    for (auto &obj : m_entities.m_dynamic) {
-        obj->draw(p_camera);
-    }
-    for (auto &obj : m_entities.m_static) {
-        obj->draw(p_camera);
-    }
+    drawEntityList(m_entities.m_dynamic, p_camera);
+    drawEntityList(m_entities.m_static, p_camera);
+    drawEntityList(m_entities.m_skeletons, p_camera);
+    drawEntityList(m_entities.m_gravestones, p_camera);
 
     m_player.draw(p_camera);
 }
@@ -90,6 +121,8 @@ void LevelManager::reset() {
 void LevelManager::clearAll() {
     m_entities.m_static.clear();
     m_entities.m_dynamic.clear();
+    m_entities.m_skeletons.clear();
+    m_entities.m_gravestones.clear();
     m_player.clearAllDynamicEntities();
 }
 
