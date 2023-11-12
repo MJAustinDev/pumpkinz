@@ -37,6 +37,9 @@
 
 namespace shadow_pumpkin_caster {
 
+/**
+ * Stores and controls all game entities
+ */
 class LevelManager {
 
 public:
@@ -44,12 +47,25 @@ public:
     LevelManager();
     ~LevelManager();
 
+    /**
+     * Process game events
+     */
     void processEvents();
 
+    /**
+     * Draws the game to the screen
+     * @param p_camera camera that draws the world to the screen
+     */
     void draw(const visual::Camera &p_camera);
 
+    /**
+     * Resets the game to a different level
+     */
     void reset();
 
+    /**
+     * Structure that binds all game entities together
+     */
     struct LevelEntities {
         std::list<std::unique_ptr<entity::StaticEntity>> m_static;
         std::list<std::unique_ptr<entity::DynamicEntity>> m_dynamic;
@@ -64,6 +80,9 @@ private:
     LevelEntities m_entities;
     Player m_player;
 
+    /**
+     * Removes all dynamically allocated entities
+     */
     void clearAll();
 
 };

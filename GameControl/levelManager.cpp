@@ -35,6 +35,10 @@ constexpr int kPositionIterations() { return 3; }
 
 using Gavestone = shadow_pumpkin_caster::entity::enemy::Gravestone;
 
+/**
+ * Process game events for entities with no special after death abilities
+ * @param p_entities list of entities contains within unique pointers
+ */
 template <typename T>
 void processEntityList(std::list<std::unique_ptr<T>> &p_entities) {
     for (auto it = p_entities.begin(); it != p_entities.end(); it++) {
@@ -46,14 +50,20 @@ void processEntityList(std::list<std::unique_ptr<T>> &p_entities) {
     }
 }
 
+/**
+ * Process game events for entities that become gravestones after death
+ * @param p_world box2d world that all entities exist within
+ * @param p_entities list of entities contains within unique pointers
+ * @param p_gravestones list of gravestones contains within unique pointers
+ */
 template <typename T>
 void processEntityList(b2World &p_world, std::list<std::unique_ptr<T>> &p_entities,
-                       std::list<std::unique_ptr<Gavestone>> &m_gravestones) {
+                       std::list<std::unique_ptr<Gavestone>> &p_gravestones) {
     for (auto it = p_entities.begin(); it != p_entities.end(); it++) {
         (*it)->processEvents();
         if ((*it)->isDead()) {
             auto deadEntity = it--;
-            m_gravestones.push_back(std::make_unique<Gavestone>(p_world,
+            p_gravestones.push_back(std::make_unique<Gavestone>(p_world,
                                                                 (*deadEntity)->getPosition(),
                                                                 (*deadEntity)->getRadius()));
             p_entities.erase(deadEntity);
@@ -61,6 +71,11 @@ void processEntityList(b2World &p_world, std::list<std::unique_ptr<T>> &p_entiti
     }
 }
 
+/**
+ * Draws all entities within an entity list
+ * @param p_entities list of entities contains within unique pointers
+ * @param p_camera camera used to draw each entity
+ */
 template <typename T>
 void drawEntityList(std::list<std::unique_ptr<T>> &p_entities, const visual::Camera &p_camera) {
     for (auto &entity : p_entities) {
@@ -86,7 +101,7 @@ void LevelManager::processEvents() {
     m_world.Step(kTimeStep(), kVelocityIterations(), kPositionIterations());
     processEntityList(m_entities.m_dynamic);
     processEntityList(m_world, m_entities.m_skeletons, m_entities.m_gravestones);
-    processEntityList(m_entities.m_gravestones);
+    processEntityList(m_entities.m_gravestones); // TODO RENANIMATION
 
     m_player.processEvents();
 }
