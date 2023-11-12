@@ -78,7 +78,7 @@ void setUpLevel_5(b2World &p_world, LevelManager::LevelEntities &p_entities) {
         placeTower(b2Vec2(115.0f, static_cast<float>(i) * 8.75f));
     }
 
-    addDynamic(p_entities.m_dynamic, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(118.25f, 1.0f), 1.0f)); // TODO NECROMANCER
+    p_entities.m_necromancers.push_back(std::make_unique<entity::enemy::Necromancer>(p_world, b2Vec2(118.25f, 1.0f), 1.0f));
 }
 
 }; // end of namespace level
