@@ -76,12 +76,13 @@ public:
      */
     virtual void draw(const visual::Camera &p_camera) = 0;
 
-protected:
-
     /**
      * @return position of the entity in the world
      */
     b2Vec2 getPosition() { return m_body->GetPosition(); };
+
+
+protected:
 
     /**
      * @return the entity's angle

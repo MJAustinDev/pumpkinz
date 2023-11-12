@@ -30,6 +30,7 @@
 #include "dynamicEntity.h"
 #include "staticEntity.h"
 #include "targetEntity.h"
+#include "levelManager.h"
 
 namespace shadow_pumpkin_caster {
 namespace level {
@@ -42,58 +43,46 @@ void addDynamic(std::list<std::unique_ptr<shadow_pumpkin_caster::entity::Dynamic
 /**
  * Generates the demo world
  * @param p_world box2d world where all entities exist
- * @param p_blocks list that stores all dynamic block entities
- * @param p_terrain list that stores all static terrain entities
+ * @param p_entities entity container structure
  */
-void setUpDemoLevel(b2World &p_world, std::list<std::unique_ptr<entity::DynamicEntity>> &p_dynamic,
-                    std::list<std::unique_ptr<entity::StaticEntity>> &p_static);
+void setUpDemoLevel(b2World &p_world, LevelManager::LevelEntities &p_entities);
 
 /**
  * Generates level 1
  * @param p_world box2d world where all entities exist
- * @param p_blocks list that stores all dynamic block entities
- * @param p_terrain list that stores all static terrain entities
+ * @param p_entities entity container structure
  */
-void setUpLevel_1(b2World &p_world, std::list<std::unique_ptr<entity::DynamicEntity>> &p_dynamic,
-                  std::list<std::unique_ptr<entity::StaticEntity>> &p_static);
+void setUpLevel_1(b2World &p_world, LevelManager::LevelEntities &p_entities);
 
 /**
  * Generates level 2
  * @param p_world box2d world where all entities exist
- * @param p_blocks list that stores all dynamic block entities
- * @param p_terrain list that stores all static terrain entities
+ * @param p_entities entity container structure
  */
-void setUpLevel_2(b2World &p_world, std::list<std::unique_ptr<entity::DynamicEntity>> &p_dynamic,
-                  std::list<std::unique_ptr<entity::StaticEntity>> &p_static);
+void setUpLevel_2(b2World &p_world, LevelManager::LevelEntities &p_entities);
 
 
 /**
  * Generates level 3
  * @param p_world box2d world where all entities exist
- * @param p_blocks list that stores all dynamic block entities
- * @param p_terrain list that stores all static terrain entities
+ * @param p_entities entity container structure
  */
-void setUpLevel_3(b2World &p_world, std::list<std::unique_ptr<entity::DynamicEntity>> &p_dynamic,
-                  std::list<std::unique_ptr<entity::StaticEntity>> &p_static);
+void setUpLevel_3(b2World &p_world, LevelManager::LevelEntities &p_entities);
 
 
 /**
  * Generates level 4
  * @param p_world box2d world where all entities exist
- * @param p_blocks list that stores all dynamic block entities
- * @param p_terrain list that stores all static terrain entities
+ * @param p_entities entity container structure
  */
-void setUpLevel_4(b2World &p_world, std::list<std::unique_ptr<entity::DynamicEntity>> &p_dynamic,
-                  std::list<std::unique_ptr<entity::StaticEntity>> &p_static);
+void setUpLevel_4(b2World &p_world, LevelManager::LevelEntities &p_entities);
 
 /**
  * Generates level 5
  * @param p_world box2d world where all entities exist
- * @param p_blocks list that stores all dynamic block entities
- * @param p_terrain list that stores all static terrain entities
+ * @param p_entities entity container structure
  */
-void setUpLevel_5(b2World &p_world, std::list<std::unique_ptr<entity::DynamicEntity>> &p_dynamic,
-                  std::list<std::unique_ptr<entity::StaticEntity>> &p_static);
+void setUpLevel_5(b2World &p_world, LevelManager::LevelEntities &p_entities);
 
 }; // end of namespace level
 }; // end of namespace shadow_pumpkin_caster

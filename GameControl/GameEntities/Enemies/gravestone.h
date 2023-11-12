@@ -22,32 +22,40 @@
  * SOFTWARE.
  */
 
-#include "pumpkin.h"
+#pragma once
 
-namespace {
-
-constexpr float kFragility() { return 0.25f; };
-
-}; // end of namespace
+#include "circleEntity.h"
 
 namespace shadow_pumpkin_caster {
 namespace entity {
 namespace enemy {
 
-Pumpkin::Pumpkin(b2World &p_world, b2Vec2 p_position, float p_radius):
-    TargetEntity(p_world, p_position, p_radius, kFragility()) {
+/**
+ * Not an enemy, but can be reanimated into a skeleton
+ */
+class Gravestone : public CircleEntity {
 
-}
+public:
 
-void Pumpkin::processEvents() {
-    TargetEntity::processEvents();
-}
+    /**
+     * @param p_world box2d world that the gravestone exists within
+     * @param p_position gravestone's position in the world
+     * @param p_radius radius of the gravestone
+     */
+    Gravestone(b2World &p_world, b2Vec2 p_position, float p_radius);
+    ~Gravestone() = default;
 
-void Pumpkin::draw(const visual::Camera &p_camera) {
-    float fade = 0.3 + (0.7 * (getHp()/100.0f));
-    glColor4f(0.9f, 0.5f, 0.2f, fade);
-    p_camera.drawCircle(getPosition(), getAngle(), getRadius());
-}
+    /**
+     * @see base class
+     */
+    void processEvents() override;
+
+    /**
+     * @see base class
+     */
+    void draw(const visual::Camera &p_camera) override;
+
+};
 
 }; // end of namespace enemy
 }; // end of namespace entity

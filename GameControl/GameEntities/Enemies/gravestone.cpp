@@ -22,11 +22,11 @@
  * SOFTWARE.
  */
 
-#include "pumpkin.h"
+#include "gravestone.h"
 
 namespace {
 
-constexpr float kFragility() { return 0.25f; };
+constexpr float kFragility() { return 0.05f; };
 
 }; // end of namespace
 
@@ -34,18 +34,18 @@ namespace shadow_pumpkin_caster {
 namespace entity {
 namespace enemy {
 
-Pumpkin::Pumpkin(b2World &p_world, b2Vec2 p_position, float p_radius):
-    TargetEntity(p_world, p_position, p_radius, kFragility()) {
+Gravestone::Gravestone(b2World &p_world, b2Vec2 p_position, float p_radius):
+    CircleEntity(p_world, p_position, p_radius, kFragility()) {
 
 }
 
-void Pumpkin::processEvents() {
-    TargetEntity::processEvents();
+void Gravestone::processEvents() {
+    DynamicEntity::processEvents();
 }
 
-void Pumpkin::draw(const visual::Camera &p_camera) {
+void Gravestone::draw(const visual::Camera &p_camera) {
     float fade = 0.3 + (0.7 * (getHp()/100.0f));
-    glColor4f(0.9f, 0.5f, 0.2f, fade);
+    glColor4f(0.3f, 0.3f, 0.55f, fade);
     p_camera.drawCircle(getPosition(), getAngle(), getRadius());
 }
 
