@@ -37,6 +37,7 @@ ExplosionParticle::ExplosionParticle(b2World &p_world, b2Vec2 p_position, float 
                                      float p_angle, float p_force, float p_dissipateRate):
     CircleEntity(p_world, p_position, p_radius, kFragility()), m_dissipateRate(p_dissipateRate) {
 
+    setType(EntityType::projectile);
     b2Vec2 force(std::cos(p_angle) * p_force, std::sin(p_angle) * p_force);
     applyImpulse(force);
 }

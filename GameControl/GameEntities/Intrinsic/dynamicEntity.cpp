@@ -39,20 +39,19 @@ namespace entity {
 
 DynamicEntity::DynamicEntity(b2World &p_world, b2Vec2 p_position, float p_fragility,
                              float p_angle):
-        BaseEntity(p_world, p_position, b2_dynamicBody, p_angle, static_cast<void*>(&m_dynamicData)),
+        BaseEntity(p_world, p_position, b2_dynamicBody, p_angle, static_cast<void*>(&m_bodyData)),
         m_fragility(p_fragility) {
-
 }
 
 void DynamicEntity::processEvents() {
 
-    float totalEnergy = std::accumulate(m_dynamicData.m_energies.begin(),
-                                        m_dynamicData.m_energies.end(), 0.0f);
+    float totalEnergy = std::accumulate(m_bodyData.m_energies.begin(),
+                                        m_bodyData.m_energies.end(), 0.0f);
 
     if (totalEnergy > kMinimumEnergyDamage()) {
         m_hp -= (totalEnergy - kMinimumEnergyDamage()) * m_fragility;
     }
-    m_dynamicData.m_energies.clear();
+    m_bodyData.m_energies.clear();
 
     if (getPosition().y < kWaterLevel()) {
         m_hp -= kCrushRate();

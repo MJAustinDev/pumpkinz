@@ -27,10 +27,11 @@
 #include <box2d/box2d.h>
 #include <cmath>
 #include "dynamicEntity.h"
+#include "entityData.h"
 
 namespace {
 
-using bodyData = shadow_pumpkin_caster::entity::DynamicBodyData;
+using bodyData = shadow_pumpkin_caster::entity::EntityBodyData;
 
 /**
  * Normalises a velocity vector to work out the true speed
@@ -51,22 +52,44 @@ bool isDynamic(b2Body* p_body) {
 };
 
 /**
+ * Verifies if an entity's type is ghost
+ * @param p_bodyDataPtr ptr to entity's body data
+ * @return true iff the type is ghost
+ */
+bool isGhost(bodyData* p_bodyDataPtr) {
+    return p_bodyDataPtr->m_type == shadow_pumpkin_caster::entity::EntityType::ghost;
+}
+
+/**
+ * Verifies if an entity's type is projectile
+ * @param p_bodyDataPtr ptr to entity's body data
+ * @return true iff the type is projectile
+ */
+bool isProjectile(bodyData* p_bodyDataPtr) {
+    return p_bodyDataPtr->m_type == shadow_pumpkin_caster::entity::EntityType::projectile;
+}
+
+/**
  * Applies kinetic energy transfer to two colliding objects
  * @param p_bodyA physics body of the first object
  * @param p_bodyB physics body of the second object
  */
 void dynamicEnergyTransfer(b2Body* p_bodyA, b2Body* p_bodyB) {
+    auto* dataPtrA = reinterpret_cast<bodyData*>(p_bodyA->GetUserData().pointer);
+    auto* dataPtrB = reinterpret_cast<bodyData*>(p_bodyB->GetUserData().pointer);
+    if ((isGhost(dataPtrA) && !isProjectile(dataPtrB)) ||
+        (isGhost(dataPtrB) && !isProjectile(dataPtrA))) {
+        return; // ghosts only take damage from direct hits
+    }
+
     b2Vec2 relativeVelocity = p_bodyA->GetLinearVelocity() - p_bodyB->GetLinearVelocity();
     float pureVelocity = calcPureVelocity(relativeVelocity);
     float energyMultiplier = 0.5 * pureVelocity * pureVelocity;
     float kineticEnergyA = energyMultiplier * p_bodyA->GetMass();
     float kineticEnergyB = energyMultiplier * p_bodyB->GetMass();
 
-    auto* dataPtr = reinterpret_cast<bodyData*>(p_bodyA->GetUserData().pointer);
-    dataPtr->m_energies.push_back(kineticEnergyB);
-
-    dataPtr = reinterpret_cast<bodyData*>(p_bodyB->GetUserData().pointer);
-    dataPtr->m_energies.push_back(kineticEnergyA);
+    dataPtrA->m_energies.push_back(kineticEnergyB);
+    dataPtrB->m_energies.push_back(kineticEnergyA);
 };
 
 /**
@@ -74,10 +97,13 @@ void dynamicEnergyTransfer(b2Body* p_bodyA, b2Body* p_bodyB) {
  * @param p_bodyDynamic physics body of the colliding object
  */
 void staticEnergyTransfer(b2Body* p_bodyDynamic) {
+    auto* dataPtr = reinterpret_cast<bodyData*>(p_bodyDynamic->GetUserData().pointer);
+    if (isGhost(dataPtr)) {
+        return; // ghosts don't take impact damage
+    }
+
     float pureVelocity = calcPureVelocity(p_bodyDynamic->GetLinearVelocity());
     float kineticEnergy = 0.5 * p_bodyDynamic->GetMass() * pureVelocity * pureVelocity;
-
-    auto* dataPtr = reinterpret_cast<bodyData*>(p_bodyDynamic->GetUserData().pointer);
     dataPtr->m_energies.push_back(kineticEnergy);
 };
 

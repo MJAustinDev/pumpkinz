@@ -27,6 +27,7 @@
 #include <vector>
 #include <list>
 #include "baseEntity.h"
+#include "entityData.h"
 
 namespace shadow_pumpkin_caster {
 namespace entity {
@@ -84,11 +85,15 @@ protected:
         m_hp -= p_hpLoss;
     }
 
+    void setType(EntityType p_type) {
+        m_bodyData.m_type = p_type;
+    }
+
 private:
 
     float m_hp = 100.0f;
     float m_fragility = 0.25f;
-    DynamicBodyData m_dynamicData;
+    EntityBodyData m_bodyData;
 
 };
 

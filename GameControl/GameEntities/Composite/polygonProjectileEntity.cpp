@@ -33,6 +33,7 @@ PolygonProjectileEntity::PolygonProjectileEntity(b2World &p_world, b2Vec2 p_posi
                                                  float p_force, float p_fragility):
     PolygonEntity(p_world, p_position, p_shape, p_angle, p_fragility) {
 
+    setType(EntityType::projectile);
     b2Vec2 force(std::cos(p_angle) * p_force, std::sin(p_angle) * p_force);
     applyImpulse(force);
 }

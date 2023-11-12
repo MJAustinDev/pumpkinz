@@ -22,35 +22,27 @@
  * SOFTWARE.
  */
 
-#include "ghost.h"
-#include "entityData.h"
-
-namespace {
-
-constexpr float kFragility() { return 0.3f; };
-
-}; // end of namespace
+#pragma once
 
 namespace shadow_pumpkin_caster {
 namespace entity {
-namespace enemy {
 
-Ghost::Ghost(b2World &p_world, b2Vec2 p_position, float p_radius):
-    TargetEntity(p_world, p_position, p_radius, kFragility()) {
+/**
+ * Game entity types, used during collisions
+ */
+enum class EntityType {
+    dynamic = 0,
+    ghost,
+    projectile
+};
 
-    setType(EntityType::ghost);
-}
+/**
+ * User data structure used to transfer information form the b2body to the class
+ */
+struct EntityBodyData {
+    std::list<float> m_energies = {};
+    EntityType m_type = EntityType::dynamic;
+};
 
-void Ghost::processEvents() {
-    TargetEntity::processEvents();
-}
-
-void Ghost::draw(const visual::Camera &p_camera) {
-    float fade = 0.3 + (0.7 * (getHp()/100.0f));
-    glColor4f(0.9f, 0.85f, 0.85f, fade);
-    p_camera.drawCircle(getPosition(), getAngle(), getRadius());
-}
-
-}; // end of namespace enemy
 }; // end of namespace entity
 }; // end of namespace shadow_pumpkin_caster
