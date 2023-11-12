@@ -7,7 +7,7 @@
 - enemy types
 - - ~~pumpkin~~
 - - ~~skeleton~~
-- - ghost
+- - ~~ghost~~
 - - necromancer
 - - witch
 - - gravestone
@@ -27,6 +27,8 @@
 
 - complete control/firing
 - struct to clean up entity parameter passing
+- - include force, etc so gravestones carry on same path as deceased entity
+- - include density, ghost should be less dense
 - zoom via wheel
 - block destruction (breaking up)
 - look into re-vamp-ing... hehehe the input controller (more functional than class)

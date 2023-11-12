@@ -22,36 +22,41 @@
  * SOFTWARE.
  */
 
-#include <cmath>
-#include "polygonProjectileEntity.h"
+#pragma once
+
+#include "targetEntity.h"
 
 namespace shadow_pumpkin_caster {
 namespace entity {
+namespace enemy {
 
-PolygonProjectileEntity::PolygonProjectileEntity(b2World &p_world, b2Vec2 p_position,
-                                                 std::vector<b2Vec2> p_shape, float p_angle,
-                                                 float p_force, float p_fragility):
-    PolygonEntity(p_world, p_position, p_shape, p_angle, p_fragility) {
+/**
+ * Specialist enemy, does not take or give impact damage, killed by water level or direct hits
+ */
+class Ghost : public TargetEntity {
 
-    setType(EntityType::projectile);
-    b2Vec2 force(std::cos(p_angle) * p_force, std::sin(p_angle) * p_force);
-    applyImpulse(force);
-}
+public:
 
-void PolygonProjectileEntity::processEvents() {
-    DynamicEntity::processEvents();
-    if (getHp() < 100.0f) {
-        applyDamage(kDegradeRate());
-    }
-}
+    /**
+     * @param p_world box2d world that the ghost exists within
+     * @param p_position ghost's position in the world
+     * @param p_radius radius of the ghost
+     */
+    Ghost(b2World &p_world, b2Vec2 p_position, float p_radius);
+    ~Ghost() = default;
 
-void PolygonProjectileEntity::draw(const visual::Camera &p_camera) {
-    PolygonEntity::draw(p_camera);
-}
+    /**
+     * @see base class
+     */
+    void processEvents() override;
 
-bool PolygonProjectileEntity::isDead() {
-    return DynamicEntity::isDead();
+    /**
+     * @see base class
+     */
+    void draw(const visual::Camera &p_camera) override;
+
 };
 
+}; // end of namespace enemy
 }; // end of namespace entity
 }; // end of namespace shadow_pumpkin_caster

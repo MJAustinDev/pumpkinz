@@ -22,35 +22,26 @@
  * SOFTWARE.
  */
 
-#include <cmath>
-#include "polygonProjectileEntity.h"
+#pragma once
 
 namespace shadow_pumpkin_caster {
 namespace entity {
 
-PolygonProjectileEntity::PolygonProjectileEntity(b2World &p_world, b2Vec2 p_position,
-                                                 std::vector<b2Vec2> p_shape, float p_angle,
-                                                 float p_force, float p_fragility):
-    PolygonEntity(p_world, p_position, p_shape, p_angle, p_fragility) {
+/**
+ * Game entity types, used during collisions
+ */
+enum class EntityType {
+    dynamic = 0,
+    ghost,
+    projectile
+};
 
-    setType(EntityType::projectile);
-    b2Vec2 force(std::cos(p_angle) * p_force, std::sin(p_angle) * p_force);
-    applyImpulse(force);
-}
-
-void PolygonProjectileEntity::processEvents() {
-    DynamicEntity::processEvents();
-    if (getHp() < 100.0f) {
-        applyDamage(kDegradeRate());
-    }
-}
-
-void PolygonProjectileEntity::draw(const visual::Camera &p_camera) {
-    PolygonEntity::draw(p_camera);
-}
-
-bool PolygonProjectileEntity::isDead() {
-    return DynamicEntity::isDead();
+/**
+ * User data structure used to transfer information form the b2body to the class
+ */
+struct EntityBodyData {
+    std::list<float> m_energies = {};
+    EntityType m_type = EntityType::dynamic;
 };
 
 }; // end of namespace entity

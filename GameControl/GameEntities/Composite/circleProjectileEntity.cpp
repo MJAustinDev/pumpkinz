@@ -23,6 +23,7 @@
  */
 
 #include "circleProjectileEntity.h"
+#include "entityData.h"
 
 namespace shadow_pumpkin_caster {
 namespace entity {
@@ -32,6 +33,7 @@ CircleProjectileEntity::CircleProjectileEntity(b2World &p_world, b2Vec2 p_positi
                                                float p_force, float p_fragility):
     CircleEntity(p_world, p_position, p_radius, p_fragility) {
 
+    setType(EntityType::projectile);
     b2Vec2 force(std::cos(p_angle) * p_force, std::sin(p_angle) * p_force);
     applyImpulse(force);
 }

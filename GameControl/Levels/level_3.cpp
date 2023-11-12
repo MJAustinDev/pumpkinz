@@ -26,6 +26,7 @@
 #include "blockEntity.h"
 #include "targetEntity.h"
 #include "pumpkin.h"
+#include "ghost.h"
 
 namespace shadow_pumpkin_caster {
 namespace level {
@@ -62,10 +63,10 @@ void setUpLevel_3(b2World &p_world, LevelManager::LevelEntities &p_entities) {
         addDynamic(p_entities.m_dynamic, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(60.0f, height + 0.0f), kVerticalBlock));
         addDynamic(p_entities.m_dynamic, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(55.0f, height + 0.0f), kVerticalBlock));
         addDynamic(p_entities.m_dynamic, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(54.5f, height + 7.5f), kHorizontalBlock));
-        addDynamic(p_entities.m_dynamic, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(58.25f, height + 10.0f), 1.0f)); // TODO GHOST
+        addDynamic(p_entities.m_dynamic, std::make_unique<entity::enemy::Ghost>(p_world, b2Vec2(58.25f, height + 10.0f), 1.0f));
     }
-    addDynamic(p_entities.m_dynamic, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(45.25f, 40.0f), 1.0f)); // TODO GHOST
-    addDynamic(p_entities.m_dynamic, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(70.0f, 40.0f), 1.0f)); // TODO GHOST
+    addDynamic(p_entities.m_dynamic, std::make_unique<entity::enemy::Ghost>(p_world, b2Vec2(45.25f, 40.0f), 1.0f));
+    addDynamic(p_entities.m_dynamic, std::make_unique<entity::enemy::Ghost>(p_world, b2Vec2(70.0f, 40.0f), 1.0f));
 }
 
 }; // end of namespace level

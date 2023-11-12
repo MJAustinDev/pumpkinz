@@ -22,36 +22,35 @@
  * SOFTWARE.
  */
 
-#include <cmath>
-#include "polygonProjectileEntity.h"
+#include "ghost.h"
+#include "entityData.h"
+
+namespace {
+
+constexpr float kFragility() { return 0.3f; };
+
+}; // end of namespace
 
 namespace shadow_pumpkin_caster {
 namespace entity {
+namespace enemy {
 
-PolygonProjectileEntity::PolygonProjectileEntity(b2World &p_world, b2Vec2 p_position,
-                                                 std::vector<b2Vec2> p_shape, float p_angle,
-                                                 float p_force, float p_fragility):
-    PolygonEntity(p_world, p_position, p_shape, p_angle, p_fragility) {
+Ghost::Ghost(b2World &p_world, b2Vec2 p_position, float p_radius):
+    TargetEntity(p_world, p_position, p_radius, kFragility()) {
 
-    setType(EntityType::projectile);
-    b2Vec2 force(std::cos(p_angle) * p_force, std::sin(p_angle) * p_force);
-    applyImpulse(force);
+    setType(EntityType::ghost);
 }
 
-void PolygonProjectileEntity::processEvents() {
-    DynamicEntity::processEvents();
-    if (getHp() < 100.0f) {
-        applyDamage(kDegradeRate());
-    }
+void Ghost::processEvents() {
+    TargetEntity::processEvents();
 }
 
-void PolygonProjectileEntity::draw(const visual::Camera &p_camera) {
-    PolygonEntity::draw(p_camera);
+void Ghost::draw(const visual::Camera &p_camera) {
+    float fade = 0.3 + (0.7 * (getHp()/100.0f));
+    glColor4f(0.9f, 0.85f, 0.85f, fade);
+    p_camera.drawCircle(getPosition(), getAngle(), getRadius());
 }
 
-bool PolygonProjectileEntity::isDead() {
-    return DynamicEntity::isDead();
-};
-
+}; // end of namespace enemy
 }; // end of namespace entity
 }; // end of namespace shadow_pumpkin_caster
