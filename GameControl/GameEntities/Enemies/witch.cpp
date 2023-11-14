@@ -46,6 +46,11 @@ void Witch::processEvents() {
 
 void Witch::draw(const visual::Camera &p_camera) {
     float fade = 0.3 + (0.7 * (getHp()/100.0f));
+    float spellSize = 2.0f * getRadius() * getSpellProgress();
+
+    glColor4f(9.0f, 0.2f, 0.2f, 0.9f);
+    p_camera.drawCircle(getPosition() + b2Vec2(0.0f, 3.0f), getAngle(), spellSize);
+
     glColor4f(0.64f, 0.29f, 0.64f, fade);
     p_camera.drawCircle(getPosition(), getAngle(), getRadius());
 }

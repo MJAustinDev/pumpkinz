@@ -11,6 +11,7 @@
 - - ~~necromancer~~
 - - witch
 - - ~~gravestone~~
+- - vampire (damages player projectiles)
 - ~~5 basic levels (5/5)~~
 - counter
 - ~~level class (better object management)~~
@@ -40,8 +41,6 @@
 - verify/research KE/force damage model
 - cannon moves toward mouse direction rather than snapping
 - break total namespace down into modules (future use in other projects... not priority atm)
-- enemy types
-- - vampire
 
 # Completed Phases
 

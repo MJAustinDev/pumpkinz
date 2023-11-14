@@ -43,7 +43,7 @@ using LevelEntities = shadow_pumpkin_caster::LevelManager::LevelEntities;
  * @param p_entities list of entities contains within unique pointers
  */
 template <typename T>
-void processEntityList(std::list<std::unique_ptr<T>> &p_entities) {
+void processEntityList(std::list<std::shared_ptr<T>> &p_entities) {
     for (auto it = p_entities.begin(); it != p_entities.end(); it++) {
         (*it)->processEvents();
         if ((*it)->isDead()) {
@@ -54,8 +54,8 @@ void processEntityList(std::list<std::unique_ptr<T>> &p_entities) {
 }
 
 template <typename T>
-void becomeGravestone(b2World &p_world, std::list<std::unique_ptr<Gavestone>> &p_gravestones,
-                      std::unique_ptr<T> p_ptr) {
+void becomeGravestone(b2World &p_world, std::list<std::shared_ptr<Gavestone>> &p_gravestones,
+                      std::shared_ptr<T> p_ptr) {
     p_gravestones.push_back(std::make_unique<Gavestone>(p_world, p_ptr->getPosition(),
                                                         p_ptr->getRadius()));
 }
@@ -67,8 +67,8 @@ void becomeGravestone(b2World &p_world, std::list<std::unique_ptr<Gavestone>> &p
  * @param p_gravestones list of gravestones contains within unique pointers
  */
 template <typename T>
-void processEntityList(b2World &p_world, std::list<std::unique_ptr<T>> &p_entities,
-                       std::list<std::unique_ptr<Gavestone>> &p_gravestones) {
+void processEntityList(b2World &p_world, std::list<std::shared_ptr<T>> &p_entities,
+                       std::list<std::shared_ptr<Gavestone>> &p_gravestones) {
     for (auto it = p_entities.begin(); it != p_entities.end(); it++) {
         (*it)->processEvents();
         if ((*it)->isDead()) {
@@ -98,7 +98,7 @@ void healing(b2World &p_world, LevelEntities &p_entities) {
  * @param p_gravestones list of gravestones contains within unique pointers
  */
 template <typename T>
-void processEntityList(b2World &p_world, std::list<std::unique_ptr<T>> &p_entities,
+void processEntityList(b2World &p_world, std::list<std::shared_ptr<T>> &p_entities,
                        shadow_pumpkin_caster::LevelManager::LevelEntities &p_allEntities,
                        bool p_canCastSpell,
                        std::function<void(b2World &p_world, LevelEntities &p_entities)> p_spell) {
@@ -113,7 +113,6 @@ void processEntityList(b2World &p_world, std::list<std::unique_ptr<T>> &p_entiti
             becomeGravestone(p_world, p_allEntities.m_gravestones, std::move((*deadEntity)));
             p_entities.erase(deadEntity);
         } else if ((*it)->isSpellCasted() && p_allEntities.m_gravestones.size() > 0) {
-            //reanimateCorpse(p_world, p_allEntities);
             p_spell(p_world, p_allEntities);
         }
     }
@@ -125,7 +124,7 @@ void processEntityList(b2World &p_world, std::list<std::unique_ptr<T>> &p_entiti
  * @param p_camera camera used to draw each entity
  */
 template <typename T>
-void drawEntityList(std::list<std::unique_ptr<T>> &p_entities, const visual::Camera &p_camera) {
+void drawEntityList(std::list<T> &p_entities, const visual::Camera &p_camera) {
     for (auto &entity : p_entities) {
         entity->draw(p_camera);
     }
@@ -154,6 +153,7 @@ void LevelManager::processEvents() {
     processEntityList(m_world, m_entities.m_necromancers, m_entities, canCastSpell, reanimation);
     canCastSpell = false;
     processEntityList(m_world, m_entities.m_witches, m_entities, canCastSpell, healing);
+    m_entities.m_hurtEntities.clear();
 
     m_player.processEvents();
 }
@@ -194,6 +194,7 @@ void LevelManager::clearAll() {
     m_entities.m_gravestones.clear();
     m_entities.m_necromancers.clear();
     m_entities.m_witches.clear();
+    m_entities.m_hurtEntities.clear();
     m_player.clearAllDynamicEntities();
 }
 
