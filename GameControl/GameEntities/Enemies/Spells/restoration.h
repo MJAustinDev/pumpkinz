@@ -22,59 +22,19 @@
  * SOFTWARE.
  */
 
-#include "spellCaster.h"
+#pragma once
 
-namespace {
-
-constexpr float kMinCastingSpeed() { return 0.1f; }
-constexpr float kMaxCastingSpeed() { return 1.0f; }
-constexpr float kCastingLimit() { return 100.0f; }
-constexpr float kCooldownReduction() { return 1.0f; }
-constexpr float kMinCooldownTime() { return 50.0f; }
-constexpr float kMaxCooldownTime() { return 200.0f; }
-
-float randZeroToOne() {
-    return static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
-}
-
-float randRanged(float p_min, float p_max) {
-    return ((p_max - p_min) * randZeroToOne()) + p_min;
-}
-
-}; // end of namespace
+#include "box2d/box2d.h"
+#include "levelManager.h"
 
 namespace shadow_pumpkin_caster {
 namespace entity {
 namespace enemy {
+namespace spell {
 
-void SpellCaster::beginCasting() {
-    if (!m_isCasting && m_coolDown <= 0.0f) {
-        m_isCasting = true;
-        m_castRate = randRanged(kMinCastingSpeed(), kMaxCastingSpeed());
-    }
-}
+void restoration(b2World &p_world, LevelManager::LevelEntities &p_entities);
 
-void SpellCaster::processEvents() {
-    m_coolDown -= (m_coolDown > 0.0f) ? kCooldownReduction() : 0.0f;
-    if (m_isCasting) {
-        m_spellProgress += m_castRate;
-    }
-}
-
-bool SpellCaster::isSpellCasted() {
-    if (m_spellProgress >= kCastingLimit()) {
-        m_spellProgress = 0.0f;
-        m_coolDown = randRanged(kMinCooldownTime(), kMaxCooldownTime());
-        m_isCasting = false;
-        return true;
-    }
-    return false;
-}
-
-float SpellCaster::getSpellProgress() {
-    return m_spellProgress / kCastingLimit();
-}
-
+}; // end of namespace spell
 }; // end of namespace enemy
 }; // end of namespace entity
 }; // end of namespace shadow_pumpkin_caster

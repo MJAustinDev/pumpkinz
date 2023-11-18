@@ -27,6 +27,8 @@
 #include <functional>
 #include "levelManager.h"
 #include "levels.h"
+#include "necromancy.h"
+#include "restoration.h"
 
 namespace {
 
@@ -37,25 +39,6 @@ constexpr int kPositionIterations() { return 3; }
 using Gavestone = shadow_pumpkin_caster::entity::enemy::Gravestone;
 using Skeleton = shadow_pumpkin_caster::entity::enemy::Skeleton;
 using LevelEntities = shadow_pumpkin_caster::LevelManager::LevelEntities;
-
-void reanimation(b2World &p_world, LevelEntities &p_entities) {
-    if (p_entities.m_gravestones.size() == 0) {
-        return; // nothing to reanimate
-    }
-
-    auto gravestonePtr = std::move(p_entities.m_gravestones.front());
-    p_entities.m_gravestones.pop_front();
-    p_entities.m_skeletons.push_back(std::make_unique<Skeleton>(p_world,
-                                                                gravestonePtr->getPosition(),
-                                                                gravestonePtr->getRadius()));
-}
-
-void healing(b2World &p_world, LevelEntities &p_entities) {
-    if (p_entities.m_hurtEntities.size() == 0) {
-        return; // nothing to heal
-    }
-    p_entities.m_hurtEntities.back()->heal();
-}
 
 template <typename T>
 void becomeGravestone(b2World &p_world, std::list<std::shared_ptr<Gavestone>> &p_gravestones,
@@ -167,10 +150,15 @@ void LevelManager::processEvents() {
     processEntityList(m_entities.m_dynamic, m_entities);
     processEntityList(m_world, m_entities.m_skeletons, m_entities);
     processEntityList(m_entities.m_gravestones, m_entities);
+
     bool canCastSpell = (m_entities.m_gravestones.size() > 0);
-    processEntityList(m_world, m_entities.m_necromancers, m_entities, canCastSpell, reanimation);
+    processEntityList(m_world, m_entities.m_necromancers, m_entities, canCastSpell,
+                      entity::enemy::spell::necromancy);
+
     canCastSpell = (m_entities.m_hurtEntities.size() > 0);
-    processEntityList(m_world, m_entities.m_witches, m_entities, canCastSpell, healing);
+    processEntityList(m_world, m_entities.m_witches, m_entities, canCastSpell,
+                      entity::enemy::spell::restoration);
+
     m_entities.m_hurtEntities.clear();
 
     m_player.processEvents();

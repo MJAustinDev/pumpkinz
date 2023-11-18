@@ -22,42 +22,21 @@
  * SOFTWARE.
  */
 
-#pragma once
-
-#include "targetEntity.h"
-#include "spellCaster.h"
+#include "restoration.h"
 
 namespace shadow_pumpkin_caster {
 namespace entity {
 namespace enemy {
+namespace spell {
 
-/**
- * Specialist enemy, can reanimate skeletons from gravestones
- */
-class Necromancer : public TargetEntity, public spell::SpellCaster {
+void restoration(b2World &p_world, LevelManager::LevelEntities &p_entities) {
+    if (p_entities.m_hurtEntities.size() == 0) {
+        return; // nothing to heal
+    }
+    p_entities.m_hurtEntities.back()->heal();
+}
 
-public:
-
-    /**
-     * @param p_world box2d world that the necromancer exists within
-     * @param p_position necromancer's position in the world
-     * @param p_radius radius of the necromancer
-     */
-    Necromancer(b2World &p_world, b2Vec2 p_position, float p_radius);
-    ~Necromancer() = default;
-
-    /**
-     * @see base class
-     */
-    void processEvents() override;
-
-    /**
-     * @see base class
-     */
-    void draw(const visual::Camera &p_camera) override;
-
-};
-
+}; // end of namespace spell
 }; // end of namespace enemy
 }; // end of namespace entity
 }; // end of namespace shadow_pumpkin_caster

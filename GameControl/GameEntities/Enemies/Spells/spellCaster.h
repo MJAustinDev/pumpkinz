@@ -24,11 +24,10 @@
 
 #pragma once
 
-#include "targetEntity.h"
-
 namespace shadow_pumpkin_caster {
 namespace entity {
 namespace enemy {
+namespace spell {
 
 /**
  * Inherited class that binds spell casting functionality
@@ -71,8 +70,10 @@ private:
     float m_spellProgress = 0.0f;
     float m_castRate = 1.0f;
 
+
 };
 
+}; // end of namespace spell
 }; // end of namespace enemy
 }; // end of namespace entity
 }; // end of namespace shadow_pumpkin_caster

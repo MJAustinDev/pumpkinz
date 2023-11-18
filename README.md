@@ -9,7 +9,7 @@
 - - ~~skeleton~~
 - - ~~ghost~~
 - - ~~necromancer~~
-- - witch
+- - ~~witch~~
 - - ~~gravestone~~
 - - vampire (damages player projectiles)
 - ~~5 basic levels (5/5)~~
@@ -26,6 +26,8 @@
 
 ## feature pool
 
+- LevelEntities into a class
+- bind spell function to spell caster class
 - complete control/firing
 - struct to clean up entity parameter passing
 - - include force, etc so gravestones carry on same path as deceased entity
