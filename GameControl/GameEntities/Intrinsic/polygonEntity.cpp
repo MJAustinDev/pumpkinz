@@ -39,7 +39,8 @@ PolygonEntity::PolygonEntity(b2World &p_world, b2Vec2 p_position, std::vector<b2
 
 
 void PolygonEntity::draw(const visual::Camera &p_camera) {
-    glColor4f(0.4f, 0.4f, 0.4f, (getHp()/100.0f));
+    float fade = 0.3 + (0.7 * (getHp()/100.0f));
+    glColor4f(0.4f, 0.4f, 0.4f, fade);
     p_camera.drawPolygon(getPosition(), getAngle(), m_shape);
 }
 
