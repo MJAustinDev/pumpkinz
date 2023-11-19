@@ -22,39 +22,43 @@
  * SOFTWARE.
  */
 
-#include "witch.h"
+#pragma once
 
-namespace {
-
-constexpr float kFragility() { return 0.15f; };
-
-}; // end of namespace
+#include "targetEntity.h"
+#include "spellCaster.h"
 
 namespace shadow_pumpkin_caster {
 namespace entity {
 namespace enemy {
 
-Witch::Witch(b2World &p_world, b2Vec2 p_position, float p_radius):
-    TargetEntity(p_world, p_position, p_radius, kFragility()) {
+/**
+ * Specialist enemy, damages projectile entities
+ */
+class Vampire : public TargetEntity, public spell::SpellCaster {
 
-}
+public:
 
-void Witch::processEvents() {
-    SpellCaster::processEvents();
-    TargetEntity::processEvents();
-}
+    /**
+     * @param p_world box2d world that the vampire exists within
+     * @param p_position vampire's position in the world
+     * @param p_radius radius of the vampire
+     */
+    Vampire(b2World &p_world, b2Vec2 p_position, float p_radius);
+    ~Vampire() = default;
 
-void Witch::draw(const visual::Camera &p_camera) {
-    float fade = 0.3 + (0.7 * (getHp()/100.0f));
-    float spellSize = 2.0f * getRadius() * getSpellProgress();
+    /**
+     * @see base class
+     */
+    void processEvents() override;
 
-    glColor4f(0.7f, 0.2f, 0.7f, 0.9f);
-    p_camera.drawCircle(getPosition() + b2Vec2(0.0f, 3.0f), getAngle(), spellSize);
+    /**
+     * @see base class
+     */
+    void draw(const visual::Camera &p_camera) override;
 
-    glColor4f(0.64f, 0.29f, 0.64f, fade);
-    p_camera.drawCircle(getPosition(), getAngle(), getRadius());
-}
+};
 
 }; // end of namespace enemy
 }; // end of namespace entity
 }; // end of namespace shadow_pumpkin_caster
+

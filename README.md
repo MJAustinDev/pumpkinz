@@ -11,7 +11,7 @@
 - - ~~necromancer~~
 - - ~~witch~~
 - - ~~gravestone~~
-- - vampire (damages player projectiles)
+- - vampire
 - ~~5 basic levels (5/5)~~
 - counter
 - ~~level class (better object management)~~

@@ -79,6 +79,8 @@ void setUpLevel_5(b2World &p_world, LevelManager::LevelEntities &p_entities) {
         placeTower(b2Vec2(115.0f, static_cast<float>(i) * 8.75f));
     }
 
+    p_entities.m_vampires.push_back(std::make_shared<entity::enemy::Vampire>(p_world, b2Vec2(74.0f, (5.0f * 8.75f) + 1.0f), 1.0f));
+
     p_entities.m_necromancers.push_back(std::make_shared<entity::enemy::Necromancer>(p_world, b2Vec2(118.25f, 1.0f), 1.0f));
 }
 

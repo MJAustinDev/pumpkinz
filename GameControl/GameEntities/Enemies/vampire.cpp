@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-#include "witch.h"
+#include "vampire.h"
 
 namespace {
 
@@ -34,24 +34,24 @@ namespace shadow_pumpkin_caster {
 namespace entity {
 namespace enemy {
 
-Witch::Witch(b2World &p_world, b2Vec2 p_position, float p_radius):
+Vampire::Vampire(b2World &p_world, b2Vec2 p_position, float p_radius):
     TargetEntity(p_world, p_position, p_radius, kFragility()) {
 
 }
 
-void Witch::processEvents() {
+void Vampire::processEvents() {
     SpellCaster::processEvents();
     TargetEntity::processEvents();
 }
 
-void Witch::draw(const visual::Camera &p_camera) {
+void Vampire::draw(const visual::Camera &p_camera) {
     float fade = 0.3 + (0.7 * (getHp()/100.0f));
     float spellSize = 2.0f * getRadius() * getSpellProgress();
 
-    glColor4f(0.7f, 0.2f, 0.7f, 0.9f);
+    glColor4f(0.9f, 0.2f, 0.2f, 0.9f);
     p_camera.drawCircle(getPosition() + b2Vec2(0.0f, 3.0f), getAngle(), spellSize);
 
-    glColor4f(0.64f, 0.29f, 0.64f, fade);
+    glColor4f(0.29f, 0.29f, 0.29f, fade);
     p_camera.drawCircle(getPosition(), getAngle(), getRadius());
 }
 

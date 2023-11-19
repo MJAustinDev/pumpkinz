@@ -22,39 +22,19 @@
  * SOFTWARE.
  */
 
-#include "witch.h"
+#pragma once
 
-namespace {
-
-constexpr float kFragility() { return 0.15f; };
-
-}; // end of namespace
+#include "box2d/box2d.h"
+#include "levelManager.h"
 
 namespace shadow_pumpkin_caster {
 namespace entity {
 namespace enemy {
+namespace spell {
 
-Witch::Witch(b2World &p_world, b2Vec2 p_position, float p_radius):
-    TargetEntity(p_world, p_position, p_radius, kFragility()) {
+void vampirism(b2World &p_world, LevelManager::LevelEntities &p_entities);
 
-}
-
-void Witch::processEvents() {
-    SpellCaster::processEvents();
-    TargetEntity::processEvents();
-}
-
-void Witch::draw(const visual::Camera &p_camera) {
-    float fade = 0.3 + (0.7 * (getHp()/100.0f));
-    float spellSize = 2.0f * getRadius() * getSpellProgress();
-
-    glColor4f(0.7f, 0.2f, 0.7f, 0.9f);
-    p_camera.drawCircle(getPosition() + b2Vec2(0.0f, 3.0f), getAngle(), spellSize);
-
-    glColor4f(0.64f, 0.29f, 0.64f, fade);
-    p_camera.drawCircle(getPosition(), getAngle(), getRadius());
-}
-
+}; // end of namespace spell
 }; // end of namespace enemy
 }; // end of namespace entity
 }; // end of namespace shadow_pumpkin_caster

@@ -29,6 +29,7 @@
 #include "levels.h"
 #include "necromancy.h"
 #include "restoration.h"
+#include "vampirism.h"
 
 namespace {
 
@@ -155,6 +156,10 @@ void LevelManager::processEvents() {
     processEntityList(m_world, m_entities.m_necromancers, m_entities, canCastSpell,
                       entity::enemy::spell::necromancy);
 
+    canCastSpell = false; // TODO
+    processEntityList(m_world, m_entities.m_vampires, m_entities, canCastSpell,
+                      entity::enemy::spell::vampirism);
+
     canCastSpell = (m_entities.m_hurtEntities.size() > 0);
     processEntityList(m_world, m_entities.m_witches, m_entities, canCastSpell,
                       entity::enemy::spell::restoration);
@@ -171,6 +176,7 @@ void LevelManager::draw(const visual::Camera &p_camera) {
     drawEntityList(m_entities.m_gravestones, p_camera);
     drawEntityList(m_entities.m_necromancers, p_camera);
     drawEntityList(m_entities.m_witches, p_camera);
+    drawEntityList(m_entities.m_vampires, p_camera);
 
     m_player.draw(p_camera);
 }
@@ -200,6 +206,7 @@ void LevelManager::clearAll() {
     m_entities.m_gravestones.clear();
     m_entities.m_necromancers.clear();
     m_entities.m_witches.clear();
+    m_entities.m_vampires.clear();
     m_entities.m_hurtEntities.clear();
     m_player.clearAllDynamicEntities();
 }
