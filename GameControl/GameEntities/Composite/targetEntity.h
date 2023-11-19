@@ -44,7 +44,7 @@ public:
      * @param p_fragility magnifies the damage dealt by energy transfer
      */
     TargetEntity(b2World &p_world, b2Vec2 p_position, float p_radius, float p_fragility = 0.25f);
-    ~TargetEntity() = default;
+    ~TargetEntity();
 
     /**
      * @see base class
@@ -63,7 +63,7 @@ public:
 
 private:
 
-    // TODO - Implement enemy counter
+    static int m_counter;
 
 };
 

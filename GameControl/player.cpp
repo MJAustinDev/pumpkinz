@@ -31,7 +31,7 @@
 namespace {
 
 using input = shadow_pumpkin_caster::InputController;
-using Projectile = shadow_pumpkin_caster::entity::DynamicEntity;
+using DynamicEntity = shadow_pumpkin_caster::entity::DynamicEntity;
 using BasicSolidShot = shadow_pumpkin_caster::entity::ammo::BasicSolidShot;
 using BasicBomb = shadow_pumpkin_caster::entity::ammo::BasicBomb;
 using ExplosionParticlePtr = std::shared_ptr<shadow_pumpkin_caster::entity::ExplosionParticle>;
@@ -52,17 +52,17 @@ b2Vec2 getMouseInWorld(b2Vec2 p_playerPosition) {
     return mousePosition - p_playerPosition;
 }
 
-std::shared_ptr<Projectile> createBasicSolidShot(b2World &p_world, b2Vec2 p_position,
-                                                     float p_angle) {
+std::shared_ptr<DynamicEntity> createBasicSolidShot(b2World &p_world, b2Vec2 p_position,
+                                                    float p_angle) {
     auto round = std::make_shared<BasicSolidShot>(p_world, p_position, p_angle, 35.0f);
-    return static_cast<std::shared_ptr<Projectile>>(std::move(round));
+    return static_cast<std::shared_ptr<DynamicEntity>>(std::move(round));
 }
 
 
-std::shared_ptr<Projectile> createBasicBomb(b2World &p_world, b2Vec2 p_position, float p_angle,
-                                            std::list<ExplosionParticlePtr> &p_particleList) {
+std::shared_ptr<DynamicEntity> createBasicBomb(b2World &p_world, b2Vec2 p_position, float p_angle,
+                                               std::list<ExplosionParticlePtr> &p_particleList) {
     auto round = std::make_shared<BasicBomb>(p_world, p_position, p_angle, 135.0f, p_particleList);
-    return static_cast<std::shared_ptr<Projectile>>(std::move(round));
+    return static_cast<std::shared_ptr<DynamicEntity>>(std::move(round));
 }
 
 } // end of namespace
@@ -116,13 +116,13 @@ void Player::clearGasParticles() {
     m_particles.clear();
 }
 
-std::shared_ptr<entity::DynamicEntity> Player::fire() {
+std::shared_ptr<DynamicEntity> Player::fire() {
 
     b2Vec2 barrelPosition(std::cos(m_angle) * kBarrelLength(),
                           std::sin(m_angle) * kBarrelLength());
     barrelPosition += m_position;
 
-    std::shared_ptr<entity::DynamicEntity> round;
+    std::shared_ptr<DynamicEntity> round;
     switch (m_nextRound) {
         case RoundType::none: {
             round = nullptr;

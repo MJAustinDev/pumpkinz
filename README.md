@@ -13,7 +13,7 @@
 - - ~~gravestone~~
 - - ~~vampire~~
 - ~~5 basic levels (5/5)~~
-- counter
+- ~~counter~~
 - ~~level class (better object management)~~
 
 ## phase 4
