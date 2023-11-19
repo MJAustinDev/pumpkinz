@@ -34,7 +34,7 @@ using input = shadow_pumpkin_caster::InputController;
 using Projectile = shadow_pumpkin_caster::entity::ProjectileMarker;
 using BasicSolidShot = shadow_pumpkin_caster::entity::ammo::BasicSolidShot;
 using BasicBomb = shadow_pumpkin_caster::entity::ammo::BasicBomb;
-using ExplosionParticlePtr = std::unique_ptr<shadow_pumpkin_caster::entity::ExplosionParticle>;
+using ExplosionParticlePtr = std::shared_ptr<shadow_pumpkin_caster::entity::ExplosionParticle>;
 
 constexpr float kBarrelLength() { return 4.5f; }
 constexpr int kBarrelCooldownTime() { return 50; }
@@ -52,17 +52,17 @@ b2Vec2 getMouseInWorld(b2Vec2 p_playerPosition) {
     return mousePosition - p_playerPosition;
 }
 
-std::unique_ptr<Projectile> createBasicSolidShot(b2World &p_world, b2Vec2 p_position,
+std::shared_ptr<Projectile> createBasicSolidShot(b2World &p_world, b2Vec2 p_position,
                                                      float p_angle) {
-    auto round = std::make_unique<BasicSolidShot>(p_world, p_position, p_angle, 35.0f);
-    return static_cast<std::unique_ptr<Projectile>>(std::move(round));
+    auto round = std::make_shared<BasicSolidShot>(p_world, p_position, p_angle, 35.0f);
+    return static_cast<std::shared_ptr<Projectile>>(std::move(round));
 }
 
 
-std::unique_ptr<Projectile> createBasicBomb(b2World &p_world, b2Vec2 p_position, float p_angle,
+std::shared_ptr<Projectile> createBasicBomb(b2World &p_world, b2Vec2 p_position, float p_angle,
                                             std::list<ExplosionParticlePtr> &p_particleList) {
-    auto round = std::make_unique<BasicBomb>(p_world, p_position, p_angle, 135.0f, p_particleList);
-    return static_cast<std::unique_ptr<Projectile>>(std::move(round));
+    auto round = std::make_shared<BasicBomb>(p_world, p_position, p_angle, 135.0f, p_particleList);
+    return static_cast<std::shared_ptr<Projectile>>(std::move(round));
 }
 
 } // end of namespace
@@ -130,7 +130,7 @@ void Player::fire(RoundType p_round) {
                           std::sin(m_angle) * kBarrelLength());
     barrelPosition += m_position;
 
-    auto round = std::unique_ptr<Projectile>(nullptr);
+    auto round = std::shared_ptr<Projectile>(nullptr);
     switch (p_round) {
         case RoundType::basicSolidShot: {
             round = createBasicSolidShot(*m_world, barrelPosition, m_angle);

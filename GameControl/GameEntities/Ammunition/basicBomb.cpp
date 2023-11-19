@@ -40,7 +40,7 @@ namespace entity {
 namespace ammo {
 
 BasicBomb::BasicBomb(b2World &p_world, b2Vec2 p_position, float p_angle, float p_force,
-                     std::list<std::unique_ptr<ExplosionParticle>> &p_particleList):
+                     std::list<std::shared_ptr<ExplosionParticle>> &p_particleList):
     CircleProjectileEntity(p_world, p_position, kRadius(), p_angle, p_force, kFragility()),
     m_explosionStorage(&p_world, p_particleList) {
 
