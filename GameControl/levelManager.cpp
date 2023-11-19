@@ -27,6 +27,8 @@
 #include <functional>
 #include "levelManager.h"
 #include "levels.h"
+#include "necromancy.h"
+#include "restoration.h"
 
 namespace {
 
@@ -38,67 +40,65 @@ using Gavestone = shadow_pumpkin_caster::entity::enemy::Gravestone;
 using Skeleton = shadow_pumpkin_caster::entity::enemy::Skeleton;
 using LevelEntities = shadow_pumpkin_caster::LevelManager::LevelEntities;
 
-/**
- * Process game events for entities with no special after death abilities
- * @param p_entities list of entities contains within unique pointers
- */
 template <typename T>
-void processEntityList(std::list<std::unique_ptr<T>> &p_entities) {
-    for (auto it = p_entities.begin(); it != p_entities.end(); it++) {
-        (*it)->processEvents();
-        if ((*it)->isDead()) {
-            auto deadEntity = it--;
-            p_entities.erase(deadEntity);
-        }
-    }
-}
-
-template <typename T>
-void becomeGravestone(b2World &p_world, std::list<std::unique_ptr<Gavestone>> &p_gravestones,
-                      std::unique_ptr<T> p_ptr) {
+void becomeGravestone(b2World &p_world, std::list<std::shared_ptr<Gavestone>> &p_gravestones,
+                      std::shared_ptr<T> p_ptr) {
     p_gravestones.push_back(std::make_unique<Gavestone>(p_world, p_ptr->getPosition(),
                                                         p_ptr->getRadius()));
 }
 
 /**
- * Process game events for entities that become gravestones after death
- * @param p_world box2d world that all entities exist within
- * @param p_entities list of entities contains within unique pointers
- * @param p_gravestones list of gravestones contains within unique pointers
+ * Process game events for entities with no special after death abilities
+ * @param p_entities list of entities to process
+ * @param p_allEntities structure containing all level entities
  */
 template <typename T>
-void processEntityList(b2World &p_world, std::list<std::unique_ptr<T>> &p_entities,
-                       std::list<std::unique_ptr<Gavestone>> &p_gravestones) {
+void processEntityList(std::list<std::shared_ptr<T>> &p_entities, LevelEntities &p_allEntities) {
     for (auto it = p_entities.begin(); it != p_entities.end(); it++) {
         (*it)->processEvents();
         if ((*it)->isDead()) {
             auto deadEntity = it--;
-            becomeGravestone(p_world, p_gravestones, std::move(*deadEntity));
             p_entities.erase(deadEntity);
+        } else if ((*it)->getHp() < 100.0f) {
+            p_allEntities.m_hurtEntities.push_back(*it);
         }
     }
-}
-
-void reanimation(b2World &p_world, LevelEntities &p_entities) {
-    auto gravestonePtr = std::move(p_entities.m_gravestones.front());
-    p_entities.m_gravestones.pop_front();
-    p_entities.m_skeletons.push_back(std::make_unique<Skeleton>(p_world,
-                                                                gravestonePtr->getPosition(),
-                                                                gravestonePtr->getRadius()));
 }
 
 /**
  * Process game events for entities that become gravestones after death
  * @param p_world box2d world that all entities exist within
- * @param p_entities list of entities contains within unique pointers
- * @param p_gravestones list of gravestones contains within unique pointers
+ * @param p_entities list of entities to process
+ * @param p_allEntities structure containing all level entities
  */
 template <typename T>
-void processEntityList(b2World &p_world, std::list<std::unique_ptr<T>> &p_entities,
-                       shadow_pumpkin_caster::LevelManager::LevelEntities &p_allEntities,
-                       bool p_canCastSpell,
-                       std::function<void(b2World &p_world, LevelEntities &p_entities)> p_spell) {
+void processEntityList(b2World &p_world, std::list<std::shared_ptr<T>> &p_entities,
+                       LevelEntities &p_allEntities) {
     for (auto it = p_entities.begin(); it != p_entities.end(); it++) {
+        (*it)->processEvents();
+        if ((*it)->isDead()) {
+            auto deadEntity = it--;
+            becomeGravestone(p_world, p_allEntities.m_gravestones, std::move(*deadEntity));
+            p_entities.erase(deadEntity);
+        } else if ((*it)->getHp() < 100.0f) {
+            p_allEntities.m_hurtEntities.push_back(*it);
+        }
+    }
+}
+
+/**
+ * Process game events for spell casting entities that become gravestones after death
+ * @param p_world box2d world that all entities exist within
+ * @param p_entities list of entities to process
+ * @param p_allEntities structure containing all level entities
+ * @param p_canCastSpell whether spell casting can begin or not
+ * @param p_spell reference to the spell function
+ */
+template <typename T>
+void processEntityList(b2World &p_world, std::list<std::shared_ptr<T>> &p_processEntities,
+                       LevelEntities &p_allEntities, bool p_canCastSpell,
+                       std::function<void(b2World &p_world, LevelEntities &p_entities)> p_spell) {
+    for (auto it = p_processEntities.begin(); it != p_processEntities.end(); it++) {
         if (p_canCastSpell) {
             (*it)->beginCasting();
         }
@@ -107,10 +107,14 @@ void processEntityList(b2World &p_world, std::list<std::unique_ptr<T>> &p_entiti
         if ((*it)->isDead()) {
             auto deadEntity = it--;
             becomeGravestone(p_world, p_allEntities.m_gravestones, std::move((*deadEntity)));
-            p_entities.erase(deadEntity);
-        } else if ((*it)->isSpellCasted() && p_allEntities.m_gravestones.size() > 0) {
-            //reanimateCorpse(p_world, p_allEntities);
-            p_spell(p_world, p_allEntities);
+            p_processEntities.erase(deadEntity);
+        } else {
+            if ((*it)->getHp() < 100.0f) {
+                p_allEntities.m_hurtEntities.push_back(*it);
+            }
+            if ((*it)->isSpellCasted()) {
+                p_spell(p_world, p_allEntities);
+            }
         }
     }
 }
@@ -121,7 +125,7 @@ void processEntityList(b2World &p_world, std::list<std::unique_ptr<T>> &p_entiti
  * @param p_camera camera used to draw each entity
  */
 template <typename T>
-void drawEntityList(std::list<std::unique_ptr<T>> &p_entities, const visual::Camera &p_camera) {
+void drawEntityList(std::list<T> &p_entities, const visual::Camera &p_camera) {
     for (auto &entity : p_entities) {
         entity->draw(p_camera);
     }
@@ -143,11 +147,19 @@ LevelManager::~LevelManager() {
 
 void LevelManager::processEvents() {
     m_world.Step(kTimeStep(), kVelocityIterations(), kPositionIterations());
-    processEntityList(m_entities.m_dynamic);
-    processEntityList(m_world, m_entities.m_skeletons, m_entities.m_gravestones);
-    processEntityList(m_entities.m_gravestones);
-    bool canCastSpell = (m_entities.m_gravestones.size() != 0);
-    processEntityList(m_world, m_entities.m_necromancers, m_entities, canCastSpell, reanimation);
+    processEntityList(m_entities.m_dynamic, m_entities);
+    processEntityList(m_world, m_entities.m_skeletons, m_entities);
+    processEntityList(m_entities.m_gravestones, m_entities);
+
+    bool canCastSpell = (m_entities.m_gravestones.size() > 0);
+    processEntityList(m_world, m_entities.m_necromancers, m_entities, canCastSpell,
+                      entity::enemy::spell::necromancy);
+
+    canCastSpell = (m_entities.m_hurtEntities.size() > 0);
+    processEntityList(m_world, m_entities.m_witches, m_entities, canCastSpell,
+                      entity::enemy::spell::restoration);
+
+    m_entities.m_hurtEntities.clear();
 
     m_player.processEvents();
 }
@@ -158,6 +170,7 @@ void LevelManager::draw(const visual::Camera &p_camera) {
     drawEntityList(m_entities.m_skeletons, p_camera);
     drawEntityList(m_entities.m_gravestones, p_camera);
     drawEntityList(m_entities.m_necromancers, p_camera);
+    drawEntityList(m_entities.m_witches, p_camera);
 
     m_player.draw(p_camera);
 }
@@ -186,6 +199,8 @@ void LevelManager::clearAll() {
     m_entities.m_skeletons.clear();
     m_entities.m_gravestones.clear();
     m_entities.m_necromancers.clear();
+    m_entities.m_witches.clear();
+    m_entities.m_hurtEntities.clear();
     m_player.clearAllDynamicEntities();
 }
 

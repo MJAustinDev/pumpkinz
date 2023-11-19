@@ -22,26 +22,39 @@
  * SOFTWARE.
  */
 
-#include "circleEntity.h"
+#include "witch.h"
+
+namespace {
+
+constexpr float kFragility() { return 0.15f; };
+
+}; // end of namespace
 
 namespace shadow_pumpkin_caster {
 namespace entity {
+namespace enemy {
 
-CircleEntity::CircleEntity(b2World &p_world, b2Vec2 p_position, float p_radius, float p_fragility):
-    DynamicEntity(p_world, p_position, p_fragility),
-    m_radius(p_radius) {
+Witch::Witch(b2World &p_world, b2Vec2 p_position, float p_radius):
+    TargetEntity(p_world, p_position, p_radius, kFragility()) {
 
-    b2CircleShape shape;
-    shape.m_radius = m_radius;
-    addFixture(shape, 1.0f);
 }
 
+void Witch::processEvents() {
+    SpellCaster::processEvents();
+    TargetEntity::processEvents();
+}
 
-void CircleEntity::draw(const visual::Camera &p_camera) {
+void Witch::draw(const visual::Camera &p_camera) {
     float fade = 0.3 + (0.7 * (getHp()/100.0f));
-    glColor4f(0.1f, 0.9f, 0.9f, fade);
-    p_camera.drawCircle(getPosition(), getAngle(), m_radius);
+    float spellSize = 2.0f * getRadius() * getSpellProgress();
+
+    glColor4f(9.0f, 0.2f, 0.2f, 0.9f);
+    p_camera.drawCircle(getPosition() + b2Vec2(0.0f, 3.0f), getAngle(), spellSize);
+
+    glColor4f(0.64f, 0.29f, 0.64f, fade);
+    p_camera.drawCircle(getPosition(), getAngle(), getRadius());
 }
 
+}; // end of namespace enemy
 }; // end of namespace entity
 }; // end of namespace shadow_pumpkin_caster

@@ -26,6 +26,7 @@
 #include "blockEntity.h"
 #include "targetEntity.h"
 #include "skeleton.h"
+#include "witch.h"
 
 namespace shadow_pumpkin_caster {
 namespace level {
@@ -57,16 +58,16 @@ void setUpLevel_5(b2World &p_world, LevelManager::LevelEntities &p_entities) {
             b2Vec2(0.0f, 1.25f)
         };
 
-        addDynamic(p_entities.m_dynamic, std::make_unique<entity::BlockEntity>(p_world, p_position, kVerticalBlock));
-        addDynamic(p_entities.m_dynamic, std::make_unique<entity::BlockEntity>(p_world, p_position + b2Vec2(5.0f, 0.0f), kVerticalBlock));
-        addDynamic(p_entities.m_dynamic, std::make_unique<entity::BlockEntity>(p_world, p_position + b2Vec2(0.0f, 7.5f), kHorizontalBlock));
-        p_entities.m_skeletons.push_back(std::make_unique<entity::enemy::Skeleton>(p_world, p_position + b2Vec2(3.0f, 9.75f), 1.0f));
+        addDynamic(p_entities.m_dynamic, std::make_shared<entity::BlockEntity>(p_world, p_position, kVerticalBlock));
+        addDynamic(p_entities.m_dynamic, std::make_shared<entity::BlockEntity>(p_world, p_position + b2Vec2(5.0f, 0.0f), kVerticalBlock));
+        addDynamic(p_entities.m_dynamic, std::make_shared<entity::BlockEntity>(p_world, p_position + b2Vec2(0.0f, 7.5f), kHorizontalBlock));
+        p_entities.m_skeletons.push_back(std::make_shared<entity::enemy::Skeleton>(p_world, p_position + b2Vec2(3.0f, 9.75f), 1.0f));
     };
 
     for (int i = 0; i < 8; i++) {
         placeTower(b2Vec2(50.0f + (6.0f * static_cast<float>(i)), 0.0f));
         placeTower(b2Vec2(50.0f + (6.0f * static_cast<float>(i)), 8.75f));
-        addDynamic(p_entities.m_dynamic, std::make_unique<entity::TargetEntity>(p_world, b2Vec2(53.0f + (6.0f * static_cast<float>(i)), 1.0f), 1.0f)); // TODO WITCH
+        p_entities.m_witches.push_back(std::make_shared<entity::enemy::Witch>(p_world, b2Vec2(53.0f + (6.0f * static_cast<float>(i)), 1.0f), 1.0f));
     }
 
     for (int i = 0; i < 3; i++) {
@@ -78,7 +79,7 @@ void setUpLevel_5(b2World &p_world, LevelManager::LevelEntities &p_entities) {
         placeTower(b2Vec2(115.0f, static_cast<float>(i) * 8.75f));
     }
 
-    p_entities.m_necromancers.push_back(std::make_unique<entity::enemy::Necromancer>(p_world, b2Vec2(118.25f, 1.0f), 1.0f));
+    p_entities.m_necromancers.push_back(std::make_shared<entity::enemy::Necromancer>(p_world, b2Vec2(118.25f, 1.0f), 1.0f));
 }
 
 }; // end of namespace level

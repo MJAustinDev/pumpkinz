@@ -9,8 +9,9 @@
 - - ~~skeleton~~
 - - ~~ghost~~
 - - ~~necromancer~~
-- - witch
+- - ~~witch~~
 - - ~~gravestone~~
+- - vampire (damages player projectiles)
 - ~~5 basic levels (5/5)~~
 - counter
 - ~~level class (better object management)~~
@@ -25,6 +26,8 @@
 
 ## feature pool
 
+- LevelEntities into a class
+- bind spell function to spell caster class
 - complete control/firing
 - struct to clean up entity parameter passing
 - - include force, etc so gravestones carry on same path as deceased entity
@@ -40,8 +43,6 @@
 - verify/research KE/force damage model
 - cannon moves toward mouse direction rather than snapping
 - break total namespace down into modules (future use in other projects... not priority atm)
-- enemy types
-- - vampire
 
 # Completed Phases
 

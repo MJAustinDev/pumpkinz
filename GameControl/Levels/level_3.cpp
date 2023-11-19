@@ -56,17 +56,17 @@ void setUpLevel_3(b2World &p_world, LevelManager::LevelEntities &p_entities) {
         b2Vec2(0.0f, 1.25f)
     };
 
-    addDynamic(p_entities.m_dynamic, std::make_unique<entity::enemy::Pumpkin>(p_world, b2Vec2(58.25f, 1.0f), 1.0f));
+    addDynamic(p_entities.m_dynamic, std::make_shared<entity::enemy::Pumpkin>(p_world, b2Vec2(58.25f, 1.0f), 1.0f));
     const int kTowerHeight = 5;
     for (int i = 0; i < kTowerHeight; i++) {
         auto height = static_cast<float>(i) * 8.75f;
-        addDynamic(p_entities.m_dynamic, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(60.0f, height + 0.0f), kVerticalBlock));
-        addDynamic(p_entities.m_dynamic, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(55.0f, height + 0.0f), kVerticalBlock));
-        addDynamic(p_entities.m_dynamic, std::make_unique<entity::BlockEntity>(p_world, b2Vec2(54.5f, height + 7.5f), kHorizontalBlock));
-        addDynamic(p_entities.m_dynamic, std::make_unique<entity::enemy::Ghost>(p_world, b2Vec2(58.25f, height + 10.0f), 1.0f));
+        addDynamic(p_entities.m_dynamic, std::make_shared<entity::BlockEntity>(p_world, b2Vec2(60.0f, height + 0.0f), kVerticalBlock));
+        addDynamic(p_entities.m_dynamic, std::make_shared<entity::BlockEntity>(p_world, b2Vec2(55.0f, height + 0.0f), kVerticalBlock));
+        addDynamic(p_entities.m_dynamic, std::make_shared<entity::BlockEntity>(p_world, b2Vec2(54.5f, height + 7.5f), kHorizontalBlock));
+        addDynamic(p_entities.m_dynamic, std::make_shared<entity::enemy::Ghost>(p_world, b2Vec2(58.25f, height + 10.0f), 1.0f));
     }
-    addDynamic(p_entities.m_dynamic, std::make_unique<entity::enemy::Ghost>(p_world, b2Vec2(45.25f, 40.0f), 1.0f));
-    addDynamic(p_entities.m_dynamic, std::make_unique<entity::enemy::Ghost>(p_world, b2Vec2(70.0f, 40.0f), 1.0f));
+    addDynamic(p_entities.m_dynamic, std::make_shared<entity::enemy::Ghost>(p_world, b2Vec2(45.25f, 40.0f), 1.0f));
+    addDynamic(p_entities.m_dynamic, std::make_shared<entity::enemy::Ghost>(p_world, b2Vec2(70.0f, 40.0f), 1.0f));
 }
 
 }; // end of namespace level

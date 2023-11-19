@@ -22,26 +22,28 @@
  * SOFTWARE.
  */
 
-#include "circleEntity.h"
+#include "necromancy.h"
+#include "skeleton.h"
+#include "gravestone.h"
 
 namespace shadow_pumpkin_caster {
 namespace entity {
+namespace enemy {
+namespace spell {
 
-CircleEntity::CircleEntity(b2World &p_world, b2Vec2 p_position, float p_radius, float p_fragility):
-    DynamicEntity(p_world, p_position, p_fragility),
-    m_radius(p_radius) {
+void necromancy(b2World &p_world, LevelManager::LevelEntities &p_entities) {
+    if (p_entities.m_gravestones.size() == 0) {
+        return; // nothing to reanimate
+    }
 
-    b2CircleShape shape;
-    shape.m_radius = m_radius;
-    addFixture(shape, 1.0f);
+    auto gravestonePtr = std::move(p_entities.m_gravestones.front());
+    p_entities.m_gravestones.pop_front();
+    p_entities.m_skeletons.push_back(std::make_unique<Skeleton>(p_world,
+                                                                gravestonePtr->getPosition(),
+                                                                gravestonePtr->getRadius()));
 }
 
-
-void CircleEntity::draw(const visual::Camera &p_camera) {
-    float fade = 0.3 + (0.7 * (getHp()/100.0f));
-    glColor4f(0.1f, 0.9f, 0.9f, fade);
-    p_camera.drawCircle(getPosition(), getAngle(), m_radius);
-}
-
+}; // end of namespace spell
+}; // end of namespace enemy
 }; // end of namespace entity
 }; // end of namespace shadow_pumpkin_caster

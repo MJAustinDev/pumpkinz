@@ -22,26 +22,58 @@
  * SOFTWARE.
  */
 
-#include "circleEntity.h"
+#pragma once
 
 namespace shadow_pumpkin_caster {
 namespace entity {
+namespace enemy {
+namespace spell {
 
-CircleEntity::CircleEntity(b2World &p_world, b2Vec2 p_position, float p_radius, float p_fragility):
-    DynamicEntity(p_world, p_position, p_fragility),
-    m_radius(p_radius) {
+/**
+ * Inherited class that binds spell casting functionality
+ */
+class SpellCaster {
 
-    b2CircleShape shape;
-    shape.m_radius = m_radius;
-    addFixture(shape, 1.0f);
-}
+public:
+
+    SpellCaster() = default;
+    ~SpellCaster() = default;
+
+    /**
+     * Progresses with casting the spell
+     */
+    void processEvents();
+
+    /**
+     * Starts to cast it's spell
+     */
+    void beginCasting();
+
+    /**
+     * Indicates if the spell has been fully cast or not
+     * @return true iif the spell has completed
+     */
+    bool isSpellCasted();
+
+protected:
+
+    /**
+     * How far through casting the spell the spell caster is
+     * @return spell progress ranged between 0.0f (none) and 1.0f (complete)
+     */
+    float getSpellProgress();
+
+private:
+
+    bool m_isCasting = false;
+    float m_coolDown = 0.0f;
+    float m_spellProgress = 0.0f;
+    float m_castRate = 1.0f;
 
 
-void CircleEntity::draw(const visual::Camera &p_camera) {
-    float fade = 0.3 + (0.7 * (getHp()/100.0f));
-    glColor4f(0.1f, 0.9f, 0.9f, fade);
-    p_camera.drawCircle(getPosition(), getAngle(), m_radius);
-}
+};
 
+}; // end of namespace spell
+}; // end of namespace enemy
 }; // end of namespace entity
 }; // end of namespace shadow_pumpkin_caster

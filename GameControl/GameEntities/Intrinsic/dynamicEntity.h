@@ -75,6 +75,11 @@ public:
      */
     float getHp() { return m_hp; };
 
+    /**
+     * Heals the entity to maximum health
+     */
+    void heal() { m_hp = 100.0f; };
+
 protected:
 
     /**

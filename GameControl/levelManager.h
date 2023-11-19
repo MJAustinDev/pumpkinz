@@ -34,6 +34,7 @@
 #include "skeleton.h"
 #include "gravestone.h"
 #include "necromancer.h"
+#include "witch.h"
 
 namespace shadow_pumpkin_caster {
 
@@ -68,10 +69,13 @@ public:
      */
     struct LevelEntities {
         std::list<std::unique_ptr<entity::StaticEntity>> m_static;
-        std::list<std::unique_ptr<entity::DynamicEntity>> m_dynamic;
-        std::list<std::unique_ptr<entity::enemy::Skeleton>> m_skeletons;
-        std::list<std::unique_ptr<entity::enemy::Gravestone>> m_gravestones;
-        std::list<std::unique_ptr<entity::enemy::Necromancer>> m_necromancers;
+        std::list<std::shared_ptr<entity::DynamicEntity>> m_dynamic;
+        std::list<std::shared_ptr<entity::enemy::Skeleton>> m_skeletons;
+        std::list<std::shared_ptr<entity::enemy::Gravestone>> m_gravestones;
+        std::list<std::shared_ptr<entity::enemy::Necromancer>> m_necromancers;
+        std::list<std::shared_ptr<entity::enemy::Witch>> m_witches;
+
+        std::list<std::shared_ptr<entity::DynamicEntity>> m_hurtEntities;
     };
 
 private:
