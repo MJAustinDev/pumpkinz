@@ -40,12 +40,12 @@ public:
     ~ExplosionParticle() = default;
 
     /**
-     * See base class
+     * @see base class
      */
     void processEvents() override;
 
     /**
-     * See base class
+     * @see base class
      */
     void draw(const visual::Camera &p_camera) override;
 

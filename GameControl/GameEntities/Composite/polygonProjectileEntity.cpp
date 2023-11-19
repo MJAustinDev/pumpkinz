@@ -25,6 +25,12 @@
 #include <cmath>
 #include "polygonProjectileEntity.h"
 
+namespace {
+
+constexpr float kDegradeRate() { return 0.3f; };
+
+}; //end of namespace
+
 namespace shadow_pumpkin_caster {
 namespace entity {
 

@@ -25,12 +25,11 @@
 #pragma once
 
 #include "polygonEntity.h"
-#include "projectileMarker.h"
 
 namespace shadow_pumpkin_caster {
 namespace entity {
 
-class PolygonProjectileEntity : public PolygonEntity, public ProjectileMarker {
+class PolygonProjectileEntity : public PolygonEntity {
 
 public:
 
@@ -39,18 +38,19 @@ public:
     ~PolygonProjectileEntity() = default;
 
     /**
-     * See base class
+     * @see base class
      */
     void processEvents() override;
 
     /**
-     * See base class
+     * @see base class
      */
     void draw(const visual::Camera &p_camera) override;
 
+    /**
+     * @see base class
+     */
     bool isDead();
-
-private:
 
 };
 

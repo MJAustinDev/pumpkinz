@@ -31,7 +31,7 @@
 namespace {
 
 using input = shadow_pumpkin_caster::InputController;
-using Projectile = shadow_pumpkin_caster::entity::ProjectileMarker;
+using Projectile = shadow_pumpkin_caster::entity::DynamicEntity;
 using BasicSolidShot = shadow_pumpkin_caster::entity::ammo::BasicSolidShot;
 using BasicBomb = shadow_pumpkin_caster::entity::ammo::BasicBomb;
 using ExplosionParticlePtr = std::shared_ptr<shadow_pumpkin_caster::entity::ExplosionParticle>;
@@ -75,8 +75,7 @@ Player::Player(b2World* p_world, b2Vec2 p_position):
 }
 
 Player::~Player() {
-    m_firedRounds.clear();
-    m_particles.clear();
+    clearGasParticles();
 }
 
 void Player::processEvents() {
@@ -85,22 +84,15 @@ void Player::processEvents() {
 
     m_barrelCooldown = (--m_barrelCooldown < 0) ? 0 : m_barrelCooldown;
     if (canFire(m_barrelCooldown, GLFW_MOUSE_BUTTON_LEFT)) {
-        fire(RoundType::basicSolidShot);
+        m_nextRound = RoundType::basicSolidShot;
         m_barrelCooldown = kBarrelCooldownTime();
     }
     else if (canFire(m_barrelCooldown, GLFW_MOUSE_BUTTON_RIGHT)) {
-        fire(RoundType::basicBomb);
+        m_nextRound = RoundType::basicBomb;
         m_barrelCooldown = kBarrelCooldownTime();
     }
 
-    // process events for all fired rounds
-    for (auto it = m_firedRounds.begin(); it != m_firedRounds.end(); it++) {
-        (*it)->processEvents();
-        if ((*it)->isDead()) {
-            auto deadObj = it--;
-            m_firedRounds.erase(deadObj);
-        }
-    }
+    // process events for all explosions
     for (auto it = m_particles.begin(); it != m_particles.end(); it++) {
         (*it)->processEvents();
         if ((*it)->isDead()) {
@@ -115,23 +107,27 @@ void Player::draw(const visual::Camera &p_camera) {
     p_camera.drawCircle(m_position, 0.0f, 1.0f);
     p_camera.drawPolygon(m_position, m_angle, m_arrow);
 
-    for (auto &round : m_firedRounds) {
-        round->draw(p_camera);
-    }
     for (auto &particle: m_particles) {
         particle->draw(p_camera);
     }
 }
 
-void Player::fire(RoundType p_round) {
-    assert(p_round < RoundType::totalRounds);
+void Player::clearGasParticles() {
+    m_particles.clear();
+}
+
+std::shared_ptr<entity::DynamicEntity> Player::fire() {
 
     b2Vec2 barrelPosition(std::cos(m_angle) * kBarrelLength(),
                           std::sin(m_angle) * kBarrelLength());
     barrelPosition += m_position;
 
-    auto round = std::shared_ptr<Projectile>(nullptr);
-    switch (p_round) {
+    std::shared_ptr<entity::DynamicEntity> round;
+    switch (m_nextRound) {
+        case RoundType::none: {
+            round = nullptr;
+            break;
+        }
         case RoundType::basicSolidShot: {
             round = createBasicSolidShot(*m_world, barrelPosition, m_angle);
             break;
@@ -144,7 +140,9 @@ void Player::fire(RoundType p_round) {
         case RoundType::totalRounds: [[fallthrough]];
         default: assert(false); // round has likely not been implemented yet!
     }
-    m_firedRounds.push_back(std::move(round));
+
+    m_nextRound = RoundType::none;
+    return round;
 }
 
 }; // end of namespace shadow_pumpkin_caster

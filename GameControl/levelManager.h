@@ -78,6 +78,7 @@ public:
         std::list<std::shared_ptr<entity::enemy::Vampire>> m_vampires;
 
         std::list<std::shared_ptr<entity::DynamicEntity>> m_hurtEntities;
+        std::list<std::shared_ptr<entity::DynamicEntity>> m_projectiles;
     };
 
 private:
