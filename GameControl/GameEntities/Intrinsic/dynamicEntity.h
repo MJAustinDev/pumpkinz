@@ -76,19 +76,12 @@ public:
     float getHp() { return m_hp; };
 
     /**
-     * Heals the entity to maximum health
-     */
-    void heal() { m_hp = 100.0f; };
-
-protected:
-
-    /**
-     * Manually applies hp loss to the entity
+     * Manually applies hp change to the entity
      * @param p_hpLoss hit points to remove from the entity
      */
-    void applyDamage(float p_hpLoss) {
-        m_hp -= p_hpLoss;
-    }
+    void applyHpChange(float p_hp) { m_hp += p_hp; };
+
+protected:
 
     void setType(EntityType p_type) {
         m_bodyData.m_type = p_type;

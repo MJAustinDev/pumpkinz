@@ -29,8 +29,17 @@ namespace entity {
 namespace enemy {
 namespace spell {
 
-void vampirism(b2World &p_world, LevelManager::LevelEntities &p_entities) {
+namespace {
 
+constexpr float kDrain() { return 75.0f; }
+
+}; // end of namesapce
+
+void vampirism(b2World &p_world, LevelManager::LevelEntities &p_entities) {
+    if (p_entities.m_projectiles.size() == 0) {
+        return; // nothing to drain
+    }
+    p_entities.m_projectiles.front()->applyHpChange(-kDrain());
 }
 
 }; // end of namespace spell

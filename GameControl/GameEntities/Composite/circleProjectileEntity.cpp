@@ -47,7 +47,7 @@ CircleProjectileEntity::CircleProjectileEntity(b2World &p_world, b2Vec2 p_positi
 void CircleProjectileEntity::processEvents() {
     DynamicEntity::processEvents();
     if (getHp() < 100.0f) {
-        applyDamage(kDegradeRate());
+        applyHpChange(-kDegradeRate());
     }
 }
 

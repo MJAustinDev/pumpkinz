@@ -26,7 +26,7 @@
 
 namespace {
 
-constexpr float kFragility() { return 0.15f; };
+constexpr float kFragility() { return 0.10f; };
 
 }; // end of namespace
 
@@ -37,6 +37,7 @@ namespace enemy {
 Vampire::Vampire(b2World &p_world, b2Vec2 p_position, float p_radius):
     TargetEntity(p_world, p_position, p_radius, kFragility()) {
 
+    setType(EntityType::impactDamageImmune);
 }
 
 void Vampire::processEvents() {

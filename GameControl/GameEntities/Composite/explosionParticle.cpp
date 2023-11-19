@@ -43,7 +43,7 @@ ExplosionParticle::ExplosionParticle(b2World &p_world, b2Vec2 p_position, float 
 }
 
 void ExplosionParticle::processEvents() {
-    applyDamage(m_dissipateRate);
+    applyHpChange(-m_dissipateRate);
     DynamicEntity::processEvents();
 }
 

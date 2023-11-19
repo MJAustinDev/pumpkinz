@@ -32,8 +32,8 @@ namespace entity {
  */
 enum class EntityType {
     dynamic = 0,
-    ghost,
-    projectile
+    impactDamageImmune,
+    projectile,
 };
 
 /**

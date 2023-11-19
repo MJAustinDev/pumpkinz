@@ -32,7 +32,7 @@ namespace entity {
 namespace enemy {
 
 /**
- * Specialist enemy, damages projectile entities
+ * Specialist enemy, damages projectile entities and is immune to impact damage
  */
 class Vampire : public TargetEntity, public spell::SpellCaster {
 

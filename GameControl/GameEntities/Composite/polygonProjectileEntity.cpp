@@ -47,7 +47,7 @@ PolygonProjectileEntity::PolygonProjectileEntity(b2World &p_world, b2Vec2 p_posi
 void PolygonProjectileEntity::processEvents() {
     DynamicEntity::processEvents();
     if (getHp() < 100.0f) {
-        applyDamage(kDegradeRate());
+        applyHpChange(-kDegradeRate());
     }
 }
 
