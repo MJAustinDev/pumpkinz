@@ -22,36 +22,27 @@
  * SOFTWARE.
  */
 
-#include "explosionParticle.h"
-
-namespace {
-
-constexpr float kFragility() { return 0.0f; }
-
-} // end of namespace
+#include "vampirism.h"
 
 namespace shadow_pumpkin_caster {
 namespace entity {
+namespace enemy {
+namespace spell {
 
-ExplosionParticle::ExplosionParticle(b2World &p_world, b2Vec2 p_position, float p_radius,
-                                     float p_angle, float p_force, float p_dissipateRate):
-    CircleEntity(p_world, p_position, p_radius, kFragility()), m_dissipateRate(p_dissipateRate) {
+namespace {
 
-    setType(EntityType::projectile);
-    b2Vec2 force(std::cos(p_angle) * p_force, std::sin(p_angle) * p_force);
-    applyImpulse(force);
+constexpr float kDrain() { return 75.0f; }
+
+}; // end of namesapce
+
+void vampirism(b2World &p_world, LevelManager::LevelEntities &p_entities) {
+    if (p_entities.m_projectiles.size() == 0) {
+        return; // nothing to drain
+    }
+    p_entities.m_projectiles.front()->applyHpChange(-kDrain());
 }
 
-void ExplosionParticle::processEvents() {
-    applyHpChange(-m_dissipateRate);
-    DynamicEntity::processEvents();
-}
-
-
-void ExplosionParticle::draw(const visual::Camera &p_camera) {
-    glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
-    p_camera.drawCircle(getPosition(), 0.0f, getRadius());
-}
-
+}; // end of namespace spell
+}; // end of namespace enemy
 }; // end of namespace entity
 }; // end of namespace shadow_pumpkin_caster

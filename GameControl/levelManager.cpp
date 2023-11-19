@@ -29,6 +29,7 @@
 #include "levels.h"
 #include "necromancy.h"
 #include "restoration.h"
+#include "vampirism.h"
 
 namespace {
 
@@ -45,6 +46,21 @@ void becomeGravestone(b2World &p_world, std::list<std::shared_ptr<Gavestone>> &p
                       std::shared_ptr<T> p_ptr) {
     p_gravestones.push_back(std::make_unique<Gavestone>(p_world, p_ptr->getPosition(),
                                                         p_ptr->getRadius()));
+}
+
+/**
+ * Process game events for entities with no special after death abilities
+ * @param p_entities list of entities to process
+ */
+template <typename T>
+void processEntityList(std::list<std::shared_ptr<T>> &p_entities) {
+    for (auto it = p_entities.begin(); it != p_entities.end(); it++) {
+        (*it)->processEvents();
+        if ((*it)->isDead()) {
+            auto deadEntity = it--;
+            p_entities.erase(deadEntity);
+        }
+    }
 }
 
 /**
@@ -147,6 +163,13 @@ LevelManager::~LevelManager() {
 
 void LevelManager::processEvents() {
     m_world.Step(kTimeStep(), kVelocityIterations(), kPositionIterations());
+
+    auto round = m_player.fire();
+    if (round != nullptr) {
+        m_entities.m_projectiles.push_back(round);
+    }
+    processEntityList(m_entities.m_projectiles);
+
     processEntityList(m_entities.m_dynamic, m_entities);
     processEntityList(m_world, m_entities.m_skeletons, m_entities);
     processEntityList(m_entities.m_gravestones, m_entities);
@@ -154,6 +177,10 @@ void LevelManager::processEvents() {
     bool canCastSpell = (m_entities.m_gravestones.size() > 0);
     processEntityList(m_world, m_entities.m_necromancers, m_entities, canCastSpell,
                       entity::enemy::spell::necromancy);
+
+    canCastSpell = (m_entities.m_projectiles.size() > 0);
+    processEntityList(m_world, m_entities.m_vampires, m_entities, canCastSpell,
+                      entity::enemy::spell::vampirism);
 
     canCastSpell = (m_entities.m_hurtEntities.size() > 0);
     processEntityList(m_world, m_entities.m_witches, m_entities, canCastSpell,
@@ -171,7 +198,8 @@ void LevelManager::draw(const visual::Camera &p_camera) {
     drawEntityList(m_entities.m_gravestones, p_camera);
     drawEntityList(m_entities.m_necromancers, p_camera);
     drawEntityList(m_entities.m_witches, p_camera);
-
+    drawEntityList(m_entities.m_vampires, p_camera);
+    drawEntityList(m_entities.m_projectiles, p_camera);
     m_player.draw(p_camera);
 }
 
@@ -200,8 +228,10 @@ void LevelManager::clearAll() {
     m_entities.m_gravestones.clear();
     m_entities.m_necromancers.clear();
     m_entities.m_witches.clear();
+    m_entities.m_vampires.clear();
     m_entities.m_hurtEntities.clear();
-    m_player.clearAllDynamicEntities();
+    m_entities.m_projectiles.clear();
+    m_player.clearGasParticles();
 }
 
 }; // end of namespace shadow_pumpkin_caster

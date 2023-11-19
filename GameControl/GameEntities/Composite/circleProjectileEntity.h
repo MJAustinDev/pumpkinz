@@ -25,12 +25,11 @@
 #pragma once
 
 #include "circleEntity.h"
-#include "projectileMarker.h"
 
 namespace shadow_pumpkin_caster {
 namespace entity {
 
-class CircleProjectileEntity : public CircleEntity, public ProjectileMarker {
+class CircleProjectileEntity : public CircleEntity {
 
 public:
 
@@ -39,15 +38,18 @@ public:
     ~CircleProjectileEntity() = default;
 
     /**
-     * See base class
+     * @see base class
      */
     void processEvents() override;
 
     /**
-     * See base class
+     * @see base class
      */
     void draw(const visual::Camera &p_camera) override;
 
+    /**
+     * @see base class
+     */
     bool isDead();
 
 private:

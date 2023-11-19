@@ -25,6 +25,12 @@
 #include "circleProjectileEntity.h"
 #include "entityData.h"
 
+namespace {
+
+constexpr float kDegradeRate() { return 0.3f; };
+
+}; //end of namespace
+
 namespace shadow_pumpkin_caster {
 namespace entity {
 
@@ -41,7 +47,7 @@ CircleProjectileEntity::CircleProjectileEntity(b2World &p_world, b2Vec2 p_positi
 void CircleProjectileEntity::processEvents() {
     DynamicEntity::processEvents();
     if (getHp() < 100.0f) {
-        applyDamage(kDegradeRate());
+        applyHpChange(-kDegradeRate());
     }
 }
 

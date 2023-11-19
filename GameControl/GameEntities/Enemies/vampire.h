@@ -22,36 +22,43 @@
  * SOFTWARE.
  */
 
-#include "explosionParticle.h"
+#pragma once
 
-namespace {
-
-constexpr float kFragility() { return 0.0f; }
-
-} // end of namespace
+#include "targetEntity.h"
+#include "spellCaster.h"
 
 namespace shadow_pumpkin_caster {
 namespace entity {
+namespace enemy {
 
-ExplosionParticle::ExplosionParticle(b2World &p_world, b2Vec2 p_position, float p_radius,
-                                     float p_angle, float p_force, float p_dissipateRate):
-    CircleEntity(p_world, p_position, p_radius, kFragility()), m_dissipateRate(p_dissipateRate) {
+/**
+ * Specialist enemy, damages projectile entities and is immune to impact damage
+ */
+class Vampire : public TargetEntity, public spell::SpellCaster {
 
-    setType(EntityType::projectile);
-    b2Vec2 force(std::cos(p_angle) * p_force, std::sin(p_angle) * p_force);
-    applyImpulse(force);
-}
+public:
 
-void ExplosionParticle::processEvents() {
-    applyHpChange(-m_dissipateRate);
-    DynamicEntity::processEvents();
-}
+    /**
+     * @param p_world box2d world that the vampire exists within
+     * @param p_position vampire's position in the world
+     * @param p_radius radius of the vampire
+     */
+    Vampire(b2World &p_world, b2Vec2 p_position, float p_radius);
+    ~Vampire() = default;
 
+    /**
+     * @see base class
+     */
+    void processEvents() override;
 
-void ExplosionParticle::draw(const visual::Camera &p_camera) {
-    glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
-    p_camera.drawCircle(getPosition(), 0.0f, getRadius());
-}
+    /**
+     * @see base class
+     */
+    void draw(const visual::Camera &p_camera) override;
 
+};
+
+}; // end of namespace enemy
 }; // end of namespace entity
 }; // end of namespace shadow_pumpkin_caster
+

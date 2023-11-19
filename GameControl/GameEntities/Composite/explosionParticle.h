@@ -40,12 +40,12 @@ public:
     ~ExplosionParticle() = default;
 
     /**
-     * See base class
+     * @see base class
      */
     void processEvents() override;
 
     /**
-     * See base class
+     * @see base class
      */
     void draw(const visual::Camera &p_camera) override;
 
@@ -57,7 +57,7 @@ private:
 
 class ParticleContainer {
 
-using ParticleList = std::list<std::unique_ptr<ExplosionParticle>>;
+using ParticleList = std::list<std::shared_ptr<ExplosionParticle>>;
 
 public:
 
@@ -69,7 +69,7 @@ public:
 
     void addParticle(b2Vec2 p_position, float p_radius, float p_angle, float p_force,
                      float p_dissipateRate) {
-        auto particle = std::make_unique<ExplosionParticle>(*m_world, p_position, p_radius,
+        auto particle = std::make_shared<ExplosionParticle>(*m_world, p_position, p_radius,
                                                             p_angle, p_force, p_dissipateRate);
         m_particles->push_back(std::move(particle));
     };

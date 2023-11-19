@@ -35,6 +35,7 @@
 #include "gravestone.h"
 #include "necromancer.h"
 #include "witch.h"
+#include "vampire.h"
 
 namespace shadow_pumpkin_caster {
 
@@ -74,8 +75,10 @@ public:
         std::list<std::shared_ptr<entity::enemy::Gravestone>> m_gravestones;
         std::list<std::shared_ptr<entity::enemy::Necromancer>> m_necromancers;
         std::list<std::shared_ptr<entity::enemy::Witch>> m_witches;
+        std::list<std::shared_ptr<entity::enemy::Vampire>> m_vampires;
 
         std::list<std::shared_ptr<entity::DynamicEntity>> m_hurtEntities;
+        std::list<std::shared_ptr<entity::DynamicEntity>> m_projectiles;
     };
 
 private:

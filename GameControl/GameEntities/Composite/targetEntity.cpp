@@ -27,9 +27,16 @@
 namespace shadow_pumpkin_caster {
 namespace entity {
 
+int TargetEntity::m_counter = 0;
+
 TargetEntity::TargetEntity(b2World &p_world, b2Vec2 p_position, float p_radius, float p_fragility):
     CircleEntity(p_world, p_position, p_radius, p_fragility){
 
+    m_counter++;
+}
+
+TargetEntity::~TargetEntity() {
+    m_counter--;
 }
 
 void TargetEntity::processEvents() {

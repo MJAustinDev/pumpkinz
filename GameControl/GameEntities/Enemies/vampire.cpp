@@ -22,32 +22,40 @@
  * SOFTWARE.
  */
 
-#pragma once
+#include "vampire.h"
 
-#include "camera.h"
+namespace {
+
+constexpr float kFragility() { return 0.10f; };
+
+}; // end of namespace
 
 namespace shadow_pumpkin_caster {
 namespace entity {
+namespace enemy {
 
-/**
- * Virtual class that marks entities as projectiles
- */
-class ProjectileMarker {
+Vampire::Vampire(b2World &p_world, b2Vec2 p_position, float p_radius):
+    TargetEntity(p_world, p_position, p_radius, kFragility()) {
 
-public:
+    setType(EntityType::impactDamageImmune);
+}
 
-    ProjectileMarker() = default;
-    virtual ~ProjectileMarker() = default;
+void Vampire::processEvents() {
+    SpellCaster::processEvents();
+    TargetEntity::processEvents();
+}
 
-    virtual void processEvents() = 0;
-    virtual void draw(const visual::Camera &p_camera) = 0;
-    virtual bool isDead() = 0;
+void Vampire::draw(const visual::Camera &p_camera) {
+    float fade = 0.3 + (0.7 * (getHp()/100.0f));
+    float spellSize = 2.0f * getRadius() * getSpellProgress();
 
-protected:
+    glColor4f(0.9f, 0.2f, 0.2f, 0.9f);
+    p_camera.drawCircle(getPosition() + b2Vec2(0.0f, 3.0f), getAngle(), spellSize);
 
-    constexpr float kDegradeRate() { return 0.3f; };
+    glColor4f(0.29f, 0.29f, 0.29f, fade);
+    p_camera.drawCircle(getPosition(), getAngle(), getRadius());
+}
 
-};
-
+}; // end of namespace enemy
 }; // end of namespace entity
 }; // end of namespace shadow_pumpkin_caster

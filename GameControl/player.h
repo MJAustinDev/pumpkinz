@@ -34,7 +34,8 @@
 namespace shadow_pumpkin_caster {
 
 enum class RoundType {
-    basicSolidShot = 0,
+    none = 0,
+    basicSolidShot,
     basicBomb,
 
     totalRounds
@@ -47,25 +48,21 @@ public:
     Player(b2World* p_world, b2Vec2 p_position);
     ~Player();
 
-    void clearAllDynamicEntities() { // TODO VERY TEMPORY FUNCTION, REMOVE LATER
-        m_firedRounds.clear();
-        m_particles.clear();
-    }
+    void clearGasParticles();
 
     void processEvents();
     void draw(const visual::Camera &p_camera);
+    std::shared_ptr<entity::DynamicEntity> fire();
 
 private:
-
-    void fire(RoundType p_round);
 
     b2World* m_world;
     b2Vec2 m_position;
     float m_angle = 0.0f;
     int m_barrelCooldown = 0;
+    RoundType m_nextRound = RoundType::none;
     std::vector<b2Vec2> m_arrow = {b2Vec2(-0.5f, 0.5f), b2Vec2(-0.5f, -0.5f), b2Vec2(4.5f, 0.0f)};
-    std::list<std::unique_ptr<entity::ProjectileMarker>> m_firedRounds = {};
-    std::list<std::unique_ptr<entity::ExplosionParticle>> m_particles = {};
+    std::list<std::shared_ptr<entity::ExplosionParticle>> m_particles = {};
 
 };
 

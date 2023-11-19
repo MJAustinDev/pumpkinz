@@ -52,12 +52,12 @@ bool isDynamic(b2Body* p_body) {
 };
 
 /**
- * Verifies if an entity's type is ghost
+ * Verifies if an entity's type is 'impact damage immune'
  * @param p_bodyDataPtr ptr to entity's body data
- * @return true iff the type is ghost
+ * @return true iff the type is 'impact damage immune'
  */
-bool isGhost(bodyData* p_bodyDataPtr) {
-    return p_bodyDataPtr->m_type == shadow_pumpkin_caster::entity::EntityType::ghost;
+bool isImpactImmune(bodyData* p_bodyDataPtr) {
+    return p_bodyDataPtr->m_type == shadow_pumpkin_caster::entity::EntityType::impactDamageImmune;
 }
 
 /**
@@ -77,9 +77,9 @@ bool isProjectile(bodyData* p_bodyDataPtr) {
 void dynamicEnergyTransfer(b2Body* p_bodyA, b2Body* p_bodyB) {
     auto* dataPtrA = reinterpret_cast<bodyData*>(p_bodyA->GetUserData().pointer);
     auto* dataPtrB = reinterpret_cast<bodyData*>(p_bodyB->GetUserData().pointer);
-    if ((isGhost(dataPtrA) && !isProjectile(dataPtrB)) ||
-        (isGhost(dataPtrB) && !isProjectile(dataPtrA))) {
-        return; // ghosts only take damage from direct hits
+    if ((isImpactImmune(dataPtrA) && !isProjectile(dataPtrB)) ||
+        (isImpactImmune(dataPtrB) && !isProjectile(dataPtrA))) {
+        return; // ghosts/vampires only take damage from direct hits
     }
 
     b2Vec2 relativeVelocity = p_bodyA->GetLinearVelocity() - p_bodyB->GetLinearVelocity();
@@ -98,8 +98,8 @@ void dynamicEnergyTransfer(b2Body* p_bodyA, b2Body* p_bodyB) {
  */
 void staticEnergyTransfer(b2Body* p_bodyDynamic) {
     auto* dataPtr = reinterpret_cast<bodyData*>(p_bodyDynamic->GetUserData().pointer);
-    if (isGhost(dataPtr)) {
-        return; // ghosts don't take impact damage
+    if (isImpactImmune(dataPtr)) {
+        return; // ghosts/vampires don't take impact damage
     }
 
     float pureVelocity = calcPureVelocity(p_bodyDynamic->GetLinearVelocity());

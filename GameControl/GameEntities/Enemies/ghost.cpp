@@ -38,7 +38,7 @@ namespace enemy {
 Ghost::Ghost(b2World &p_world, b2Vec2 p_position, float p_radius):
     TargetEntity(p_world, p_position, p_radius, kFragility()) {
 
-    setType(EntityType::ghost);
+    setType(EntityType::impactDamageImmune);
 }
 
 void Ghost::processEvents() {
