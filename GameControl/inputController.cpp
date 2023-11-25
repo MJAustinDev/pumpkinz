@@ -73,6 +73,29 @@ int borderToIndex(scrBdr p_border) {
     return static_cast<int>(p_border);
 }
 
+/**
+ * Given a key code, returns the corresponding position in the boolean key array
+ * @param p_key GLFW key code
+ * @return index within m_keys if key is supported, -1 if not
+ */
+int getKeyIndex(int p_key) {
+    const int kNumberBeginIndex = 0;
+    const int kAlphabetBeginIndex = 10;
+    const int kUtilityBeginIndex = 36;
+
+    if (p_key >= GLFW_KEY_0 && p_key <= GLFW_KEY_9) {
+        return p_key - GLFW_KEY_0 + kNumberBeginIndex;
+    }
+    if (p_key >= GLFW_KEY_A && p_key <= GLFW_KEY_Z) {
+        return p_key - GLFW_KEY_A + kAlphabetBeginIndex;
+    }
+    if (p_key >= GLFW_KEY_ESCAPE && p_key <= GLFW_KEY_BACKSPACE) {
+        return p_key - GLFW_KEY_ESCAPE + kUtilityBeginIndex;
+    }
+
+    return -1; // default not supported
+}
+
 }; // end of namespace
 
 namespace shadow_pumpkin_caster{
@@ -82,29 +105,37 @@ float InputController::m_mouseY = 0.0f;
 std::array<bool, 3> InputController::m_mouseButton = {false, false, false};
 int InputController::m_scrollY = 0;
 std::array<bool, 4> InputController::m_mouseAtBorder = {false, false, false, false};
+std::array<bool, InputController::kSupportedKeys> InputController::m_keys; // set in constructor
 
 InputController::InputController(GLFWwindow* p_window) {
+    InputController::m_keys.fill(false);
     glfwSetMouseButtonCallback(p_window, handleMousePress);
     glfwSetCursorPosCallback(p_window, handleMouseMove);
     glfwSetScrollCallback(p_window, handleMouseWheel);
-};
+    glfwSetKeyCallback(p_window, handleKeyboardInput);
+}
 
 b2Vec2 InputController::getMousePosition() {
     return b2Vec2(m_mouseX, m_mouseY);
-};
+}
 
 bool InputController::getMouseButtonPressed(int p_button) {
     return (isMouseButtonValid(p_button)) && (m_mouseButton.at(p_button));
-};
+}
 
 int InputController::getScrollY() {
     int scroll = m_scrollY;
     m_scrollY = 0;
     return scroll;
-};
+}
 
 bool InputController::isMouseAtBorder(ScreenBorder p_border) {
     return m_mouseAtBorder.at(borderToIndex(p_border));
+}
+
+bool InputController::isKeyPressed(int p_key) {
+    int keyIndex = getKeyIndex(p_key);
+    return (keyIndex != -1) ? m_keys.at(keyIndex) : false;
 }
 
 void InputController::handleMousePress(GLFWwindow* p_window, int p_button, int p_action,
@@ -116,7 +147,7 @@ void InputController::handleMousePress(GLFWwindow* p_window, int p_button, int p
             default: { break; }
         }
     }
-};
+}
 
 void InputController::handleMouseMove(GLFWwindow* p_window, double p_positionX,
                                       double p_positionY) {
@@ -127,10 +158,19 @@ void InputController::handleMouseMove(GLFWwindow* p_window, double p_positionX,
     m_mouseAtBorder.at(borderToIndex(scrBdr::left)) = isAtBorder(-m_mouseX);
     m_mouseAtBorder.at(borderToIndex(scrBdr::top)) = isAtBorder(m_mouseY);
     m_mouseAtBorder.at(borderToIndex(scrBdr::bottom)) = isAtBorder(-m_mouseY);
-};
+}
 
 void InputController::handleMouseWheel(GLFWwindow* p_window, double p_offsetX, double p_offsetY) {
     m_scrollY += static_cast<int>(p_offsetY);
-};
+}
+
+void InputController::handleKeyboardInput(GLFWwindow* p_window, int p_key, int p_scancode,
+                                          int p_action, int p_modbits) {
+    int keyindex = getKeyIndex(p_key);
+
+    if (keyindex != -1) {
+        m_keys.at(keyindex) = (p_action == GLFW_PRESS) || (p_action == GLFW_REPEAT);
+    }
+}
 
 }; // end of namespace shadow_pumpkin_caster

@@ -56,6 +56,9 @@ public:
     static bool getMouseButtonPressed(int p_button);
     static int getScrollY();
     static bool isMouseAtBorder(ScreenBorder p_border);
+    static bool isKeyPressed(int p_key);
+
+    static const int kSupportedKeys = 10 + 26 + 4; // 0-9 + a-z + escape-enter-tab-backspace
 
 private:
 
@@ -68,11 +71,16 @@ private:
     /// GLFW compatible mouse wheel scroll handler
     static void handleMouseWheel(GLFWwindow* p_window, double p_offsetX, double p_offsetY);
 
+    /// GLFW compatible key press handler
+    static void handleKeyboardInput(GLFWwindow* p_window, int p_key, int p_scancode, int p_action,
+                                    int p_modbits);
+
     static float m_mouseX;
     static float m_mouseY;
     static int m_scrollY;
     static std::array<bool, 3> m_mouseButton;
     static std::array<bool, 4> m_mouseAtBorder;
+    static std::array<bool, kSupportedKeys> m_keys;
 
 };
 
