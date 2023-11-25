@@ -77,8 +77,15 @@ private:
     static void handleKeyboardInput(GLFWwindow* p_window, int p_key, int p_scancode, int p_action,
                                     int p_modbits);
 
+    /// GLFW compatible handler that resizes the view port
+    static void handleScreenChange(GLFWwindow* p_window, int p_width, int p_height);
+
     static float m_mouseX;
     static float m_mouseY;
+    static float m_screenWidth;
+    static float m_screenHeight;
+    static float m_viewportRatioX;
+    static float m_viewportRatioY;
     static int m_scrollY;
     static std::array<bool, 3> m_mouseButton;
     static std::array<bool, 4> m_mouseAtBorder;

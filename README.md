@@ -10,6 +10,7 @@
 - - ~~escape, tab, enter, backspace~~
 - screen sizing correctly
 - - wasd to move screen
+- - ~~different screen ratios handled~~
 - menu system
 - - main UI
 - - buttons

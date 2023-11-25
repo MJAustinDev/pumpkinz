@@ -39,22 +39,18 @@ int main() {
 
     srand(time(NULL));
     visual::Camera camera;
-    // glfwWindowHint(GLFW_MAXIMIZED, 1); // attempt to start with a maximised window // TODO ENABLE WHEN RATIO IS COMPLETED
+    glfwWindowHint(GLFW_MAXIMIZED, 1); // attempt to start with a maximised window
     GLFWwindow* window = glfwCreateWindow(1600, 900, "Pumpkinz", NULL, NULL); // TODO RENAME GAME...
-    InputController userInput(window, &camera);
-
     if (!window) {
         glfwTerminate();
         return -1;
     }
-
     glfwMakeContextCurrent(window);
+    InputController userInput(window, &camera);
 
-    glClearColor(0.10f,0.10f,0.25f,1.0f); // set clear colour
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // set clear colour to pure black
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); //set blending function for transparency
     glEnable(GL_BLEND);
-
-    glViewport(0, 0, 1600, 900); // TODO CHANGE VIEWPORT SO RATIO-ED
 
     glfwSwapBuffers(window);
 
@@ -81,6 +77,15 @@ int main() {
 
         if (timer < glfwGetTime()) {
             glClear(GL_COLOR_BUFFER_BIT);
+
+            // draw backing colour
+            glColor4f(0.10f, 0.10f, 0.25f, 1.0f);
+            glBegin(GL_POLYGON);
+                glVertex2f(-1.0f, -1.0f);
+                glVertex2f(-1.0f, 1.0f);
+                glVertex2f(1.0f, 1.0f);
+                glVertex2f(1.0f, -1.0f);
+            glEnd();
 
             // process game events
             levelManager.processEvents();
