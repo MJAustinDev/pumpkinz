@@ -47,7 +47,6 @@ int main() {
     }
 
     glfwMakeContextCurrent(window);
-    // glfwSetKeyCallback(window, keyHandler); // TODO KEY HANDLER FUNCTION
 
     glClearColor(0.10f,0.10f,0.25f,1.0f); // set clear colour
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); //set blending function for transparency
@@ -65,13 +64,18 @@ int main() {
 
     while (!glfwWindowShouldClose(window)) {
 
-        if (InputController::getMouseButtonPressed(GLFW_MOUSE_BUTTON_MIDDLE)) {
+        if (InputController::isKeyPressed(GLFW_KEY_ESCAPE)) {
+            glfwSetWindowShouldClose(window, GLFW_TRUE);
+            break;
+        }
+
+        if (InputController::isKeyPressed(GLFW_KEY_R)) {
             if (!reset) {
                 reset = true;
             }
         }
-        if (reset && !InputController::getMouseButtonPressed(GLFW_MOUSE_BUTTON_MIDDLE)) {
-            reset = false;
+        if (reset && !InputController::isKeyPressed(GLFW_KEY_R)) {
+            reset = false; // only reset on key release
             levelManager.reset();
         }
 
