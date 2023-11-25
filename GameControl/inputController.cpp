@@ -106,8 +106,10 @@ std::array<bool, 3> InputController::m_mouseButton = {false, false, false};
 int InputController::m_scrollY = 0;
 std::array<bool, 4> InputController::m_mouseAtBorder = {false, false, false, false};
 std::array<bool, InputController::kSupportedKeys> InputController::m_keys; // set in constructor
+visual::Camera* InputController::m_camera = nullptr;
 
-InputController::InputController(GLFWwindow* p_window) {
+InputController::InputController(GLFWwindow* p_window, visual::Camera* p_camera) {
+    m_camera = p_camera;
     InputController::m_keys.fill(false);
     glfwSetMouseButtonCallback(p_window, handleMousePress);
     glfwSetCursorPosCallback(p_window, handleMouseMove);
@@ -117,6 +119,14 @@ InputController::InputController(GLFWwindow* p_window) {
 
 b2Vec2 InputController::getMousePosition() {
     return b2Vec2(m_mouseX, m_mouseY);
+}
+
+b2Vec2 InputController::getMousePositionInWorld() {
+    b2Vec2 mousePosition = b2Vec2(m_mouseX, m_mouseY);
+    mousePosition *= (1.0f / m_camera->getZoom()); // divide by camera zoom
+    mousePosition += m_camera->getPosition(); // shift by camera's position
+
+    return mousePosition;
 }
 
 bool InputController::getMouseButtonPressed(int p_button) {

@@ -43,15 +43,6 @@ bool canFire(int p_cooldown, int p_button) {
     return (p_cooldown == 0) && (input::getMouseButtonPressed(p_button));
 }
 
-b2Vec2 getMouseInWorld(b2Vec2 p_playerPosition) {
-    b2Vec2 mousePosition = input::getMousePosition();
-    mousePosition.x /= 0.01f; // TODO ASSUMING CONSTANT ZOOM, ADDRESS THIS LATER
-    mousePosition.y /= 0.01f;
-    mousePosition += b2Vec2(40.0f, 0.0f); // TODO INTERGRATE CAMERA POSITION
-
-    return mousePosition - p_playerPosition;
-}
-
 std::shared_ptr<DynamicEntity> createBasicSolidShot(b2World &p_world, b2Vec2 p_position,
                                                     float p_angle) {
     auto round = std::make_shared<BasicSolidShot>(p_world, p_position, p_angle, 35.0f);
@@ -79,8 +70,8 @@ Player::~Player() {
 }
 
 void Player::processEvents() {
-    b2Vec2 mousePosition = getMouseInWorld(m_position);
-    m_angle = std::atan2(mousePosition.y, mousePosition.x);
+    b2Vec2 mouseDisplacement = input::getMousePositionInWorld() - m_position;
+    m_angle = std::atan2(mouseDisplacement.y, mouseDisplacement.x);
 
     m_barrelCooldown = (--m_barrelCooldown < 0) ? 0 : m_barrelCooldown;
     if (canFire(m_barrelCooldown, GLFW_MOUSE_BUTTON_LEFT)) {

@@ -27,6 +27,7 @@
 #include "GLFW/glfw3.h"
 #include "box2d/box2d.h"
 #include <array>
+#include "camera.h"
 
 namespace shadow_pumpkin_caster {
 
@@ -49,10 +50,11 @@ class InputController {
 
 public:
 
-    InputController(GLFWwindow* p_window);
+    InputController(GLFWwindow* p_window, visual::Camera* p_camera);
     ~InputController() = default;
 
     static b2Vec2 getMousePosition();
+    static b2Vec2 getMousePositionInWorld();
     static bool getMouseButtonPressed(int p_button);
     static int getScrollY();
     static bool isMouseAtBorder(ScreenBorder p_border);
@@ -81,6 +83,7 @@ private:
     static std::array<bool, 3> m_mouseButton;
     static std::array<bool, 4> m_mouseAtBorder;
     static std::array<bool, kSupportedKeys> m_keys;
+    static visual::Camera* m_camera; // none owning
 
 };
 

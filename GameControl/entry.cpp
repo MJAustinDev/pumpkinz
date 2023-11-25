@@ -37,9 +37,11 @@ int main() {
         return -1;
     }
 
+    srand(time(NULL));
+    visual::Camera camera;
     // glfwWindowHint(GLFW_MAXIMIZED, 1); // attempt to start with a maximised window // TODO ENABLE WHEN RATIO IS COMPLETED
     GLFWwindow* window = glfwCreateWindow(1600, 900, "Pumpkinz", NULL, NULL); // TODO RENAME GAME...
-    InputController userInput(window);
+    InputController userInput(window, &camera);
 
     if (!window) {
         glfwTerminate();
@@ -56,8 +58,6 @@ int main() {
 
     glfwSwapBuffers(window);
 
-    srand(time(NULL));
-    visual::Camera camera;
     float timer = glfwGetTime();
     bool reset = false; // TODO REMOVE TEMPORY LEVEL SELECTION SYSTEM
     LevelManager levelManager;

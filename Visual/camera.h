@@ -37,6 +37,10 @@ public:
     Camera() = default;
     ~Camera() = default;
 
+    float getZoom() { return m_zoom; };
+
+    b2Vec2 getPosition() { return m_pos; };
+
     /**
      * Draws a polygon to the screen
      * @param p_centre polygons centre in the world
