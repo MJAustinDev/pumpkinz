@@ -2,30 +2,34 @@
 
 # TODO
 
-## phase 3
-
-- enemy types
-- - ~~pumpkin~~
-- - ~~skeleton~~
-- - ~~ghost~~
-- - ~~necromancer~~
-- - ~~witch~~
-- - ~~gravestone~~
-- - ~~vampire~~
-- ~~5 basic levels (5/5)~~
-- ~~counter~~
-- ~~level class (better object management)~~
-
 ## phase 4
 
 - keyboard input
+- - A-Z
+- - 0-9
 - screen sizing correctly
+- - wasd to move screen
 - menu system
+- - main UI
+- - buttons
 - level system
+- - UI
+- - regions
+- - - pumpkin patch
+- - - haunted house
+- - - cemetery
+- - - cursed forest
+- - - 'vampire castle' pick a better name lol
+- score system
+- - pass, bronze, silver, gold score per level
+- - expensive shots decrease score more
+- weapon/ammo selection
+- - UI selection
 - clean level code
 
 ## feature pool
 
+- background with 'aim-assisting' grids
 - LevelEntities into a class
 - bind spell function to spell caster class
 - complete control/firing
@@ -38,6 +42,9 @@
 - more advanced ammo types
 - shields
 - fancy graphics
+- - entities
+- - background
+- - cannon
 - cannon camera if looking in the distance
 - toolbox project (contains useful block shapes... good for other projects)
 - verify/research KE/force damage model
@@ -89,3 +96,17 @@
 - - ~~wheel~~
 - ~~cleaner license~~
 - ~~total namespace~~
+
+## phase 3
+
+- ~~enemy types~~
+- - ~~pumpkin~~
+- - ~~skeleton~~
+- - ~~ghost~~
+- - ~~necromancer~~
+- - ~~witch~~
+- - ~~gravestone~~
+- - ~~vampire~~
+- ~~5 basic levels (5/5)~~
+- ~~counter~~
+- ~~level class (better object management)~~
