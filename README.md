@@ -4,9 +4,10 @@
 
 ## phase 4
 
-- keyboard input
-- - A-Z
-- - 0-9
+- ~~keyboard input~~
+- - ~~A-Z~~
+- - ~~0-9~~
+- - ~~escape, tab, enter, backspace~~
 - screen sizing correctly
 - - wasd to move screen
 - menu system
