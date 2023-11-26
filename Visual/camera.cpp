@@ -51,9 +51,9 @@ constexpr float kMaximumZoom() { return 0.2f; }
 namespace visual {
 
 void Camera::moveBy(b2Vec2 p_position, float p_zoom) {
-        m_position += p_position;
-        m_zoom += p_zoom;
-        catchZoom();
+    m_position += p_position;
+    m_zoom += p_zoom;
+    catchZoom();
 }
 
 void Camera::placePoint(b2Vec2 p_position) const {
