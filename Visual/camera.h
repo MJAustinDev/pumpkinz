@@ -37,6 +37,10 @@ public:
     Camera() = default;
     ~Camera() = default;
 
+    float getZoom() { return m_zoom; };
+
+    b2Vec2 getPosition() { return m_position; };
+
     /**
      * Draws a polygon to the screen
      * @param p_centre polygons centre in the world
@@ -53,16 +57,28 @@ public:
      */
     void drawCircle(b2Vec2 p_centre, float p_angle, float p_radius) const;
 
+    /**
+     * Shifts the camera's location and zoom around
+     * @param p_position vector to add to the current location
+     * @param p_zoom change in zoom to add to the current zoom
+     */
+    void moveBy(b2Vec2 p_position, float p_zoom);
+
 private:
 
     /**
-     * Places a point to the screen relative to the camera's position
-     * @param p_pos position of the point in the world
+     * Prevents camera's zoom betting to large or small
      */
-    void placePoint(b2Vec2 p_pos) const;
+    void catchZoom();
+
+    /**
+     * Places a point to the screen relative to the camera's position
+     * @param p_position position of the point in the world
+     */
+    void placePoint(b2Vec2 p_position) const;
 
     float m_zoom = 0.01f;
-    b2Vec2 m_pos = b2Vec2(40.0f, 0.0f);
+    b2Vec2 m_position = b2Vec2(40.0f, 0.0f);
 
 };
 

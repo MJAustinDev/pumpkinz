@@ -8,8 +8,10 @@
 - - ~~A-Z~~
 - - ~~0-9~~
 - - ~~escape, tab, enter, backspace~~
-- screen sizing correctly
-- - wasd to move screen
+- ~~screen sizing correctly~~
+- - ~~wasd to move screen~~
+- - ~~zoom via wheel~~
+- - ~~different screen ratios handled~~
 - menu system
 - - main UI
 - - buttons
@@ -37,7 +39,6 @@
 - struct to clean up entity parameter passing
 - - include force, etc so gravestones carry on same path as deceased entity
 - - include density, ghost should be less dense
-- zoom via wheel
 - block destruction (breaking up)
 - look into re-vamp-ing... hehehe the input controller (more functional than class)
 - more advanced ammo types

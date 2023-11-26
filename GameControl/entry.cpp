@@ -37,27 +37,23 @@ int main() {
         return -1;
     }
 
-    // glfwWindowHint(GLFW_MAXIMIZED, 1); // attempt to start with a maximised window // TODO ENABLE WHEN RATIO IS COMPLETED
+    srand(time(NULL));
+    visual::Camera camera;
+    glfwWindowHint(GLFW_MAXIMIZED, 1); // attempt to start with a maximised window
     GLFWwindow* window = glfwCreateWindow(1600, 900, "Pumpkinz", NULL, NULL); // TODO RENAME GAME...
-    InputController userInput(window);
-
     if (!window) {
         glfwTerminate();
         return -1;
     }
-
     glfwMakeContextCurrent(window);
+    InputController userInput(window, &camera);
 
-    glClearColor(0.10f,0.10f,0.25f,1.0f); // set clear colour
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // set clear colour to pure black
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); //set blending function for transparency
     glEnable(GL_BLEND);
 
-    glViewport(0, 0, 1600, 900); // TODO CHANGE VIEWPORT SO RATIO-ED
-
     glfwSwapBuffers(window);
 
-    srand(time(NULL));
-    visual::Camera camera;
     float timer = glfwGetTime();
     bool reset = false; // TODO REMOVE TEMPORY LEVEL SELECTION SYSTEM
     LevelManager levelManager;
@@ -79,8 +75,38 @@ int main() {
             levelManager.reset();
         }
 
+        // TODO INTEGRATE CONTROLS WITH GAME/LEVEL MANAGEMENT
+        b2Vec2 cameraShift(0.0f, 0.0f);
+        const float kShiftAmount = 0.0005f;
+        if (InputController::isKeyPressed(GLFW_KEY_A)) {
+            cameraShift.x -= kShiftAmount;
+        }
+        if (InputController::isKeyPressed(GLFW_KEY_D)) {
+            cameraShift.x += kShiftAmount;
+        }
+
+        if (InputController::isKeyPressed(GLFW_KEY_W)) {
+            cameraShift.y += kShiftAmount;
+        }
+
+        if (InputController::isKeyPressed(GLFW_KEY_S)) {
+            cameraShift.y -= kShiftAmount;
+        }
+
+        auto scroll = static_cast<float>(InputController::getScrollY());
+        camera.moveBy(cameraShift, 0.01f * scroll);
+
         if (timer < glfwGetTime()) {
             glClear(GL_COLOR_BUFFER_BIT);
+
+            // draw backing colour
+            glColor4f(0.10f, 0.10f, 0.25f, 1.0f);
+            glBegin(GL_POLYGON);
+                glVertex2f(-1.0f, -1.0f);
+                glVertex2f(-1.0f, 1.0f);
+                glVertex2f(1.0f, 1.0f);
+                glVertex2f(1.0f, -1.0f);
+            glEnd();
 
             // process game events
             levelManager.processEvents();

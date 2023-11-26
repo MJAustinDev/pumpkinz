@@ -29,6 +29,8 @@ namespace {
 using scrBdr = shadow_pumpkin_caster::ScreenBorder;
 
 constexpr float kScreenBorder() { return 0.9f; }
+constexpr float kResolutionWidth() { return 1600.0f; }
+constexpr float kResolutionHeight() { return 960.0f; }
 
 /**
  * Converts raw pixel position coordinate to GLFW screen coordinate (-1.0f to 1.0f)
@@ -102,21 +104,41 @@ namespace shadow_pumpkin_caster{
 
 float InputController::m_mouseX = 0.0f;
 float InputController::m_mouseY = 0.0f;
-std::array<bool, 3> InputController::m_mouseButton = {false, false, false};
+float InputController::m_screenWidth = 0.0f;
+float InputController::m_screenHeight = 0.0f;
+float InputController::m_viewportRatioX = 0.0f;
+float InputController::m_viewportRatioY = 0.0f;
 int InputController::m_scrollY = 0;
+std::array<bool, 3> InputController::m_mouseButton = {false, false, false};
 std::array<bool, 4> InputController::m_mouseAtBorder = {false, false, false, false};
 std::array<bool, InputController::kSupportedKeys> InputController::m_keys; // set in constructor
+visual::Camera* InputController::m_camera = nullptr;
 
-InputController::InputController(GLFWwindow* p_window) {
+InputController::InputController(GLFWwindow* p_window, visual::Camera* p_camera) {
+    m_camera = p_camera;
     InputController::m_keys.fill(false);
     glfwSetMouseButtonCallback(p_window, handleMousePress);
     glfwSetCursorPosCallback(p_window, handleMouseMove);
     glfwSetScrollCallback(p_window, handleMouseWheel);
     glfwSetKeyCallback(p_window, handleKeyboardInput);
+    glfwSetWindowSizeCallback(p_window, handleScreenChange);
+
+    // force screen resolution to be correct
+    int screenWidth, screenHeight;
+    glfwGetWindowSize(p_window, &screenWidth, &screenHeight);
+    handleScreenChange(p_window, screenWidth, screenHeight);
 }
 
 b2Vec2 InputController::getMousePosition() {
     return b2Vec2(m_mouseX, m_mouseY);
+}
+
+b2Vec2 InputController::getMousePositionInWorld() {
+    b2Vec2 mousePosition = b2Vec2(m_mouseX, m_mouseY);
+    mousePosition *= (1.0f / m_camera->getZoom()); // divide by camera zoom
+    mousePosition += m_camera->getPosition(); // shift by camera's position
+
+    return mousePosition;
 }
 
 bool InputController::getMouseButtonPressed(int p_button) {
@@ -151,8 +173,12 @@ void InputController::handleMousePress(GLFWwindow* p_window, int p_button, int p
 
 void InputController::handleMouseMove(GLFWwindow* p_window, double p_positionX,
                                       double p_positionY) {
-    m_mouseX = calcScreenPosition(static_cast<float>(p_positionX), 1600, true);
-    m_mouseY = calcScreenPosition(static_cast<float>(p_positionY), 900, false);
+    m_mouseX = calcScreenPosition(static_cast<float>(p_positionX), m_screenWidth, true);
+    m_mouseY = calcScreenPosition(static_cast<float>(p_positionY), m_screenHeight, false);
+
+    // shift mouse coordinates relative to view port
+    m_mouseX *= m_viewportRatioX;
+    m_mouseY *= m_viewportRatioY;
 
     m_mouseAtBorder.at(borderToIndex(scrBdr::right)) = isAtBorder(m_mouseX);
     m_mouseAtBorder.at(borderToIndex(scrBdr::left)) = isAtBorder(-m_mouseX);
@@ -171,6 +197,28 @@ void InputController::handleKeyboardInput(GLFWwindow* p_window, int p_key, int p
     if (keyindex != -1) {
         m_keys.at(keyindex) = (p_action == GLFW_PRESS) || (p_action == GLFW_REPEAT);
     }
+}
+
+void InputController::handleScreenChange(GLFWwindow* p_window, int p_width, int p_height) {
+    float screenWidth = static_cast<float>(p_width);
+    float screenHeight = static_cast<float>(p_height);
+    float widthRatio = screenWidth / kResolutionWidth();
+    float heightRatio = screenHeight / kResolutionHeight();
+
+    float stretch = (widthRatio >= heightRatio) ? heightRatio : widthRatio; // use smallest ratio
+    // set view port dimensions
+    float vpW = stretch * kResolutionWidth();
+    float vpH = stretch * kResolutionHeight();
+    // set view port starting points (half of the empty space to centre the screen)
+    float vpX = (screenWidth - vpW) / 2.0f;
+    float vpY = (screenHeight - vpH) / 2.0f;
+
+    // set tracker variables and resize view port
+    m_screenWidth = screenWidth;
+    m_screenHeight = screenHeight;
+    m_viewportRatioX = screenWidth / vpW;
+    m_viewportRatioY = screenHeight / vpH;
+    glViewport(vpX, vpY, vpW, vpH);
 }
 
 }; // end of namespace shadow_pumpkin_caster
