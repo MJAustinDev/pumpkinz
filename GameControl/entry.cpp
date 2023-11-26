@@ -75,6 +75,27 @@ int main() {
             levelManager.reset();
         }
 
+        // TODO INTEGRATE CONTROLS WITH GAME/LEVEL MANAGEMENT
+        b2Vec2 cameraShift(0.0f, 0.0f);
+        const float kShiftAmount = 0.0005f;
+        if (InputController::isKeyPressed(GLFW_KEY_A)) {
+            cameraShift.x -= kShiftAmount;
+        }
+        if (InputController::isKeyPressed(GLFW_KEY_D)) {
+            cameraShift.x += kShiftAmount;
+        }
+
+        if (InputController::isKeyPressed(GLFW_KEY_W)) {
+            cameraShift.y += kShiftAmount;
+        }
+
+        if (InputController::isKeyPressed(GLFW_KEY_S)) {
+            cameraShift.y -= kShiftAmount;
+        }
+
+        auto scroll = static_cast<float>(InputController::getScrollY());
+        camera.moveBy(cameraShift, 0.01f * scroll);
+
         if (timer < glfwGetTime()) {
             glClear(GL_COLOR_BUFFER_BIT);
 

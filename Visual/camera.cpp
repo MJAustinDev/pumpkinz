@@ -37,24 +37,29 @@ b2Vec2 affineRotate(b2Vec2 p_point, float p_angle) {
                   (p_point.y * cos(p_angle)) + (p_point.x * sin(p_angle)));
 };
 
-/**
- * returns how many sides a 'circle' should have
- */
+/// how many sides a 'circle' should have
 constexpr int kCircleResolution() { return 12; };
 
-/**
- * returns the angular size of each circle segment
- */
-constexpr float kSegmentSize() { return (2.0f * M_PI) / static_cast<float>(kCircleResolution()); };
+/// angular size of each circle segment
+constexpr float kSegmentSize() { return (2.0f * M_PI) / static_cast<float>(kCircleResolution()); }
+
+constexpr float kMinimumZoom() { return 0.01f; }
+constexpr float kMaximumZoom() { return 0.2f; }
 
 }; // end of namespace
 
 namespace visual {
 
-void Camera::placePoint(b2Vec2 p_pos) const {
-    p_pos -= m_pos;
-    p_pos *= m_zoom;
-    glVertex2f(p_pos.x, p_pos.y);
+void Camera::moveBy(b2Vec2 p_position, float p_zoom) {
+        m_position += p_position;
+        m_zoom += p_zoom;
+        catchZoom();
+}
+
+void Camera::placePoint(b2Vec2 p_position) const {
+    p_position -= m_position;
+    p_position *= m_zoom;
+    glVertex2f(p_position.x, p_position.y);
 }
 
 void Camera::drawPolygon(b2Vec2 p_centre, float p_angle, std::vector<b2Vec2> &p_shape) const {
@@ -72,6 +77,14 @@ void Camera::drawCircle(b2Vec2 p_centre, float p_angle, float p_radius) const {
         placePoint(p_centre + affineRotate(b2Vec2(p_radius, 0.0f), angle));
     }
     glEnd();
+}
+
+void Camera::catchZoom() {
+    if (m_zoom < kMinimumZoom()) {
+        m_zoom = kMinimumZoom();
+    } else if (m_zoom > kMaximumZoom()) {
+        m_zoom = kMaximumZoom();
+    }
 }
 
 }; // end of namespace visual
