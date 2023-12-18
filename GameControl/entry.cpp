@@ -21,6 +21,7 @@
 #include "player.h"
 #include "inputController.h"
 #include "levelManager.h"
+#include "menuButton.h"
 
 using namespace shadow_pumpkin_caster;
 
@@ -56,7 +57,7 @@ int main() {
 
     float timer = glfwGetTime();
     bool reset = false; // TODO REMOVE TEMPORY LEVEL SELECTION SYSTEM
-    LevelManager levelManager;
+    //LevelManager levelManager;
 
     while (!glfwWindowShouldClose(window)) {
 
@@ -65,6 +66,7 @@ int main() {
             break;
         }
 
+        /*
         if (InputController::isKeyPressed(GLFW_KEY_R)) {
             if (!reset) {
                 reset = true;
@@ -73,7 +75,7 @@ int main() {
         if (reset && !InputController::isKeyPressed(GLFW_KEY_R)) {
             reset = false; // only reset on key release
             levelManager.reset();
-        }
+        }*/
 
         // TODO INTEGRATE CONTROLS WITH GAME/LEVEL MANAGEMENT
         b2Vec2 cameraShift(0.0f, 0.0f);
@@ -109,8 +111,8 @@ int main() {
             glEnd();
 
             // process game events
-            levelManager.processEvents();
-            levelManager.draw(camera);
+            //levelManager.processEvents();
+            //levelManager.draw(camera);
 
             glColor4f(1.0f, 0.2f, 0.2f, 0.5f); // TODO REMOVE TESTING WATER BOX
             camera.drawPolygon(b2Vec2(0.0f, -10.0f), 0.0f, waterPoints);
