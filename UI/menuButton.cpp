@@ -22,49 +22,32 @@
  * SOFTWARE.
  */
 
-#pragma once
-
-#include "box2d/box2d.h"
-#include <vector>
+#include "menuButton.h"
+#include "camera.h"
+#include "inputController.h"
 
 namespace shadow_pumpkin_caster {
 
-/**
- * Wrapper for button's shape coordinates
- */
-struct ButtonCoords {
+MenuButton::MenuButton(ButtonCoords p_coordShape) : m_coordShape(p_coordShape) {
+    m_drawShape = {b2Vec2(m_coordShape.m_minX, m_coordShape.m_maxY),
+                   b2Vec2(m_coordShape.m_minX, m_coordShape.m_minY),
+                   b2Vec2(m_coordShape.m_maxX, m_coordShape.m_minY),
+                   b2Vec2(m_coordShape.m_maxX, m_coordShape.m_maxY)
+    };
+}
 
-    ButtonCoords(float p_minX, float p_maxX, float p_minY, float p_maxY):
-        m_minX(p_minX), m_maxX(p_maxX), m_minY(p_minY), m_maxY(p_maxY) {
-    }
+void MenuButton::draw() {
+    float transparency = (isMouseHovering()) ? 1.0f : 0.5f;
+    glColor4f(1.0f, 1.0f, 0.0f, transparency);
+    visual::drawAbsolutePolygon(m_drawShape);
+}
 
-    float m_minX;
-    float m_maxX;
-    float m_minY;
-    float m_maxY;
-};
+bool MenuButton::isMouseHovering() {
+    b2Vec2 pos = InputController::getMousePosition();
+    bool isInside = pos.x >= m_coordShape.m_minX && pos.x <= m_coordShape.m_maxX &&
+                    pos.y >= m_coordShape.m_minY && pos.y <= m_coordShape.m_maxY;
 
-class MenuButton {
-
-public:
-
-    MenuButton(ButtonCoords p_coordShape);
-    ~MenuButton() = default;
-
-    void process();
-
-    /**
-     * Draws the menu button to the screen
-     */
-    void draw();
-
-private:
-
-    ButtonCoords m_coordShape;
-    std::vector<b2Vec2> m_drawShape;
-
-    bool isMouseHovering();
-
-};
+    return isInside;
+}
 
 }; // end of namespace shadow_pumpkin_caster

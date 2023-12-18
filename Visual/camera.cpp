@@ -50,6 +50,14 @@ constexpr float kMaximumZoom() { return 0.2f; }
 
 namespace visual {
 
+void drawAbsolutePolygon(std::vector<b2Vec2> &p_shape) {
+    glBegin(GL_POLYGON);
+    for (auto &point : p_shape) {
+        glVertex2f(point.x, point.y);
+    }
+    glEnd();
+}
+
 void Camera::moveBy(b2Vec2 p_position, float p_zoom) {
     m_position += p_position;
     m_zoom += p_zoom;

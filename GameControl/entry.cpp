@@ -27,6 +27,8 @@ using namespace shadow_pumpkin_caster;
 
 int main() {
 
+    MenuButton m1(ButtonCoords(-0.5f, 0.5f, 0.7f, 0.9f));
+
     std::vector<b2Vec2> waterPoints = {
         b2Vec2(-500.0f, 0.5f),
         b2Vec2(-500.0f, -0.5f),
@@ -109,6 +111,8 @@ int main() {
                 glVertex2f(1.0f, 1.0f);
                 glVertex2f(1.0f, -1.0f);
             glEnd();
+
+            m1.draw();
 
             // process game events
             //levelManager.processEvents();
