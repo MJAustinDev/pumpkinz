@@ -22,32 +22,46 @@
  * SOFTWARE.
  */
 
+#include "menuPage.h"
 #include "menuButton.h"
-#include "camera.h"
-#include "inputController.h"
+
+namespace {
+
+using ButtonCoords = shadow_pumpkin_caster::ButtonCoords;
+
+ButtonCoords shift(ButtonCoords p_coord, float p_shift) {
+    p_coord.m_minY += p_shift;
+    p_coord.m_maxY += p_shift;
+    return p_coord;
+}
+
+constexpr ButtonCoords kButtonShape() {
+    return {.m_minX = -0.5f, .m_maxX = 0.5f, .m_minY = -0.1f, .m_maxY = 0.2f};
+}
+
+constexpr float kPlayGamePos() { return 0.7f; }
+constexpr float kLevelSelectPos() { return 0.2f; }
+constexpr float kHelpPos() { return -0.3f; }
+constexpr float kQuitPos() { return -0.8f; }
+
+} // end of namespace
 
 namespace shadow_pumpkin_caster {
 
-MenuButton::MenuButton(ButtonCoords p_coordShape) : m_coordShape(p_coordShape) {
-    m_drawShape = {b2Vec2(m_coordShape.m_minX, m_coordShape.m_maxY),
-                   b2Vec2(m_coordShape.m_minX, m_coordShape.m_minY),
-                   b2Vec2(m_coordShape.m_maxX, m_coordShape.m_minY),
-                   b2Vec2(m_coordShape.m_maxX, m_coordShape.m_maxY)
-    };
-}
+void turnToMainMenu(Page &p_page) {
+    resetPage(p_page);
 
-void MenuButton::draw() {
-    float transparency = (isMouseHovering()) ? 1.0f : 0.5f;
-    glColor4f(1.0f, 0.6f, 0.1f, transparency);
-    visual::drawAbsolutePolygon(m_drawShape);
-}
+    MenuButton playGame(shift(kButtonShape(), kPlayGamePos()));
+    addButton(p_page, playGame);
 
-bool MenuButton::isMouseHovering() {
-    b2Vec2 pos = InputController::getMousePosition();
-    bool isInside = pos.x >= m_coordShape.m_minX && pos.x <= m_coordShape.m_maxX &&
-                    pos.y >= m_coordShape.m_minY && pos.y <= m_coordShape.m_maxY;
+    MenuButton levelSelect(shift(kButtonShape(), kLevelSelectPos()));
+    addButton(p_page, levelSelect);
 
-    return isInside;
+    MenuButton help(shift(kButtonShape(), kHelpPos()));
+    addButton(p_page, help);
+
+    MenuButton quit(shift(kButtonShape(), kQuitPos()));
+    addButton(p_page, quit);
 }
 
 }; // end of namespace shadow_pumpkin_caster

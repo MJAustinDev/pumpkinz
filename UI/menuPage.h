@@ -22,32 +22,23 @@
  * SOFTWARE.
  */
 
+#pragma once
+
+#include <list>
 #include "menuButton.h"
-#include "camera.h"
-#include "inputController.h"
 
 namespace shadow_pumpkin_caster {
 
-MenuButton::MenuButton(ButtonCoords p_coordShape) : m_coordShape(p_coordShape) {
-    m_drawShape = {b2Vec2(m_coordShape.m_minX, m_coordShape.m_maxY),
-                   b2Vec2(m_coordShape.m_minX, m_coordShape.m_minY),
-                   b2Vec2(m_coordShape.m_maxX, m_coordShape.m_minY),
-                   b2Vec2(m_coordShape.m_maxX, m_coordShape.m_maxY)
-    };
-}
+struct Page {
 
-void MenuButton::draw() {
-    float transparency = (isMouseHovering()) ? 1.0f : 0.5f;
-    glColor4f(1.0f, 0.6f, 0.1f, transparency);
-    visual::drawAbsolutePolygon(m_drawShape);
-}
+    std::list<MenuButton> m_buttons;
 
-bool MenuButton::isMouseHovering() {
-    b2Vec2 pos = InputController::getMousePosition();
-    bool isInside = pos.x >= m_coordShape.m_minX && pos.x <= m_coordShape.m_maxX &&
-                    pos.y >= m_coordShape.m_minY && pos.y <= m_coordShape.m_maxY;
+};
 
-    return isInside;
-}
+void resetPage(Page &p_page);
+
+void drawPage(Page &p_page);
+
+void addButton(Page &p_page, MenuButton &p_button);
 
 }; // end of namespace shadow_pumpkin_caster

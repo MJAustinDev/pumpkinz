@@ -22,32 +22,26 @@
  * SOFTWARE.
  */
 
-#include "menuButton.h"
-#include "camera.h"
-#include "inputController.h"
+#pragma once
+
+#include "menuPage.h"
 
 namespace shadow_pumpkin_caster {
 
-MenuButton::MenuButton(ButtonCoords p_coordShape) : m_coordShape(p_coordShape) {
-    m_drawShape = {b2Vec2(m_coordShape.m_minX, m_coordShape.m_maxY),
-                   b2Vec2(m_coordShape.m_minX, m_coordShape.m_minY),
-                   b2Vec2(m_coordShape.m_maxX, m_coordShape.m_minY),
-                   b2Vec2(m_coordShape.m_maxX, m_coordShape.m_maxY)
-    };
-}
+enum class PageType {
+    none = 0,
+    mainMenu,
+    levelSelect,
+    MissionSelect,
+    help
+};
 
-void MenuButton::draw() {
-    float transparency = (isMouseHovering()) ? 1.0f : 0.5f;
-    glColor4f(1.0f, 0.6f, 0.1f, transparency);
-    visual::drawAbsolutePolygon(m_drawShape);
-}
+void turnToMainMenu(Page &p_page);
 
-bool MenuButton::isMouseHovering() {
-    b2Vec2 pos = InputController::getMousePosition();
-    bool isInside = pos.x >= m_coordShape.m_minX && pos.x <= m_coordShape.m_maxX &&
-                    pos.y >= m_coordShape.m_minY && pos.y <= m_coordShape.m_maxY;
+void turnToLevelSelect(Page &p_page);
 
-    return isInside;
-}
+void turnToMissionSelect(Page &p_page);
+
+void turnToHelp(Page &p_page);
 
 }; // end of namespace shadow_pumpkin_caster

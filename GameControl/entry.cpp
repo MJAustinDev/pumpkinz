@@ -21,20 +21,22 @@
 #include "player.h"
 #include "inputController.h"
 #include "levelManager.h"
-#include "menuButton.h"
+#include "pages.h"
 
 using namespace shadow_pumpkin_caster;
 
 int main() {
 
-    MenuButton m1(ButtonCoords(-0.5f, 0.5f, 0.7f, 0.9f));
+    Page menuPage;
+    turnToMainMenu(menuPage);
+    //turnToLevelSelect(menuPage);
 
-    std::vector<b2Vec2> waterPoints = {
+    /*std::vector<b2Vec2> waterPoints = {
         b2Vec2(-500.0f, 0.5f),
         b2Vec2(-500.0f, -0.5f),
         b2Vec2(500.0f, -0.5f),
         b2Vec2(500.0f, 0.5f)
-    };
+    };*/
 
     if (!glfwInit()) {
         return -1;
@@ -58,7 +60,7 @@ int main() {
     glfwSwapBuffers(window);
 
     float timer = glfwGetTime();
-    bool reset = false; // TODO REMOVE TEMPORY LEVEL SELECTION SYSTEM
+    //bool reset = false; // TODO REMOVE TEMPORY LEVEL SELECTION SYSTEM
     //LevelManager levelManager;
 
     while (!glfwWindowShouldClose(window)) {
@@ -112,14 +114,14 @@ int main() {
                 glVertex2f(1.0f, -1.0f);
             glEnd();
 
-            m1.draw();
+            drawPage(menuPage);
 
             // process game events
             //levelManager.processEvents();
             //levelManager.draw(camera);
 
-            glColor4f(1.0f, 0.2f, 0.2f, 0.5f); // TODO REMOVE TESTING WATER BOX
-            camera.drawPolygon(b2Vec2(0.0f, -10.0f), 0.0f, waterPoints);
+            //glColor4f(1.0f, 0.2f, 0.2f, 0.5f); // TODO REMOVE TESTING WATER BOX
+            //camera.drawPolygon(b2Vec2(0.0f, -10.0f), 0.0f, waterPoints);
 
             glfwSwapBuffers(window);
             timer = glfwGetTime() + (1.0f/60.0f);

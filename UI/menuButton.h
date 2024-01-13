@@ -34,14 +34,17 @@ namespace shadow_pumpkin_caster {
  */
 struct ButtonCoords {
 
-    ButtonCoords(float p_minX, float p_maxX, float p_minY, float p_maxY):
-        m_minX(p_minX), m_maxX(p_maxX), m_minY(p_minY), m_maxY(p_maxY) {
-    }
+    float m_minX = 0.0f;
+    float m_maxX = 0.0f;
+    float m_minY = 0.0f;
+    float m_maxY = 0.0f;
 
-    float m_minX;
-    float m_maxX;
-    float m_minY;
-    float m_maxY;
+    ButtonCoords operator+(ButtonCoords p_rhs) {
+        return {.m_minX = m_minX + p_rhs.m_minX,
+                .m_maxX = m_maxX + p_rhs.m_maxX,
+                .m_minY = m_minY + p_rhs.m_minY,
+                .m_maxY = m_maxY + p_rhs.m_maxY};
+    }
 };
 
 class MenuButton {
