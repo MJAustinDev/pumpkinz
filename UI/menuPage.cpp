@@ -30,6 +30,16 @@ void resetPage(Page &p_page) {
     p_page.m_buttons.clear();
 }
 
+PageType processPage(Page &p_page) {
+    for (auto &button : p_page.m_buttons) {
+        PageType option = button.process();
+        if (option != PageType::none) {
+            return option;
+        }
+    }
+    return PageType::none;
+}
+
 void drawPage(Page &p_page) {
     for (auto &button : p_page.m_buttons) {
         button.draw();

@@ -21,7 +21,7 @@
 #include "player.h"
 #include "inputController.h"
 #include "levelManager.h"
-#include "pages.h"
+#include "menuPage.h"
 
 using namespace shadow_pumpkin_caster;
 
@@ -114,6 +114,11 @@ int main() {
                 glVertex2f(1.0f, -1.0f);
             glEnd();
 
+            switch (processPage(menuPage)) {
+                case PageType::mainMenu: { turnToMainMenu(menuPage); break; }
+                case PageType::levelSelect: { turnToLevelSelect(menuPage); break; }
+                case PageType::exit: {glfwSetWindowShouldClose(window, GLFW_TRUE); break;}
+            }
             drawPage(menuPage);
 
             // process game events

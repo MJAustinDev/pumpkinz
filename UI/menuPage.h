@@ -26,6 +26,7 @@
 
 #include <list>
 #include "menuButton.h"
+#include "pages.h"
 
 namespace shadow_pumpkin_caster {
 
@@ -36,6 +37,8 @@ struct Page {
 };
 
 void resetPage(Page &p_page);
+
+PageType processPage(Page &p_page);
 
 void drawPage(Page &p_page);
 

@@ -26,6 +26,8 @@
 
 #include "box2d/box2d.h"
 #include <vector>
+#include <functional>
+#include "pages.h"
 
 namespace shadow_pumpkin_caster {
 
@@ -51,10 +53,11 @@ class MenuButton {
 
 public:
 
-    MenuButton(ButtonCoords p_coordShape);
+    MenuButton(ButtonCoords p_coordShape,
+               std::function<PageType(void)> p_func = []{return PageType::none;});
     ~MenuButton() = default;
 
-    void process();
+    PageType process();
 
     /**
      * Draws the menu button to the screen
@@ -63,11 +66,12 @@ public:
 
 private:
 
+    bool isMouseHovering();
+    std::function<PageType(void)> pressedAction;
+
     ButtonCoords m_coordShape;
     std::vector<b2Vec2> m_drawShape;
-
-    bool isMouseHovering();
-
+    bool m_isHeld = false;
 };
 
 }; // end of namespace shadow_pumpkin_caster

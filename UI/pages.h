@@ -24,16 +24,17 @@
 
 #pragma once
 
-#include "menuPage.h"
-
 namespace shadow_pumpkin_caster {
+
+class Page;
 
 enum class PageType {
     none = 0,
     mainMenu,
     levelSelect,
-    MissionSelect,
-    help
+    help,
+    exit,
+    MissionSelect
 };
 
 void turnToMainMenu(Page &p_page);
