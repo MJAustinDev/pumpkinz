@@ -82,4 +82,10 @@ private:
 
 };
 
+/**
+ * Draws a polygon straight to the screen with no transformations
+ * @param p_shape series of points that define the polygon
+ */
+void drawAbsolutePolygon(std::vector<b2Vec2> &p_shape);
+
 }; // end of namespace visual

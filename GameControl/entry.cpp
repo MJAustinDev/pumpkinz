@@ -21,17 +21,22 @@
 #include "player.h"
 #include "inputController.h"
 #include "levelManager.h"
+#include "menuPage.h"
 
 using namespace shadow_pumpkin_caster;
 
 int main() {
 
-    std::vector<b2Vec2> waterPoints = {
+    Page menuPage;
+    turnToMainMenu(menuPage);
+    //turnToLevelSelect(menuPage);
+
+    /*std::vector<b2Vec2> waterPoints = {
         b2Vec2(-500.0f, 0.5f),
         b2Vec2(-500.0f, -0.5f),
         b2Vec2(500.0f, -0.5f),
         b2Vec2(500.0f, 0.5f)
-    };
+    };*/
 
     if (!glfwInit()) {
         return -1;
@@ -55,8 +60,8 @@ int main() {
     glfwSwapBuffers(window);
 
     float timer = glfwGetTime();
-    bool reset = false; // TODO REMOVE TEMPORY LEVEL SELECTION SYSTEM
-    LevelManager levelManager;
+    //bool reset = false; // TODO REMOVE TEMPORY LEVEL SELECTION SYSTEM
+    //LevelManager levelManager;
 
     while (!glfwWindowShouldClose(window)) {
 
@@ -65,6 +70,7 @@ int main() {
             break;
         }
 
+        /*
         if (InputController::isKeyPressed(GLFW_KEY_R)) {
             if (!reset) {
                 reset = true;
@@ -73,7 +79,7 @@ int main() {
         if (reset && !InputController::isKeyPressed(GLFW_KEY_R)) {
             reset = false; // only reset on key release
             levelManager.reset();
-        }
+        }*/
 
         // TODO INTEGRATE CONTROLS WITH GAME/LEVEL MANAGEMENT
         b2Vec2 cameraShift(0.0f, 0.0f);
@@ -108,12 +114,19 @@ int main() {
                 glVertex2f(1.0f, -1.0f);
             glEnd();
 
-            // process game events
-            levelManager.processEvents();
-            levelManager.draw(camera);
+            switch (processPage(menuPage)) {
+                case PageType::mainMenu: { turnToMainMenu(menuPage); break; }
+                case PageType::levelSelect: { turnToLevelSelect(menuPage); break; }
+                case PageType::exit: {glfwSetWindowShouldClose(window, GLFW_TRUE); break;}
+            }
+            drawPage(menuPage);
 
-            glColor4f(1.0f, 0.2f, 0.2f, 0.5f); // TODO REMOVE TESTING WATER BOX
-            camera.drawPolygon(b2Vec2(0.0f, -10.0f), 0.0f, waterPoints);
+            // process game events
+            //levelManager.processEvents();
+            //levelManager.draw(camera);
+
+            //glColor4f(1.0f, 0.2f, 0.2f, 0.5f); // TODO REMOVE TESTING WATER BOX
+            //camera.drawPolygon(b2Vec2(0.0f, -10.0f), 0.0f, waterPoints);
 
             glfwSwapBuffers(window);
             timer = glfwGetTime() + (1.0f/60.0f);
