@@ -24,65 +24,71 @@
 
 #include "menuPage.h"
 #include "menuButton.h"
-#include "pages.h"
 
 namespace {
 
 using ButtonCoords = shadow_pumpkin_caster::ButtonCoords;
 using PageReturnData = shadow_pumpkin_caster::PageReturnData;
 using PageAction = shadow_pumpkin_caster::PageAction;
-using Regions = shadow_pumpkin_caster::Regions;
 
-ButtonCoords shift(ButtonCoords p_coord, float p_shift) {
-    p_coord.m_minY += p_shift;
-    p_coord.m_maxY += p_shift;
+ButtonCoords shift(ButtonCoords p_coord, float p_shiftX, float p_shiftY) {
+    p_coord.m_minX += p_shiftX;
+    p_coord.m_maxX += p_shiftX;
+    p_coord.m_minY += p_shiftY;
+    p_coord.m_maxY += p_shiftY;
     return p_coord;
 }
 
-constexpr ButtonCoords kButtonShape() {
-    return {.m_minX = -0.5f, .m_maxX = 0.5f, .m_minY = -0.1f, .m_maxY = 0.1f};
+constexpr ButtonCoords kLvlButtonShape() {
+    const float kRatioX = 900.0f / 1600.0f;
+    const float kLvlButtonLength = 0.125f;
+    return {.m_minX = -kLvlButtonLength * kRatioX, .m_maxX = kLvlButtonLength * kRatioX,
+            .m_minY = -kLvlButtonLength, .m_maxY = kLvlButtonLength};
 }
 
-constexpr float kPumpkinPatchPos() { return 0.75f; }
-constexpr float kHauntedHousePos() { return 0.45f; }
-constexpr float kCemeteryPos() { return 0.15f; }
-constexpr float kCursedForestPos() { return -0.15f; }
-constexpr float kVampireCastlePos() { return -0.45f; }
-constexpr float kMainMenuPos() { return -0.75f; }
+constexpr ButtonCoords kButtonShape() {
+    return {.m_minX = -0.9f, .m_maxX = -0.4f, .m_minY = -0.9f, .m_maxY = -0.65f};
+}
+
+PageReturnData returnSelectLevel() {
+    return {.m_action = PageAction::goLevelSelect};
+}
 
 PageReturnData returnMainMenu() {
     return {.m_action = PageAction::goMainMenu};
 }
 
-PageReturnData selectPumpkinPatch() {
-    return {.m_action = PageAction::goMissionSelect, .m_region = Regions::pumpkinPatch};
-}
-
-
 } // end of namespace
 
 namespace shadow_pumpkin_caster {
 
-void turnToLevelSelect(Page &p_page) {
+void turnToPumpkinPatch(Page &p_page) {
 
     resetPage(p_page);
+    float shiftX = -0.6f;
+    float shiftY = 0.75f;
+    unsigned int lvlNumber = 1;
+    // set up all 15 level selection buttons
+    for (int j = 0; j < 3 ;j++) {
+        for (int i = 0; i < 5; i++) {
+            MenuButton lvl(shift(kLvlButtonShape(), shiftX, shiftY));
+            shiftX += 0.3;
+            addButton(p_page, lvl);
+            lvlNumber++;
+        }
+        shiftX = -0.6f;
+        shiftY -= 0.5f;
+    }
+    MenuButton prev(shift(kLvlButtonShape(), -0.9f, 0.25f)); // TODO -- Use different shape
+    addButton(p_page, prev);
 
-    MenuButton pumpkinPatch(shift(kButtonShape(), kPumpkinPatchPos()), selectPumpkinPatch);
-    addButton(p_page, pumpkinPatch);
+    MenuButton next(shift(kLvlButtonShape(), 0.9f, 0.25f)); // TODO -- Use different shape
+    addButton(p_page, next);
 
-    MenuButton hauntedHouse(shift(kButtonShape(), kHauntedHousePos()));
-    addButton(p_page, hauntedHouse);
+    MenuButton levelSelect(kButtonShape(), returnSelectLevel);
+    addButton(p_page, levelSelect);
 
-    MenuButton cemetery(shift(kButtonShape(), kCemeteryPos()));
-    addButton(p_page, cemetery);
-
-    MenuButton cursedForest(shift(kButtonShape(), kCursedForestPos()));
-    addButton(p_page, cursedForest);
-
-    MenuButton vampireCastle(shift(kButtonShape(), kVampireCastlePos()));
-    addButton(p_page, vampireCastle); // TODO PICK BETTER NAME
-
-    MenuButton mainMenu(shift(kButtonShape(), kMainMenuPos()), returnMainMenu);
+    MenuButton mainMenu(shift(kButtonShape(), 1.3f, 0.0f), returnMainMenu);
     addButton(p_page, mainMenu);
 }
 

@@ -98,7 +98,14 @@ int main() {
             switch (pageData.m_action) {
                 case PageAction::goMainMenu: { turnToMainMenu(menuPage); break; }
                 case PageAction::goLevelSelect: { turnToLevelSelect(menuPage); break; }
+                case PageAction::goHelp: { break; }
                 case PageAction::quit: { glfwSetWindowShouldClose(window, GLFW_TRUE); break; }
+                case PageAction::goMissionSelect: {
+                    switch (pageData.m_region) {
+                        case Regions::pumpkinPatch: { turnToPumpkinPatch(menuPage); break; }
+                    }
+                    break;
+                }
             }
             drawPage(menuPage);
 

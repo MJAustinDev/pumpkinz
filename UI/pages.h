@@ -59,8 +59,8 @@ void turnToMainMenu(Page &p_page);
 
 void turnToLevelSelect(Page &p_page);
 
-void turnToMissionSelect(Page &p_page);
-
 void turnToHelp(Page &p_page);
+
+void turnToPumpkinPatch(Page &page);
 
 }; // end of namespace shadow_pumpkin_caster
