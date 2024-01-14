@@ -29,14 +29,6 @@ int main() {
 
     Page menuPage;
     turnToMainMenu(menuPage);
-    //turnToLevelSelect(menuPage);
-
-    /*std::vector<b2Vec2> waterPoints = {
-        b2Vec2(-500.0f, 0.5f),
-        b2Vec2(-500.0f, -0.5f),
-        b2Vec2(500.0f, -0.5f),
-        b2Vec2(500.0f, 0.5f)
-    };*/
 
     if (!glfwInit()) {
         return -1;
@@ -60,7 +52,6 @@ int main() {
     glfwSwapBuffers(window);
 
     float timer = glfwGetTime();
-    //bool reset = false; // TODO REMOVE TEMPORY LEVEL SELECTION SYSTEM
     //LevelManager levelManager;
 
     while (!glfwWindowShouldClose(window)) {
@@ -69,17 +60,6 @@ int main() {
             glfwSetWindowShouldClose(window, GLFW_TRUE);
             break;
         }
-
-        /*
-        if (InputController::isKeyPressed(GLFW_KEY_R)) {
-            if (!reset) {
-                reset = true;
-            }
-        }
-        if (reset && !InputController::isKeyPressed(GLFW_KEY_R)) {
-            reset = false; // only reset on key release
-            levelManager.reset();
-        }*/
 
         // TODO INTEGRATE CONTROLS WITH GAME/LEVEL MANAGEMENT
         b2Vec2 cameraShift(0.0f, 0.0f);
@@ -117,7 +97,7 @@ int main() {
             switch (processPage(menuPage)) {
                 case PageType::mainMenu: { turnToMainMenu(menuPage); break; }
                 case PageType::levelSelect: { turnToLevelSelect(menuPage); break; }
-                case PageType::exit: {glfwSetWindowShouldClose(window, GLFW_TRUE); break;}
+                case PageType::exit: { glfwSetWindowShouldClose(window, GLFW_TRUE); break; }
             }
             drawPage(menuPage);
 

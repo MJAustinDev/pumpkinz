@@ -54,10 +54,10 @@ class MenuButton {
 public:
 
     MenuButton(ButtonCoords p_coordShape,
-               std::function<PageType(void)> p_func = []{return PageType::none;});
+               std::function<PageType(void)> p_func = []{ return PageType::none; });
     ~MenuButton() = default;
 
-    PageType process();
+    PageType process(); // TODO -- PONDER ORB ABOUT THIS... PROBS BETTER TO RETURN A STRUCT AND FORGET PLANS TO HAVE UNIQUE FUNCTIONS... depends on how the mission selection goes
 
     /**
      * Draws the menu button to the screen
