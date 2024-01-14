@@ -29,7 +29,8 @@
 namespace {
 
 using ButtonCoords = shadow_pumpkin_caster::ButtonCoords;
-using PageType = shadow_pumpkin_caster::PageType;
+using PageReturnData = shadow_pumpkin_caster::PageReturnData;
+using PageAction = shadow_pumpkin_caster::PageAction;
 
 ButtonCoords shift(ButtonCoords p_coord, float p_shift) {
     p_coord.m_minY += p_shift;
@@ -48,8 +49,8 @@ constexpr float kCursedForestPos() { return -0.15f; }
 constexpr float kVampireCastlePos() { return -0.45f; }
 constexpr float kMainMenuPos() { return -0.75f; }
 
-PageType returnMainMenu() {
-    return PageType::mainMenu;
+PageReturnData returnMainMenu() {
+    return {.m_action = PageAction::goMainMenu};
 }
 
 } // end of namespace

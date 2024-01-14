@@ -28,7 +28,7 @@
 
 namespace shadow_pumpkin_caster {
 
-MenuButton::MenuButton(ButtonCoords p_coordShape, std::function<PageType(void)> p_func):
+MenuButton::MenuButton(ButtonCoords p_coordShape, std::function<PageReturnData(void)> p_func):
     pressedAction(p_func), m_coordShape(p_coordShape) {
 
     m_drawShape = {b2Vec2(m_coordShape.m_minX, m_coordShape.m_maxY),
@@ -38,10 +38,10 @@ MenuButton::MenuButton(ButtonCoords p_coordShape, std::function<PageType(void)> 
     };
 }
 
-PageType MenuButton::process() {
+PageReturnData MenuButton::process() {
     if (!isMouseHovering()) {
         m_isHeld = false;
-        return PageType::none;
+        return kEmptyPageData();
     }
 
     if (!m_isHeld) {
@@ -51,7 +51,7 @@ PageType MenuButton::process() {
             return pressedAction();
         }
     }
-    return PageType::none;
+    return kEmptyPageData();
 }
 
 void MenuButton::draw() {

@@ -94,10 +94,11 @@ int main() {
                 glVertex2f(1.0f, -1.0f);
             glEnd();
 
-            switch (processPage(menuPage)) {
-                case PageType::mainMenu: { turnToMainMenu(menuPage); break; }
-                case PageType::levelSelect: { turnToLevelSelect(menuPage); break; }
-                case PageType::exit: { glfwSetWindowShouldClose(window, GLFW_TRUE); break; }
+            PageReturnData pageData = processPage(menuPage);
+            switch (pageData.m_action) {
+                case PageAction::goMainMenu: { turnToMainMenu(menuPage); break; }
+                case PageAction::goLevelSelect: { turnToLevelSelect(menuPage); break; }
+                case PageAction::quit: { glfwSetWindowShouldClose(window, GLFW_TRUE); break; }
             }
             drawPage(menuPage);
 

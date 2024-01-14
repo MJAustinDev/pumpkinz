@@ -54,10 +54,10 @@ class MenuButton {
 public:
 
     MenuButton(ButtonCoords p_coordShape,
-               std::function<PageType(void)> p_func = []{ return PageType::none; });
+               std::function<PageReturnData(void)> p_func = []{ return kEmptyPageData(); });
     ~MenuButton() = default;
 
-    PageType process(); // TODO -- PONDER ORB ABOUT THIS... PROBS BETTER TO RETURN A STRUCT AND FORGET PLANS TO HAVE UNIQUE FUNCTIONS... depends on how the mission selection goes
+    PageReturnData process();
 
     /**
      * Draws the menu button to the screen
@@ -67,7 +67,7 @@ public:
 private:
 
     bool isMouseHovering();
-    std::function<PageType(void)> pressedAction;
+    std::function<PageReturnData(void)> pressedAction;
 
     ButtonCoords m_coordShape;
     std::vector<b2Vec2> m_drawShape;

@@ -28,7 +28,8 @@
 namespace {
 
 using ButtonCoords = shadow_pumpkin_caster::ButtonCoords;
-using PageType = shadow_pumpkin_caster::PageType;
+using PageReturnData = shadow_pumpkin_caster::PageReturnData;
+using PageAction = shadow_pumpkin_caster::PageAction;
 
 ButtonCoords shift(ButtonCoords p_coord, float p_shift) {
     p_coord.m_minY += p_shift;
@@ -45,12 +46,12 @@ constexpr float kLevelSelectPos() { return 0.2f; }
 constexpr float kHelpPos() { return -0.3f; }
 constexpr float kQuitPos() { return -0.8f; }
 
-PageType selectLevel() {
-    return PageType::levelSelect;
+PageReturnData selectLevel() {
+    return {.m_action = PageAction::goLevelSelect};
 }
 
-PageType quitGame() {
-    return PageType::exit;
+PageReturnData quitGame() {
+    return {.m_action = PageAction::quit};
 }
 
 } // end of namespace
