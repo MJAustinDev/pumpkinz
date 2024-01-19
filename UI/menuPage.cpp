@@ -47,7 +47,7 @@ void drawPage(Page &p_page) {
 }
 
 void addButton(Page &p_page, MenuButton &p_button) {
-    p_page.m_buttons.push_back(p_button);
+    p_page.m_buttons.push_back(std::move(p_button));
 }
 
 }; // end of namespace shadow_pumpkin_caster

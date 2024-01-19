@@ -50,11 +50,11 @@ constexpr float kCursedForestPos() { return -0.15f; }
 constexpr float kVampireCastlePos() { return -0.45f; }
 constexpr float kMainMenuPos() { return -0.75f; }
 
-PageReturnData returnMainMenu() {
+constexpr PageReturnData kMainMenuButtonData() {
     return {.m_action = PageAction::goMainMenu};
 }
 
-PageReturnData selectPumpkinPatch() {
+constexpr PageReturnData kPumpkinPatchButtonData() {
     return {.m_action = PageAction::goMissionSelect, .m_region = Regions::pumpkinPatch};
 }
 
@@ -67,7 +67,7 @@ void turnToLevelSelect(Page &p_page) {
 
     resetPage(p_page);
 
-    MenuButton pumpkinPatch(shift(kButtonShape(), kPumpkinPatchPos()), selectPumpkinPatch);
+    MenuButton pumpkinPatch(shift(kButtonShape(), kPumpkinPatchPos()), kPumpkinPatchButtonData());
     addButton(p_page, pumpkinPatch);
 
     MenuButton hauntedHouse(shift(kButtonShape(), kHauntedHousePos()));
@@ -80,9 +80,9 @@ void turnToLevelSelect(Page &p_page) {
     addButton(p_page, cursedForest);
 
     MenuButton vampireCastle(shift(kButtonShape(), kVampireCastlePos()));
-    addButton(p_page, vampireCastle); // TODO PICK BETTER NAME
+    addButton(p_page, vampireCastle); // TODO -- Pick better name
 
-    MenuButton mainMenu(shift(kButtonShape(), kMainMenuPos()), returnMainMenu);
+    MenuButton mainMenu(shift(kButtonShape(), kMainMenuPos()), kMainMenuButtonData());
     addButton(p_page, mainMenu);
 }
 

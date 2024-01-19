@@ -30,6 +30,7 @@ namespace {
 using ButtonCoords = shadow_pumpkin_caster::ButtonCoords;
 using PageReturnData = shadow_pumpkin_caster::PageReturnData;
 using PageAction = shadow_pumpkin_caster::PageAction;
+using Regions = shadow_pumpkin_caster::Regions;
 
 ButtonCoords shift(ButtonCoords p_coord, float p_shiftX, float p_shiftY) {
     p_coord.m_minX += p_shiftX;
@@ -50,12 +51,17 @@ constexpr ButtonCoords kButtonShape() {
     return {.m_minX = -0.9f, .m_maxX = -0.4f, .m_minY = -0.9f, .m_maxY = -0.65f};
 }
 
-PageReturnData returnSelectLevel() {
+constexpr PageReturnData kReturnButtonData() {
     return {.m_action = PageAction::goLevelSelect};
 }
 
-PageReturnData returnMainMenu() {
+constexpr PageReturnData kMainMenuButtonData() {
     return {.m_action = PageAction::goMainMenu};
+}
+
+constexpr PageReturnData kLevelButtonData(unsigned int p_mission) {
+    return {.m_action = PageAction::startLevel, .m_region = Regions::pumpkinPatch,
+            .m_mission = p_mission};
 }
 
 } // end of namespace
@@ -65,18 +71,17 @@ namespace shadow_pumpkin_caster {
 void turnToPumpkinPatch(Page &p_page) {
 
     resetPage(p_page);
-    float shiftX = -0.6f;
     float shiftY = 0.75f;
     unsigned int lvlNumber = 1;
     // set up all 15 level selection buttons
     for (int j = 0; j < 3 ;j++) {
+        float shiftX = -0.6f;
         for (int i = 0; i < 5; i++) {
-            MenuButton lvl(shift(kLvlButtonShape(), shiftX, shiftY));
+            MenuButton lvl(shift(kLvlButtonShape(), shiftX, shiftY), kLevelButtonData(lvlNumber));
             shiftX += 0.3;
             addButton(p_page, lvl);
             lvlNumber++;
         }
-        shiftX = -0.6f;
         shiftY -= 0.5f;
     }
     MenuButton prev(shift(kLvlButtonShape(), -0.9f, 0.25f)); // TODO -- Use different shape
@@ -85,10 +90,10 @@ void turnToPumpkinPatch(Page &p_page) {
     MenuButton next(shift(kLvlButtonShape(), 0.9f, 0.25f)); // TODO -- Use different shape
     addButton(p_page, next);
 
-    MenuButton levelSelect(kButtonShape(), returnSelectLevel);
+    MenuButton levelSelect(kButtonShape(), kReturnButtonData());
     addButton(p_page, levelSelect);
 
-    MenuButton mainMenu(shift(kButtonShape(), 1.3f, 0.0f), returnMainMenu);
+    MenuButton mainMenu(shift(kButtonShape(), 1.3f, 0.0f), kMainMenuButtonData());
     addButton(p_page, mainMenu);
 }
 
