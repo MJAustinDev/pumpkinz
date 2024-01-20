@@ -22,7 +22,6 @@
  * SOFTWARE.
  */
 
-#include <iostream>
 #include <limits>
 #include <functional>
 #include "levelManager.h"
@@ -147,13 +146,33 @@ void drawEntityList(std::list<T> &p_entities, const visual::Camera &p_camera) {
     }
 }
 
+/**
+ * Very temp level selction... use it for vampire castle for now
+ */
+void setTestingLevel(b2World &m_world, LevelEntities &m_entities, unsigned int p_mission) {
+    switch (p_mission) {
+        case 1: { shadow_pumpkin_caster::level::setUpLevel_1(m_world, m_entities); break; }
+        case 2: { shadow_pumpkin_caster::level::setUpLevel_2(m_world, m_entities); break; }
+        case 3: { shadow_pumpkin_caster::level::setUpLevel_3(m_world, m_entities); break; }
+        case 4: { shadow_pumpkin_caster::level::setUpLevel_4(m_world, m_entities); break; }
+        case 5: { shadow_pumpkin_caster::level::setUpLevel_5(m_world, m_entities); break; }
+
+        default: { shadow_pumpkin_caster::level::setUpDemoLevel(m_world, m_entities); }
+    }
+}
+// TODO -- Bind to class or external func
+void setPumpkinPatchLevel(b2World &m_world, LevelEntities &m_entities, unsigned int p_mission) {
+    switch (p_mission) {
+        default: { shadow_pumpkin_caster::level::setUpDemoLevel(m_world, m_entities); }
+    }
+}
+
 };
 
 namespace shadow_pumpkin_caster {
 
 LevelManager::LevelManager(): m_world(b2Vec2(0.0f, -9.81f)),
                               m_player(&m_world, b2Vec2(0.0f, 5.0f)) {
-    reset();
     m_world.SetContactListener(&m_collisionListener);
 }
 
@@ -203,21 +222,12 @@ void LevelManager::draw(const visual::Camera &p_camera) {
     m_player.draw(p_camera);
 }
 
-void LevelManager::reset() {
+void LevelManager::reset(Regions p_region, unsigned int p_mission) {
     clearAll();
-    std::cout << "Level: ";
-    int level;
-    std::cin >> level;
-    std::cin.clear();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    switch (level) {
-        case 1: level::setUpLevel_1(m_world, m_entities); break;
-        case 2: level::setUpLevel_2(m_world, m_entities); break;
-        case 3: level::setUpLevel_3(m_world, m_entities); break;
-        case 4: level::setUpLevel_4(m_world, m_entities); break;
-        case 5: level::setUpLevel_5(m_world, m_entities); break;
-
-        default: level::setUpDemoLevel(m_world, m_entities);
+    switch (p_region) {
+        case Regions::pumpkinPatch: { setPumpkinPatchLevel(m_world, m_entities, p_mission); break; }
+        case Regions::vampireCastle: { setTestingLevel(m_world, m_entities, p_mission); break; }
+        default: { level::setUpDemoLevel(m_world, m_entities); }
     }
 }
 

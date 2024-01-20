@@ -28,7 +28,8 @@
 namespace {
 
 using ButtonCoords = shadow_pumpkin_caster::ButtonCoords;
-using PageType = shadow_pumpkin_caster::PageType;
+using PageReturnData = shadow_pumpkin_caster::PageReturnData;
+using PageAction = shadow_pumpkin_caster::PageAction;
 
 ButtonCoords shift(ButtonCoords p_coord, float p_shift) {
     p_coord.m_minY += p_shift;
@@ -45,12 +46,12 @@ constexpr float kLevelSelectPos() { return 0.2f; }
 constexpr float kHelpPos() { return -0.3f; }
 constexpr float kQuitPos() { return -0.8f; }
 
-PageType selectLevel() {
-    return PageType::levelSelect;
+constexpr PageReturnData kLevelSelectButtonData() {
+    return {.m_action = PageAction::goLevelSelect};
 }
 
-PageType quitGame() {
-    return PageType::exit;
+constexpr PageReturnData kQuitButtonData() {
+    return {.m_action = PageAction::quit};
 }
 
 } // end of namespace
@@ -63,13 +64,13 @@ void turnToMainMenu(Page &p_page) {
     MenuButton playGame(shift(kButtonShape(), kPlayGamePos()));
     addButton(p_page, playGame);
 
-    MenuButton levelSelect(shift(kButtonShape(), kLevelSelectPos()), selectLevel);
+    MenuButton levelSelect(shift(kButtonShape(), kLevelSelectPos()), kLevelSelectButtonData());
     addButton(p_page, levelSelect);
 
     MenuButton help(shift(kButtonShape(), kHelpPos()));
     addButton(p_page, help);
 
-    MenuButton quit(shift(kButtonShape(), kQuitPos()), quitGame);
+    MenuButton quit(shift(kButtonShape(), kQuitPos()), kQuitButtonData());
     addButton(p_page, quit);
 }
 

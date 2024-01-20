@@ -53,11 +53,10 @@ class MenuButton {
 
 public:
 
-    MenuButton(ButtonCoords p_coordShape,
-               std::function<PageType(void)> p_func = []{return PageType::none;});
+    MenuButton(ButtonCoords p_coordShape, PageReturnData p_pressedData = kEmptyPageData());
     ~MenuButton() = default;
 
-    PageType process();
+    PageReturnData process();
 
     /**
      * Draws the menu button to the screen
@@ -67,7 +66,7 @@ public:
 private:
 
     bool isMouseHovering();
-    std::function<PageType(void)> pressedAction;
+    PageReturnData m_pressedData;
 
     ButtonCoords m_coordShape;
     std::vector<b2Vec2> m_drawShape;

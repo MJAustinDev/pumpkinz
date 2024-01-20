@@ -26,23 +26,45 @@
 
 namespace shadow_pumpkin_caster {
 
-class Page;
+struct Page;
 
-enum class PageType {
+enum class PageAction {
     none = 0,
-    mainMenu,
-    levelSelect,
-    help,
-    exit,
-    MissionSelect
+    goMainMenu,
+    goLevelSelect,
+    goMissionSelect,
+    goHelp,
+    quit,
+    startLevel
 };
+
+enum class Regions {
+    none = 0,
+    pumpkinPatch,
+    hauntedHouse,
+    cemetery,
+    cursedForest,
+    vampireCastle
+};
+
+struct PageReturnData {
+    PageAction m_action = PageAction::none;
+    Regions m_region = Regions::none;
+    unsigned int m_mission = 0;
+
+    bool operator != (PageReturnData const &p_rhs) const {
+        return m_action != p_rhs.m_action || m_region != p_rhs.m_region || m_mission != p_rhs.m_mission;
+    }
+};
+
+constexpr PageReturnData kEmptyPageData() { return {}; };
 
 void turnToMainMenu(Page &p_page);
 
 void turnToLevelSelect(Page &p_page);
 
-void turnToMissionSelect(Page &p_page);
-
 void turnToHelp(Page &p_page);
+
+void turnToMission(Page &page, Regions p_region);
 
 }; // end of namespace shadow_pumpkin_caster

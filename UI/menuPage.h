@@ -38,7 +38,7 @@ struct Page {
 
 void resetPage(Page &p_page);
 
-PageType processPage(Page &p_page);
+PageReturnData processPage(Page &p_page);
 
 void drawPage(Page &p_page);
 

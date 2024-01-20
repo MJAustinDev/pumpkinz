@@ -29,7 +29,9 @@
 namespace {
 
 using ButtonCoords = shadow_pumpkin_caster::ButtonCoords;
-using PageType = shadow_pumpkin_caster::PageType;
+using PageReturnData = shadow_pumpkin_caster::PageReturnData;
+using PageAction = shadow_pumpkin_caster::PageAction;
+using Regions = shadow_pumpkin_caster::Regions;
 
 ButtonCoords shift(ButtonCoords p_coord, float p_shift) {
     p_coord.m_minY += p_shift;
@@ -48,8 +50,12 @@ constexpr float kCursedForestPos() { return -0.15f; }
 constexpr float kVampireCastlePos() { return -0.45f; }
 constexpr float kMainMenuPos() { return -0.75f; }
 
-PageType returnMainMenu() {
-    return PageType::mainMenu;
+constexpr PageReturnData kMainMenuButtonData() {
+    return {.m_action = PageAction::goMainMenu};
+}
+
+constexpr PageReturnData kMissionButtonData(Regions p_region) {
+    return {.m_action = PageAction::goMissionSelect, .m_region = p_region};
 }
 
 } // end of namespace
@@ -60,22 +66,27 @@ void turnToLevelSelect(Page &p_page) {
 
     resetPage(p_page);
 
-    MenuButton pumpkinPatch(shift(kButtonShape(), kPumpkinPatchPos()));
+    MenuButton pumpkinPatch(shift(kButtonShape(), kPumpkinPatchPos()),
+                            kMissionButtonData(Regions::pumpkinPatch));
     addButton(p_page, pumpkinPatch);
 
-    MenuButton hauntedHouse(shift(kButtonShape(), kHauntedHousePos()));
+    MenuButton hauntedHouse(shift(kButtonShape(), kHauntedHousePos()),
+                            kMissionButtonData(Regions::hauntedHouse));
     addButton(p_page, hauntedHouse);
 
-    MenuButton cemetery(shift(kButtonShape(), kCemeteryPos()));
+    MenuButton cemetery(shift(kButtonShape(), kCemeteryPos()),
+                        kMissionButtonData(Regions::cemetery));
     addButton(p_page, cemetery);
 
-    MenuButton cursedForest(shift(kButtonShape(), kCursedForestPos()));
+    MenuButton cursedForest(shift(kButtonShape(), kCursedForestPos()),
+                            kMissionButtonData(Regions::cursedForest));
     addButton(p_page, cursedForest);
 
-    MenuButton vampireCastle(shift(kButtonShape(), kVampireCastlePos()));
-    addButton(p_page, vampireCastle); // TODO PICK BETTER NAME
+    MenuButton vampireCastle(shift(kButtonShape(), kVampireCastlePos()),
+                             kMissionButtonData(Regions::vampireCastle));
+    addButton(p_page, vampireCastle); // TODO -- Pick better name
 
-    MenuButton mainMenu(shift(kButtonShape(), kMainMenuPos()), returnMainMenu);
+    MenuButton mainMenu(shift(kButtonShape(), kMainMenuPos()), kMainMenuButtonData());
     addButton(p_page, mainMenu);
 }
 
