@@ -12,23 +12,25 @@
 - - ~~wasd to move screen~~
 - - ~~zoom via wheel~~
 - - ~~different screen ratios handled~~
-- menu system
-- - main UI
-- - buttons
-- level system
-- - UI
-- - regions
-- - - pumpkin patch
-- - - haunted house
-- - - cemetery
-- - - cursed forest
-- - - 'vampire castle' pick a better name lol
+- ~~menu system~~
+- - ~~main UI~~
+- - ~~buttons~~
+- ~~level system~~
+- - ~~UI~~
+- - ~~regions~~
+- - - ~~pumpkin patch~~
+- - - ~~haunted house~~
+- - - ~~cemetery~~
+- - - ~~cursed forest~~
+- - - ~~'vampire castle' pick a better name lol~~
+- pumpkin patch 5 missions (0/5)
 - score system
 - - pass, bronze, silver, gold score per level
 - - expensive shots decrease score more
 - weapon/ammo selection
 - - UI selection
 - clean level code
+- prevent non-implemented level running
 
 ## feature pool
 

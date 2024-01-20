@@ -40,7 +40,11 @@ enum class PageAction {
 
 enum class Regions {
     none = 0,
-    pumpkinPatch
+    pumpkinPatch,
+    hauntedHouse,
+    cemetery,
+    cursedForest,
+    vampireCastle
 };
 
 struct PageReturnData {
@@ -61,6 +65,6 @@ void turnToLevelSelect(Page &p_page);
 
 void turnToHelp(Page &p_page);
 
-void turnToPumpkinPatch(Page &page);
+void turnToMission(Page &page, Regions p_region);
 
 }; // end of namespace shadow_pumpkin_caster

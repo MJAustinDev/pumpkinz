@@ -59,28 +59,28 @@ constexpr PageReturnData kMainMenuButtonData() {
     return {.m_action = PageAction::goMainMenu};
 }
 
-constexpr PageReturnData kLevelButtonData(unsigned int p_mission) {
-    return {.m_action = PageAction::startLevel, .m_region = Regions::pumpkinPatch,
-            .m_mission = p_mission};
+constexpr PageReturnData kLevelButtonData(Regions p_region, unsigned int p_mission) {
+    return {.m_action = PageAction::startLevel, .m_region = p_region, .m_mission = p_mission};
 }
 
 } // end of namespace
 
 namespace shadow_pumpkin_caster {
 
-void turnToPumpkinPatch(Page &p_page) {
+void turnToMission(Page &p_page, Regions p_region) {
 
     resetPage(p_page);
     float shiftY = 0.75f;
-    unsigned int lvlNumber = 1;
+    unsigned int levelNumber = 1;
     // set up all 15 level selection buttons
     for (int j = 0; j < 3 ;j++) {
         float shiftX = -0.6f;
         for (int i = 0; i < 5; i++) {
-            MenuButton lvl(shift(kLvlButtonShape(), shiftX, shiftY), kLevelButtonData(lvlNumber));
+            MenuButton level(shift(kLvlButtonShape(), shiftX, shiftY),
+                           kLevelButtonData(p_region, levelNumber));
             shiftX += 0.3;
-            addButton(p_page, lvl);
-            lvlNumber++;
+            addButton(p_page, level);
+            levelNumber++;
         }
         shiftY -= 0.5f;
     }

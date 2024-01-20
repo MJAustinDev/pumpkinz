@@ -115,9 +115,7 @@ int main() {
                     case PageAction::goHelp: { break; }
                     case PageAction::quit: { glfwSetWindowShouldClose(window, GLFW_TRUE); break; }
                     case PageAction::goMissionSelect: {
-                        switch (pageData.m_region) {
-                            case Regions::pumpkinPatch: { turnToPumpkinPatch(menuPage); break; }
-                        }
+                        turnToMission(menuPage, pageData.m_region);
                         break;
                     }
                     case PageAction::startLevel: {
