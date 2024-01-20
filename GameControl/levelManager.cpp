@@ -22,7 +22,6 @@
  * SOFTWARE.
  */
 
-#include <iostream>
 #include <limits>
 #include <functional>
 #include "levelManager.h"
@@ -153,7 +152,6 @@ namespace shadow_pumpkin_caster {
 
 LevelManager::LevelManager(): m_world(b2Vec2(0.0f, -9.81f)),
                               m_player(&m_world, b2Vec2(0.0f, 5.0f)) {
-    reset();
     m_world.SetContactListener(&m_collisionListener);
 }
 
@@ -203,14 +201,9 @@ void LevelManager::draw(const visual::Camera &p_camera) {
     m_player.draw(p_camera);
 }
 
-void LevelManager::reset() {
+void LevelManager::reset(Regions p_region, unsigned int p_mission) {
     clearAll();
-    std::cout << "Level: ";
-    int level;
-    std::cin >> level;
-    std::cin.clear();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    switch (level) {
+    switch (p_mission) {
         case 1: level::setUpLevel_1(m_world, m_entities); break;
         case 2: level::setUpLevel_2(m_world, m_entities); break;
         case 3: level::setUpLevel_3(m_world, m_entities); break;

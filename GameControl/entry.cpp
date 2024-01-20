@@ -25,6 +25,17 @@
 
 using namespace shadow_pumpkin_caster;
 
+bool isPressedOnce(int p_key, bool &p_isPressed) {
+    if (InputController::isKeyPressed(p_key)) {
+        p_isPressed = true;
+    }
+    if (p_isPressed && !InputController::isKeyPressed(p_key)) {
+        p_isPressed = false;
+        return false;
+    }
+    return true;
+}
+
 int main() {
 
     Page menuPage;
@@ -52,14 +63,11 @@ int main() {
     glfwSwapBuffers(window);
 
     float timer = glfwGetTime();
-    //LevelManager levelManager;
+    LevelManager levelManager;
+    bool inGame = false;
+    bool isEscPressed = false;
 
     while (!glfwWindowShouldClose(window)) {
-
-        if (InputController::isKeyPressed(GLFW_KEY_ESCAPE)) {
-            glfwSetWindowShouldClose(window, GLFW_TRUE);
-            break;
-        }
 
         // TODO INTEGRATE CONTROLS WITH GAME/LEVEL MANAGEMENT
         b2Vec2 cameraShift(0.0f, 0.0f);
@@ -94,27 +102,32 @@ int main() {
                 glVertex2f(1.0f, -1.0f);
             glEnd();
 
-            PageReturnData pageData = processPage(menuPage);
-            switch (pageData.m_action) {
-                case PageAction::goMainMenu: { turnToMainMenu(menuPage); break; }
-                case PageAction::goLevelSelect: { turnToLevelSelect(menuPage); break; }
-                case PageAction::goHelp: { break; }
-                case PageAction::quit: { glfwSetWindowShouldClose(window, GLFW_TRUE); break; }
-                case PageAction::goMissionSelect: {
-                    switch (pageData.m_region) {
-                        case Regions::pumpkinPatch: { turnToPumpkinPatch(menuPage); break; }
+            if (inGame) {
+                levelManager.processEvents();
+                levelManager.draw(camera);
+
+                inGame = isPressedOnce(GLFW_KEY_ESCAPE, isEscPressed);
+            } else {
+                PageReturnData pageData = processPage(menuPage);
+                switch (pageData.m_action) {
+                    case PageAction::goMainMenu: { turnToMainMenu(menuPage); break; }
+                    case PageAction::goLevelSelect: { turnToLevelSelect(menuPage); break; }
+                    case PageAction::goHelp: { break; }
+                    case PageAction::quit: { glfwSetWindowShouldClose(window, GLFW_TRUE); break; }
+                    case PageAction::goMissionSelect: {
+                        switch (pageData.m_region) {
+                            case Regions::pumpkinPatch: { turnToPumpkinPatch(menuPage); break; }
+                        }
+                        break;
                     }
-                    break;
+                    case PageAction::startLevel: {
+                        inGame = true;
+                        levelManager.reset(pageData.m_region, pageData.m_mission);
+                        break;
+                    }
                 }
+                drawPage(menuPage);
             }
-            drawPage(menuPage);
-
-            // process game events
-            //levelManager.processEvents();
-            //levelManager.draw(camera);
-
-            //glColor4f(1.0f, 0.2f, 0.2f, 0.5f); // TODO REMOVE TESTING WATER BOX
-            //camera.drawPolygon(b2Vec2(0.0f, -10.0f), 0.0f, waterPoints);
 
             glfwSwapBuffers(window);
             timer = glfwGetTime() + (1.0f/60.0f);

@@ -36,6 +36,7 @@
 #include "necromancer.h"
 #include "witch.h"
 #include "vampire.h"
+#include "pages.h"
 
 namespace shadow_pumpkin_caster {
 
@@ -63,7 +64,7 @@ public:
     /**
      * Resets the game to a different level
      */
-    void reset();
+    void reset(Regions p_region, unsigned int p_mission);
 
     /**
      * Structure that binds all game entities together
