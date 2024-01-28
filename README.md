@@ -32,8 +32,8 @@
 - clean level code
 - prevent non-implemented level running
 - cmake
-- - working static build
-- - working dll build
+- - ~~working static build~~
+- - map down inter-dependencies
 - - presets
 
 ## feature pool
@@ -58,6 +58,7 @@
 - verify/research KE/force damage model
 - cannon moves toward mouse direction rather than snapping
 - break total namespace down into modules (future use in other projects... not priority atm)
+- re-evaluate circle entity (semi redundant)
 
 # Completed Phases
 
