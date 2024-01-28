@@ -34,7 +34,7 @@ namespace enemy {
 /**
  * Specialist enemy, can reanimate skeletons from gravestones
  */
-class Necromancer : public TargetEntity, public spell::SpellCaster {
+class Necromancer : public TargetEntity, public SpellCaster {
 
 public:
 

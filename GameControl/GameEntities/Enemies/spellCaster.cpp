@@ -44,10 +44,7 @@ float randRanged(float p_min, float p_max) {
 
 }; // end of namespace
 
-namespace shadow_pumpkin_caster {
-namespace entity {
-namespace enemy {
-namespace spell {
+namespace shadow_pumpkin_caster::entity::enemy {
 
 void SpellCaster::beginCasting() {
     if (!m_isCasting && m_coolDown <= 0.0f) {
@@ -77,7 +74,4 @@ float SpellCaster::getSpellProgress() {
     return m_spellProgress / kCastingLimit();
 }
 
-}; // end of namespace spell
-}; // end of namespace enemy
-}; // end of namespace entity
-}; // end of namespace shadow_pumpkin_caster
+}; // end of namespace shadow_pumpkin_caster::entity::enemy

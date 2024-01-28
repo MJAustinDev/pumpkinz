@@ -34,7 +34,7 @@ namespace enemy {
 /**
  * Specialist enemy, can heal entities
  */
-class Witch : public TargetEntity, public spell::SpellCaster {
+class Witch : public TargetEntity, public SpellCaster {
 
 public:
 
