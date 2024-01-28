@@ -7,17 +7,15 @@
  # SOFTWARE.
 
 add_library(user_interface STATIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/menuButton.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/menuPage.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/pageLevelSelect.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/pageMainMenu.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/pageMissionSelect.cpp
+    menuButton.cpp
+    menuPage.cpp
+    pageLevelSelect.cpp
+    pageMainMenu.cpp
+    pageMissionSelect.cpp
 )
 
-include_directories(user_interface PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../GitMarsVolcanoDash/MarsVolcanoDash/include/
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../../StorageCompiledLibs/box2d/include/
+include_directories(user_interface
+    ${EXTERNAL_INCLUDES}
 )
 
 target_link_libraries(user_interface input_output)

@@ -8,9 +8,25 @@
 
 cmake_minimum_required(VERSION 3.8)
 
-project (shadow_pumpkin_caster)
+# set up external dependencies
+
+add_subdirectory(Extern)
+
+set(EXTERNAL_INCLUDES
+    ${EXTERNAL_BOX2D_INCLUDE}
+    ${EXTERNAL_GLFW_INCLUDE}
+)
+
+set(EXTERNAL_LIBRARIES
+    ${EXTERNAL_BOX2D_LIBRARY}
+    ${EXTERNAL_GLFW_LIBRARY}
+)
 
 find_package(OpenGL REQUIRED)
+
+# set up project
+
+project (shadow_pumpkin_caster)
 
 add_subdirectory(IO)
 add_subdirectory(UI)

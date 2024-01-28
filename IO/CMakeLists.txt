@@ -11,15 +11,13 @@ add_library(input_output STATIC
     inputController.cpp
 )
 
-include_directories(input_output PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../GitMarsVolcanoDash/MarsVolcanoDash/include/
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../../StorageCompiledLibs/box2d/include/
+include_directories(input_output
+    ${EXTERNAL_INCLUDES}
 )
 
 target_link_libraries(input_output
     OpenGL::GL
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../../StorageCompiledLibs/box2d/build/bin/libbox2d.a
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../../StorageCompiledLibs/box2d/build/bin/libglfw.a
+    ${EXTERNAL_LIBRARIES}
 )
 
 target_include_directories(input_output PUBLIC

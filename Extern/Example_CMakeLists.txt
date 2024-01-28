@@ -1,0 +1,20 @@
+ # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ # AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ # SOFTWARE.
+
+
+# Copy this file and rename it to "CMakeLists.txt".
+# Update the paths to map on to your box2d and glfw installs.
+#
+# I've compiled Box2D via the repository's cmake instructions
+# https://github.com/erincatto/box2d/blob/main/README.md
+# I've also used the 64 bit binaries from the GLFW website v(3.3.9).
+
+set(EXTERNAL_BOX2D_INCLUDE "path_to_your_box2d_install/box2d/include/" PARENT_SCOPE)
+set(EXTERNAL_BOX2D_LIBRARY "path_to_your_box2d_install/box2d/build/bin/libbox2d.a" PARENT_SCOPE)
+set(EXTERNAL_GLFW_LIBRARY "path_to_your_glfw_install/lib-mingw-w64/libglfw3.a" PARENT_SCOPE)
+set(EXTERNAL_GLFW_INCLUDE "path_to_your_glfw_install/include/" PARENT_SCOPE)

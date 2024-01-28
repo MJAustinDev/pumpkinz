@@ -39,9 +39,8 @@ add_library(bulk STATIC
     ${CMAKE_CURRENT_SOURCE_DIR}/Levels/levelDemo.cpp
 )
 
-include_directories(bulk PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../GitMarsVolcanoDash/MarsVolcanoDash/include/
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../../StorageCompiledLibs/box2d/include/
+include_directories(bulk
+    ${EXTERNAL_INCLUDES}
 )
 
 target_link_libraries(bulk user_interface)
