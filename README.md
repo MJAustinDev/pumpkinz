@@ -31,6 +31,10 @@
 - - UI selection
 - clean level code
 - prevent non-implemented level running
+- cmake
+- - working static build
+- - working dll build
+- - presets
 
 ## feature pool
 
