@@ -6,24 +6,22 @@
  # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  # SOFTWARE.
 
-add_library(lib_visual STATIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/camera.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/../GameControl/inputController.cpp
-    # TODO move into local lib and change to input/output
+add_library(input_output STATIC
+    camera.cpp
+    inputController.cpp
 )
 
-include_directories(lib_visual PUBLIC
+include_directories(input_output PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/../../GitMarsVolcanoDash/MarsVolcanoDash/include/
     ${CMAKE_CURRENT_SOURCE_DIR}/../../../StorageCompiledLibs/box2d/include/
 )
 
-target_link_libraries(lib_visual
+target_link_libraries(input_output
     OpenGL::GL
     ${CMAKE_CURRENT_SOURCE_DIR}/../../../StorageCompiledLibs/box2d/build/bin/libbox2d.a
     ${CMAKE_CURRENT_SOURCE_DIR}/../../../StorageCompiledLibs/box2d/build/bin/libglfw.a
 )
 
-target_include_directories(lib_visual PUBLIC
+target_include_directories(input_output PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/../GameControl
 )

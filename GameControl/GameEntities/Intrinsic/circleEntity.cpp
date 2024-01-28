@@ -37,7 +37,7 @@ CircleEntity::CircleEntity(b2World &p_world, b2Vec2 p_position, float p_radius, 
 }
 
 
-void CircleEntity::draw(const visual::Camera &p_camera) {
+void CircleEntity::draw(const io::visual::Camera &p_camera) {
     float fade = 0.3 + (0.7 * (getHp()/100.0f));
     glColor4f(0.1f, 0.9f, 0.9f, fade);
     p_camera.drawCircle(getPosition(), getAngle(), m_radius);

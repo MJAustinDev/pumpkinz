@@ -40,7 +40,7 @@ void StaticEntity::processEvents() {
 
 }
 
-void StaticEntity::draw(const visual::Camera &p_camera) {
+void StaticEntity::draw(const io::visual::Camera &p_camera) {
     glColor4f(0.1f, 0.1f, 0.1f, 0.5f);
     p_camera.drawPolygon(getPosition(), getAngle(), m_shape);
 }

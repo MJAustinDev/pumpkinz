@@ -43,7 +43,7 @@ void Gravestone::processEvents() {
     DynamicEntity::processEvents();
 }
 
-void Gravestone::draw(const visual::Camera &p_camera) {
+void Gravestone::draw(const io::visual::Camera &p_camera) {
     float fade = 0.3 + (0.7 * (getHp()/100.0f));
     glColor4f(0.3f, 0.3f, 0.55f, fade);
     p_camera.drawCircle(getPosition(), getAngle(), getRadius());

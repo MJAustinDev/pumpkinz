@@ -12,6 +12,6 @@ project (shadow_pumpkin_caster)
 
 find_package(OpenGL REQUIRED)
 
-add_subdirectory(Visual)
+add_subdirectory(IO)
 add_subdirectory(UI)
 add_subdirectory(GameControl)

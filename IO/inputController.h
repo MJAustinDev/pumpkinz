@@ -29,7 +29,7 @@
 #include <array>
 #include "camera.h"
 
-namespace shadow_pumpkin_caster {
+namespace io::input {
 
 /**
  * Screen borders that are tracked via mouse position
@@ -94,4 +94,4 @@ private:
 
 };
 
-}; // end of namespace shadow_pumpkin_caster
+}; // end of namespace io::input

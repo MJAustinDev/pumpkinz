@@ -28,7 +28,7 @@
 #include "box2d/box2d.h"
 #include <vector>
 
-namespace visual {
+namespace io::visual {
 
 class Camera {
 
@@ -88,4 +88,4 @@ private:
  */
 void drawAbsolutePolygon(std::vector<b2Vec2> &p_shape);
 
-}; // end of namespace visual
+}; // end of namespace io::visual

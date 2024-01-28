@@ -43,7 +43,7 @@ void Pumpkin::processEvents() {
     TargetEntity::processEvents();
 }
 
-void Pumpkin::draw(const visual::Camera &p_camera) {
+void Pumpkin::draw(const io::visual::Camera &p_camera) {
     float fade = 0.3 + (0.7 * (getHp()/100.0f));
     glColor4f(0.9f, 0.5f, 0.2f, fade);
     p_camera.drawCircle(getPosition(), getAngle(), getRadius());

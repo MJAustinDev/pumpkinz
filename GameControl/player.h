@@ -51,7 +51,7 @@ public:
     void clearGasParticles();
 
     void processEvents();
-    void draw(const visual::Camera &p_camera);
+    void draw(const io::visual::Camera &p_camera);
     std::shared_ptr<entity::DynamicEntity> fire();
 
 private:

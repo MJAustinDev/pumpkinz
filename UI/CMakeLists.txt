@@ -6,7 +6,7 @@
  # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  # SOFTWARE.
 
-add_library(lib_user_interface STATIC
+add_library(user_interface STATIC
     ${CMAKE_CURRENT_SOURCE_DIR}/menuButton.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/menuPage.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/pageLevelSelect.cpp
@@ -14,14 +14,14 @@ add_library(lib_user_interface STATIC
     ${CMAKE_CURRENT_SOURCE_DIR}/pageMissionSelect.cpp
 )
 
-include_directories(lib_user_interface PUBLIC
+include_directories(user_interface PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/../../GitMarsVolcanoDash/MarsVolcanoDash/include/
     ${CMAKE_CURRENT_SOURCE_DIR}/../../../StorageCompiledLibs/box2d/include/
 )
 
-target_link_libraries(lib_user_interface lib_visual)
+target_link_libraries(user_interface input_output)
 
-target_include_directories(lib_visual PUBLIC
+target_include_directories(user_interface PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
 )

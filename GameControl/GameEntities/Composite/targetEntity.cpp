@@ -43,7 +43,7 @@ void TargetEntity::processEvents() {
     DynamicEntity::processEvents();
 }
 
-void TargetEntity::draw(const visual::Camera &p_camera) {
+void TargetEntity::draw(const io::visual::Camera &p_camera) {
     CircleEntity::draw(p_camera);
 }
 

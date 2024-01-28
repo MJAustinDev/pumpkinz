@@ -36,7 +36,7 @@ void BlockEntity::processEvents() {
     DynamicEntity::processEvents();
 }
 
-void BlockEntity::draw(const visual::Camera &p_camera) {
+void BlockEntity::draw(const io::visual::Camera &p_camera) {
     PolygonEntity::draw(p_camera);
 }
 

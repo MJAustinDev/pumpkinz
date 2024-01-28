@@ -6,10 +6,9 @@
  # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  # SOFTWARE.
 
-add_library(lib_bulk STATIC
+add_library(bulk STATIC
     ${CMAKE_CURRENT_SOURCE_DIR}/player.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/levelManager.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/inputController.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/GameEntities/Ammunition/basicBomb.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/GameEntities/Ammunition/basicSolidShot.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/GameEntities/Composite/blockEntity.cpp
@@ -40,15 +39,15 @@ add_library(lib_bulk STATIC
     ${CMAKE_CURRENT_SOURCE_DIR}/Levels/levelDemo.cpp
 )
 
-include_directories(lib_bulk PUBLIC
+include_directories(bulk PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/../../GitMarsVolcanoDash/MarsVolcanoDash/include/
     ${CMAKE_CURRENT_SOURCE_DIR}/../../../StorageCompiledLibs/box2d/include/
 )
 
-target_link_libraries(lib_bulk lib_user_interface)
+target_link_libraries(bulk user_interface)
 
-target_include_directories(lib_bulk PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/
+target_include_directories(bulk PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/Levels
     ${CMAKE_CURRENT_SOURCE_DIR}/GameEntities
     ${CMAKE_CURRENT_SOURCE_DIR}/GameEntities/Ammunition
@@ -59,7 +58,7 @@ target_include_directories(lib_bulk PUBLIC
 )
 
 add_executable(shadow_pumpkin_caster entry.cpp)
-target_link_libraries(shadow_pumpkin_caster lib_bulk)
+target_link_libraries(shadow_pumpkin_caster bulk)
 
 set_target_properties(shadow_pumpkin_caster PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"

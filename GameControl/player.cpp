@@ -30,7 +30,7 @@
 
 namespace {
 
-using input = shadow_pumpkin_caster::InputController;
+using input = io::input::InputController;
 using DynamicEntity = shadow_pumpkin_caster::entity::DynamicEntity;
 using BasicSolidShot = shadow_pumpkin_caster::entity::ammo::BasicSolidShot;
 using BasicBomb = shadow_pumpkin_caster::entity::ammo::BasicBomb;
@@ -93,7 +93,7 @@ void Player::processEvents() {
     }
 }
 
-void Player::draw(const visual::Camera &p_camera) {
+void Player::draw(const io::visual::Camera &p_camera) {
     glColor4f(0.75f, 0.34f, 0.79f, 0.75f);
     p_camera.drawCircle(m_position, 0.0f, 1.0f);
     p_camera.drawPolygon(m_position, m_angle, m_arrow);

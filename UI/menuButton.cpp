@@ -45,9 +45,9 @@ PageReturnData MenuButton::process() {
     }
 
     if (!m_isHeld) {
-        m_isHeld = InputController::getMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT);
+        m_isHeld = io::input::InputController::getMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT);
     } else {
-        if (!InputController::getMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)) {
+        if (!io::input::InputController::getMouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT)) {
             m_isHeld = false;
             return m_pressedData;
         }
@@ -58,11 +58,11 @@ PageReturnData MenuButton::process() {
 void MenuButton::draw() {
     float transparency = (isMouseHovering()) ? 1.0f : 0.5f;
     glColor4f(1.0f, 0.6f, 0.1f, transparency);
-    visual::drawAbsolutePolygon(m_drawShape);
+    io::visual::drawAbsolutePolygon(m_drawShape);
 }
 
 bool MenuButton::isMouseHovering() {
-    b2Vec2 pos = InputController::getMousePosition();
+    b2Vec2 pos = io::input::InputController::getMousePosition();
     bool isInside = pos.x >= m_coordShape.m_minX && pos.x <= m_coordShape.m_maxX &&
                     pos.y >= m_coordShape.m_minY && pos.y <= m_coordShape.m_maxY;
 

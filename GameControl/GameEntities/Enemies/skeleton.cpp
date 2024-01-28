@@ -43,7 +43,7 @@ void Skeleton::processEvents() {
     TargetEntity::processEvents();
 }
 
-void Skeleton::draw(const visual::Camera &p_camera) {
+void Skeleton::draw(const io::visual::Camera &p_camera) {
     float fade = 0.3 + (0.7 * (getHp()/100.0f));
     glColor4f(0.85f, 0.85f, 0.9f, fade);
     p_camera.drawCircle(getPosition(), getAngle(), getRadius());

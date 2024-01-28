@@ -59,7 +59,7 @@ public:
      * Draws the game to the screen
      * @param p_camera camera that draws the world to the screen
      */
-    void draw(const visual::Camera &p_camera);
+    void draw(const io::visual::Camera &p_camera);
 
     /**
      * Resets the game to a different level

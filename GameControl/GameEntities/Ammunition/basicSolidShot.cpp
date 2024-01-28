@@ -47,7 +47,7 @@ void BasicSolidShot::processEvents() {
     PolygonProjectileEntity::processEvents();
 }
 
-void BasicSolidShot::draw(const visual::Camera &p_camera) {
+void BasicSolidShot::draw(const io::visual::Camera &p_camera) {
     glColor4f(0.70f, 0.55f, 0.34f, (getHp()/100.0f));
     auto shape = kShape;
     p_camera.drawPolygon(getPosition(), getAngle(), shape);
