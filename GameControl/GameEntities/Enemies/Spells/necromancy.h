@@ -25,14 +25,14 @@
 #pragma once
 
 #include "box2d/box2d.h"
-#include "levelManager.h"
+#include "levelEntities.h"
 
 namespace shadow_pumpkin_caster {
 namespace entity {
 namespace enemy {
 namespace spell {
 
-void necromancy(b2World &p_world, LevelManager::LevelEntities &p_entities);
+void necromancy(b2World &p_world, LevelEntities &p_entities);
 
 }; // end of namespace spell
 }; // end of namespace enemy

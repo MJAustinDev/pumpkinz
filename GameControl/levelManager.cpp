@@ -38,7 +38,7 @@ constexpr int kPositionIterations() { return 3; }
 
 using Gavestone = shadow_pumpkin_caster::entity::enemy::Gravestone;
 using Skeleton = shadow_pumpkin_caster::entity::enemy::Skeleton;
-using LevelEntities = shadow_pumpkin_caster::LevelManager::LevelEntities;
+using LevelEntities = shadow_pumpkin_caster::LevelEntities;
 
 template <typename T>
 void becomeGravestone(b2World &p_world, std::list<std::shared_ptr<Gavestone>> &p_gravestones,

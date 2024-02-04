@@ -1,7 +1,7 @@
 /**
  * MIT License
  *
- * Copyright (c) 2023 Matthew James Austin
+ * Copyright (c) 2023-2024 Matthew James Austin
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,28 +22,33 @@
  * SOFTWARE.
  */
 
-#include "necromancy.h"
+#pragma once
+
+#include "staticEntity.h"
+#include "dynamicEntity.h"
+#include "player.h"
 #include "skeleton.h"
 #include "gravestone.h"
+#include "necromancer.h"
+#include "witch.h"
+#include "vampire.h"
 
 namespace shadow_pumpkin_caster {
-namespace entity {
-namespace enemy {
-namespace spell {
 
-void necromancy(b2World &p_world, LevelEntities &p_entities) {
-    if (p_entities.m_gravestones.size() == 0) {
-        return; // nothing to reanimate
-    }
+/**
+ * Structure that binds all game entities together
+ */
+struct LevelEntities {
+    std::list<std::unique_ptr<entity::StaticEntity>> m_static;
+    std::list<std::shared_ptr<entity::DynamicEntity>> m_dynamic;
+    std::list<std::shared_ptr<entity::enemy::Skeleton>> m_skeletons;
+    std::list<std::shared_ptr<entity::enemy::Gravestone>> m_gravestones;
+    std::list<std::shared_ptr<entity::enemy::Necromancer>> m_necromancers;
+    std::list<std::shared_ptr<entity::enemy::Witch>> m_witches;
+    std::list<std::shared_ptr<entity::enemy::Vampire>> m_vampires;
 
-    auto gravestonePtr = std::move(p_entities.m_gravestones.front());
-    p_entities.m_gravestones.pop_front();
-    p_entities.m_skeletons.push_back(std::make_unique<Skeleton>(p_world,
-                                                                gravestonePtr->getPosition(),
-                                                                gravestonePtr->getRadius()));
-}
+    std::list<std::shared_ptr<entity::DynamicEntity>> m_hurtEntities;
+    std::list<std::shared_ptr<entity::DynamicEntity>> m_projectiles;
+};
 
-}; // end of namespace spell
-}; // end of namespace enemy
-}; // end of namespace entity
 }; // end of namespace shadow_pumpkin_caster

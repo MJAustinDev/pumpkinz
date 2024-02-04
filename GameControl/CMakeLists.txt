@@ -12,9 +12,6 @@ add_executable(shadow_pumpkin_caster
     entry.cpp
     levelManager.cpp
     player.cpp
-    GameEntities/Enemies/Spells/necromancy.cpp
-    GameEntities/Enemies/Spells/restoration.cpp
-    GameEntities/Enemies/Spells/vampirism.cpp
     Levels/level_1.cpp
     Levels/level_2.cpp
     Levels/level_3.cpp
@@ -26,7 +23,6 @@ add_executable(shadow_pumpkin_caster
 include_directories(shadow_pumpkin_caster
     ${EXTERNAL_INCLUDES}
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/GameEntities/Enemies/Spells
     ${CMAKE_CURRENT_SOURCE_DIR}/Levels
 )
 

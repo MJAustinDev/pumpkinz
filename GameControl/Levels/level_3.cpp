@@ -31,7 +31,7 @@
 namespace shadow_pumpkin_caster {
 namespace level {
 
-void setUpLevel_3(b2World &p_world, LevelManager::LevelEntities &p_entities) {
+void setUpLevel_3(b2World &p_world, LevelEntities &p_entities) {
 
     const std::vector<b2Vec2> kGroundShape = {
         b2Vec2(0.0f, 0.0f),

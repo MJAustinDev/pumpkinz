@@ -45,21 +45,21 @@ void addDynamic(std::list<std::shared_ptr<shadow_pumpkin_caster::entity::Dynamic
  * @param p_world box2d world where all entities exist
  * @param p_entities entity container structure
  */
-void setUpDemoLevel(b2World &p_world, LevelManager::LevelEntities &p_entities);
+void setUpDemoLevel(b2World &p_world, LevelEntities &p_entities);
 
 /**
  * Generates level 1
  * @param p_world box2d world where all entities exist
  * @param p_entities entity container structure
  */
-void setUpLevel_1(b2World &p_world, LevelManager::LevelEntities &p_entities);
+void setUpLevel_1(b2World &p_world, LevelEntities &p_entities);
 
 /**
  * Generates level 2
  * @param p_world box2d world where all entities exist
  * @param p_entities entity container structure
  */
-void setUpLevel_2(b2World &p_world, LevelManager::LevelEntities &p_entities);
+void setUpLevel_2(b2World &p_world, LevelEntities &p_entities);
 
 
 /**
@@ -67,7 +67,7 @@ void setUpLevel_2(b2World &p_world, LevelManager::LevelEntities &p_entities);
  * @param p_world box2d world where all entities exist
  * @param p_entities entity container structure
  */
-void setUpLevel_3(b2World &p_world, LevelManager::LevelEntities &p_entities);
+void setUpLevel_3(b2World &p_world, LevelEntities &p_entities);
 
 
 /**
@@ -75,14 +75,14 @@ void setUpLevel_3(b2World &p_world, LevelManager::LevelEntities &p_entities);
  * @param p_world box2d world where all entities exist
  * @param p_entities entity container structure
  */
-void setUpLevel_4(b2World &p_world, LevelManager::LevelEntities &p_entities);
+void setUpLevel_4(b2World &p_world, LevelEntities &p_entities);
 
 /**
  * Generates level 5
  * @param p_world box2d world where all entities exist
  * @param p_entities entity container structure
  */
-void setUpLevel_5(b2World &p_world, LevelManager::LevelEntities &p_entities);
+void setUpLevel_5(b2World &p_world, LevelEntities &p_entities);
 
 }; // end of namespace level
 }; // end of namespace shadow_pumpkin_caster

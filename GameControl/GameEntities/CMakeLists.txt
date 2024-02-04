@@ -20,6 +20,7 @@ add_library(entities STATIC
 
 include_directories(entities
     ${EXTERNAL_INCLUDES}
+    ${CMAKE_CURRENT_SOURCE_DIR}/..
 )
 
 target_link_libraries(entities input_output)

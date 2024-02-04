@@ -29,7 +29,7 @@ namespace entity {
 namespace enemy {
 namespace spell {
 
-void restoration(b2World &p_world, LevelManager::LevelEntities &p_entities) {
+void restoration(b2World &p_world, LevelEntities &p_entities) {
     if (p_entities.m_hurtEntities.size() == 0) {
         return; // nothing to heal
     }

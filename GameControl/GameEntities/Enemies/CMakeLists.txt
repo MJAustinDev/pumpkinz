@@ -15,10 +15,14 @@ set(SPC_ENEMY_CXX
     ${CMAKE_CURRENT_SOURCE_DIR}/spellCaster.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/vampire.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/witch.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Spells/necromancy.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Spells/restoration.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Spells/vampirism.cpp
     PARENT_SCOPE
 )
 
 set(SPC_ENEMY_DIR
     ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/Spells
     PARENT_SCOPE
 )
