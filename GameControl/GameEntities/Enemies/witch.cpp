@@ -44,7 +44,7 @@ void Witch::processEvents() {
     TargetEntity::processEvents();
 }
 
-void Witch::draw(const visual::Camera &p_camera) {
+void Witch::draw(const io::visual::Camera &p_camera) {
     float fade = 0.3 + (0.7 * (getHp()/100.0f));
     float spellSize = 2.0f * getRadius() * getSpellProgress();
 

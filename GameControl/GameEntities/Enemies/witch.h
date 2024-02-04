@@ -34,7 +34,7 @@ namespace enemy {
 /**
  * Specialist enemy, can heal entities
  */
-class Witch : public TargetEntity, public spell::SpellCaster {
+class Witch : public TargetEntity, public SpellCaster {
 
 public:
 
@@ -54,7 +54,7 @@ public:
     /**
      * @see base class
      */
-    void draw(const visual::Camera &p_camera) override;
+    void draw(const io::visual::Camera &p_camera) override;
 
 };
 

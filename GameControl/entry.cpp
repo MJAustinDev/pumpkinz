@@ -26,10 +26,10 @@
 using namespace shadow_pumpkin_caster;
 
 bool isPressedOnce(int p_key, bool &p_isPressed) {
-    if (InputController::isKeyPressed(p_key)) {
+    if (io::input::InputController::isKeyPressed(p_key)) {
         p_isPressed = true;
     }
-    if (p_isPressed && !InputController::isKeyPressed(p_key)) {
+    if (p_isPressed && !io::input::InputController::isKeyPressed(p_key)) {
         p_isPressed = false;
         return false;
     }
@@ -46,7 +46,7 @@ int main() {
     }
 
     srand(time(NULL));
-    visual::Camera camera;
+    io::visual::Camera camera;
     glfwWindowHint(GLFW_MAXIMIZED, 1); // attempt to start with a maximised window
     GLFWwindow* window = glfwCreateWindow(1600, 900, "Pumpkinz", NULL, NULL); // TODO RENAME GAME...
     if (!window) {
@@ -54,7 +54,7 @@ int main() {
         return -1;
     }
     glfwMakeContextCurrent(window);
-    InputController userInput(window, &camera);
+    io::input::InputController userInput(window, &camera);
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // set clear colour to pure black
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); //set blending function for transparency
@@ -72,22 +72,22 @@ int main() {
         // TODO INTEGRATE CONTROLS WITH GAME/LEVEL MANAGEMENT
         b2Vec2 cameraShift(0.0f, 0.0f);
         const float kShiftAmount = 0.0005f;
-        if (InputController::isKeyPressed(GLFW_KEY_A)) {
+        if (io::input::InputController::isKeyPressed(GLFW_KEY_A)) {
             cameraShift.x -= kShiftAmount;
         }
-        if (InputController::isKeyPressed(GLFW_KEY_D)) {
+        if (io::input::InputController::isKeyPressed(GLFW_KEY_D)) {
             cameraShift.x += kShiftAmount;
         }
 
-        if (InputController::isKeyPressed(GLFW_KEY_W)) {
+        if (io::input::InputController::isKeyPressed(GLFW_KEY_W)) {
             cameraShift.y += kShiftAmount;
         }
 
-        if (InputController::isKeyPressed(GLFW_KEY_S)) {
+        if (io::input::InputController::isKeyPressed(GLFW_KEY_S)) {
             cameraShift.y -= kShiftAmount;
         }
 
-        auto scroll = static_cast<float>(InputController::getScrollY());
+        auto scroll = static_cast<float>(io::input::InputController::getScrollY());
         camera.moveBy(cameraShift, 0.01f * scroll);
 
         if (timer < glfwGetTime()) {

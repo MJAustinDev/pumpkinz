@@ -51,7 +51,7 @@ void CircleProjectileEntity::processEvents() {
     }
 }
 
-void CircleProjectileEntity::draw(const visual::Camera &p_camera) {
+void CircleProjectileEntity::draw(const io::visual::Camera &p_camera) {
     CircleEntity::draw(p_camera);
 }
 

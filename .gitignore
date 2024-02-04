@@ -1,5 +1,6 @@
 
 Builds/
+Extern/CMakeLists.txt
 
 pumpkinz.cbp
 pumpkinz.depend

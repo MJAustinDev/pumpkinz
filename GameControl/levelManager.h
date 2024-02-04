@@ -28,15 +28,8 @@
 #include <memory>
 #include "camera.h"
 #include "collisionListener.h"
-#include "staticEntity.h"
-#include "dynamicEntity.h"
-#include "player.h"
-#include "skeleton.h"
-#include "gravestone.h"
-#include "necromancer.h"
-#include "witch.h"
-#include "vampire.h"
 #include "pages.h"
+#include "levelEntities.h"
 
 namespace shadow_pumpkin_caster {
 
@@ -59,28 +52,12 @@ public:
      * Draws the game to the screen
      * @param p_camera camera that draws the world to the screen
      */
-    void draw(const visual::Camera &p_camera);
+    void draw(const io::visual::Camera &p_camera);
 
     /**
      * Resets the game to a different level
      */
     void reset(Regions p_region, unsigned int p_mission);
-
-    /**
-     * Structure that binds all game entities together
-     */
-    struct LevelEntities {
-        std::list<std::unique_ptr<entity::StaticEntity>> m_static;
-        std::list<std::shared_ptr<entity::DynamicEntity>> m_dynamic;
-        std::list<std::shared_ptr<entity::enemy::Skeleton>> m_skeletons;
-        std::list<std::shared_ptr<entity::enemy::Gravestone>> m_gravestones;
-        std::list<std::shared_ptr<entity::enemy::Necromancer>> m_necromancers;
-        std::list<std::shared_ptr<entity::enemy::Witch>> m_witches;
-        std::list<std::shared_ptr<entity::enemy::Vampire>> m_vampires;
-
-        std::list<std::shared_ptr<entity::DynamicEntity>> m_hurtEntities;
-        std::list<std::shared_ptr<entity::DynamicEntity>> m_projectiles;
-    };
 
 private:
 

@@ -61,7 +61,7 @@ void BasicBomb::processEvents() {
     CircleProjectileEntity::processEvents();
 }
 
-void BasicBomb::draw(const visual::Camera &p_camera) {
+void BasicBomb::draw(const io::visual::Camera &p_camera) {
     glColor4f(0.64f, 0.24f, 0.44f, (getHp()/100.0f));
     p_camera.drawCircle(getPosition(), getAngle(), kRadius());
 }

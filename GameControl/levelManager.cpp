@@ -38,7 +38,7 @@ constexpr int kPositionIterations() { return 3; }
 
 using Gavestone = shadow_pumpkin_caster::entity::enemy::Gravestone;
 using Skeleton = shadow_pumpkin_caster::entity::enemy::Skeleton;
-using LevelEntities = shadow_pumpkin_caster::LevelManager::LevelEntities;
+using LevelEntities = shadow_pumpkin_caster::LevelEntities;
 
 template <typename T>
 void becomeGravestone(b2World &p_world, std::list<std::shared_ptr<Gavestone>> &p_gravestones,
@@ -140,7 +140,7 @@ void processEntityList(b2World &p_world, std::list<std::shared_ptr<T>> &p_proces
  * @param p_camera camera used to draw each entity
  */
 template <typename T>
-void drawEntityList(std::list<T> &p_entities, const visual::Camera &p_camera) {
+void drawEntityList(std::list<T> &p_entities, const io::visual::Camera &p_camera) {
     for (auto &entity : p_entities) {
         entity->draw(p_camera);
     }
@@ -210,7 +210,7 @@ void LevelManager::processEvents() {
     m_player.processEvents();
 }
 
-void LevelManager::draw(const visual::Camera &p_camera) {
+void LevelManager::draw(const io::visual::Camera &p_camera) {
     drawEntityList(m_entities.m_dynamic, p_camera);
     drawEntityList(m_entities.m_static, p_camera);
     drawEntityList(m_entities.m_skeletons, p_camera);

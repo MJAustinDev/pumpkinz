@@ -74,7 +74,7 @@ public:
      * Draws the entity to the screen
      * @param p_camera camera that draws the world to the screen
      */
-    virtual void draw(const visual::Camera &p_camera) = 0;
+    virtual void draw(const io::visual::Camera &p_camera) = 0;
 
     /**
      * @return position of the entity in the world

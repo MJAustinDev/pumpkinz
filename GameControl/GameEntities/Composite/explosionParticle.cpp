@@ -48,7 +48,7 @@ void ExplosionParticle::processEvents() {
 }
 
 
-void ExplosionParticle::draw(const visual::Camera &p_camera) {
+void ExplosionParticle::draw(const io::visual::Camera &p_camera) {
     glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
     p_camera.drawCircle(getPosition(), 0.0f, getRadius());
 }

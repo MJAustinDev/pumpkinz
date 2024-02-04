@@ -26,7 +26,7 @@
 
 namespace {
 
-using scrBdr = shadow_pumpkin_caster::ScreenBorder;
+using scrBdr = io::input::ScreenBorder;
 
 constexpr float kScreenBorder() { return 0.9f; }
 constexpr float kResolutionWidth() { return 1600.0f; }
@@ -100,7 +100,7 @@ int getKeyIndex(int p_key) {
 
 }; // end of namespace
 
-namespace shadow_pumpkin_caster{
+namespace io::input {
 
 float InputController::m_mouseX = 0.0f;
 float InputController::m_mouseY = 0.0f;
@@ -221,4 +221,4 @@ void InputController::handleScreenChange(GLFWwindow* p_window, int p_width, int 
     glViewport(vpX, vpY, vpW, vpH);
 }
 
-}; // end of namespace shadow_pumpkin_caster
+}; // end of namespace io::input

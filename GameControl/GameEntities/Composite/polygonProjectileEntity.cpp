@@ -51,7 +51,7 @@ void PolygonProjectileEntity::processEvents() {
     }
 }
 
-void PolygonProjectileEntity::draw(const visual::Camera &p_camera) {
+void PolygonProjectileEntity::draw(const io::visual::Camera &p_camera) {
     PolygonEntity::draw(p_camera);
 }
 

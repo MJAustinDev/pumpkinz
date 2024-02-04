@@ -47,7 +47,7 @@ public:
     /**
      * @see base class
      */
-    void draw(const visual::Camera &p_camera) override;
+    void draw(const io::visual::Camera &p_camera) override;
 
 private:
 

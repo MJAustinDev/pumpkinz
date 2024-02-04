@@ -24,10 +24,7 @@
 
 #pragma once
 
-namespace shadow_pumpkin_caster {
-namespace entity {
-namespace enemy {
-namespace spell {
+namespace shadow_pumpkin_caster::entity::enemy {
 
 /**
  * Inherited class that binds spell casting functionality
@@ -73,7 +70,4 @@ private:
 
 };
 
-}; // end of namespace spell
-}; // end of namespace enemy
-}; // end of namespace entity
-}; // end of namespace shadow_pumpkin_caster
+}; // end of namespace shadow_pumpkin_caster::entity::enemy

@@ -48,7 +48,7 @@ constexpr float kMaximumZoom() { return 0.2f; }
 
 }; // end of namespace
 
-namespace visual {
+namespace io::visual {
 
 void drawAbsolutePolygon(std::vector<b2Vec2> &p_shape) {
     glBegin(GL_POLYGON);
@@ -95,4 +95,4 @@ void Camera::catchZoom() {
     }
 }
 
-}; // end of namespace visual
+}; // end of namespace io::visual
