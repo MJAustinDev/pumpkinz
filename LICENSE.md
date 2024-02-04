@@ -4,7 +4,7 @@ All files that this license applies to begin with a copy of said license via mul
 
 MIT License
 
-Copyright (c) 2023 Matthew James Austin
+Copyright (c) 2023-2024 Matthew James Austin
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
