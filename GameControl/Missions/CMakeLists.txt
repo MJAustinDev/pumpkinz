@@ -6,21 +6,22 @@
  # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  # SOFTWARE.
 
-add_subdirectory(GameEntities)
-add_subdirectory(Missions)
-
-add_executable(shadow_pumpkin_caster
-    entry.cpp
+add_library(missions STATIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/implementedMissions.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/mission.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/missionManager.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/../player.cpp  # TODO move into better location
 )
 
-include_directories(shadow_pumpkin_caster
+include_directories(missions
     ${EXTERNAL_INCLUDES}
+)
+
+target_include_directories(missions PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/Levels
+    ${CMAKE_CURRENT_SOURCE_DIR}/..  # for player.h TODO move into better location
 )
 
-target_link_libraries(shadow_pumpkin_caster missions)
+add_subdirectory(PumpkinPatch)
 
-set_target_properties(shadow_pumpkin_caster PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
-)
+target_link_libraries(missions entities user_interface)

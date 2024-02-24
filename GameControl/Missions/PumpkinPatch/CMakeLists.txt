@@ -6,21 +6,4 @@
  # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  # SOFTWARE.
 
-add_subdirectory(GameEntities)
-add_subdirectory(Missions)
-
-add_executable(shadow_pumpkin_caster
-    entry.cpp
-)
-
-include_directories(shadow_pumpkin_caster
-    ${EXTERNAL_INCLUDES}
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/Levels
-)
-
-target_link_libraries(shadow_pumpkin_caster missions)
-
-set_target_properties(shadow_pumpkin_caster PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
-)
+add_subdirectory(Missions_1_15)
