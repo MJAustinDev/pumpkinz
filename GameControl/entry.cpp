@@ -20,8 +20,8 @@
 #include "collisionListener.h"
 #include "player.h"
 #include "inputController.h"
-#include "levelManager.h"
 #include "menuPage.h"
+#include "missionManager.h"
 
 using namespace shadow_pumpkin_caster;
 
@@ -63,7 +63,7 @@ int main() {
     glfwSwapBuffers(window);
 
     float timer = glfwGetTime();
-    LevelManager levelManager;
+    missions::MissionManager missionManager;
     bool inGame = false;
     bool isEscPressed = false;
 
@@ -103,8 +103,8 @@ int main() {
             glEnd();
 
             if (inGame) {
-                levelManager.processEvents();
-                levelManager.draw(camera);
+                missionManager.processEvents();
+                missionManager.draw(camera);
 
                 inGame = isPressedOnce(GLFW_KEY_ESCAPE, isEscPressed);
             } else {
@@ -120,7 +120,7 @@ int main() {
                     }
                     case PageAction::startLevel: {
                         inGame = true;
-                        levelManager.reset(pageData.m_region, pageData.m_mission);
+                        missionManager.startMission(); // pageData.m_region, pageData.m_mission
                         break;
                     }
                 }
