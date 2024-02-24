@@ -28,6 +28,7 @@
 #include <memory>
 #include "staticEntity.h"
 #include "dynamicEntity.h"
+#include "blockEntity.h"
 #include "pumpkin.h"
 #include "skeleton.h"
 #include "gravestone.h"
@@ -49,13 +50,22 @@ public:
 
     void draw(const io::visual::Camera &p_camera);
 
+    void addStaticGround(std::unique_ptr<entity::StaticEntity> p_ground);
+    void addDestructableBlock(std::shared_ptr<entity::BlockEntity> p_block);
     void addProjectile(std::shared_ptr<entity::DynamicEntity> p_round);
+
+    void addPumpkin(std::shared_ptr<entity::enemy::Pumpkin> p_pumpkin);
+    void addSkeleton(std::shared_ptr<entity::enemy::Skeleton> p_skeleton);
+    void addGhost(std::shared_ptr<entity::enemy::Ghost> p_ghost);
+    void addNecromancer(std::shared_ptr<entity::enemy::Necromancer> p_necromancer);
+    void addWitch(std::shared_ptr<entity::enemy::Witch> p_witch);
+    void addVampire(std::shared_ptr<entity::enemy::Vampire> p_vampire);
 
 private:
 
     b2World* m_world = nullptr;
     std::list<std::unique_ptr<entity::StaticEntity>> m_staticGround;
-    std::list<std::shared_ptr<entity::DynamicEntity>> m_destructableBlocks;
+    std::list<std::shared_ptr<entity::BlockEntity>> m_destructableBlocks;
     std::list<std::shared_ptr<entity::DynamicEntity>> m_hurtEntities;
     std::list<std::shared_ptr<entity::DynamicEntity>> m_projectiles;
 

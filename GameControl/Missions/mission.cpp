@@ -22,8 +22,6 @@
  * SOFTWARE.
  */
 
-#pragma once
-
 #include "mission.h"
 
 namespace {
@@ -93,8 +91,40 @@ void Mission::draw(const io::visual::Camera &p_camera) {
     drawEntityList(m_vampires, p_camera);
 }
 
+void Mission::addStaticGround(std::unique_ptr<entity::StaticEntity> p_ground) {
+    m_staticGround.push_back(std::move(p_ground));
+}
+
+void Mission::addDestructableBlock(std::shared_ptr<entity::BlockEntity> p_block) {
+    m_destructableBlocks.push_back(std::move(p_block));
+}
+
 void Mission::addProjectile(std::shared_ptr<entity::DynamicEntity> p_round) {
     m_projectiles.push_back(std::move(p_round));
+}
+
+void Mission::addPumpkin(std::shared_ptr<entity::enemy::Pumpkin> p_pumpkin) {
+    m_pumpkins.push_back(std::move(p_pumpkin));
+}
+
+void Mission::addSkeleton(std::shared_ptr<entity::enemy::Skeleton> p_skeleton) {
+    m_skeletons.push_back(std::move(p_skeleton));
+}
+
+void Mission::addGhost(std::shared_ptr<entity::enemy::Ghost> p_ghost) {
+    m_ghosts.push_back(std::move(p_ghost));
+}
+
+void Mission::addNecromancer(std::shared_ptr<entity::enemy::Necromancer> p_necromancer) {
+    m_necromancers.push_back(std::move(p_necromancer));
+}
+
+void Mission::addWitch(std::shared_ptr<entity::enemy::Witch> p_witch) {
+    m_witches.push_back(std::move(p_witch));
+}
+
+void Mission::addVampire(std::shared_ptr<entity::enemy::Vampire> p_vampire) {
+    m_vampires.push_back(std::move(p_vampire));
 }
 
 }; // end of namespace shadow_pumpkin_caster::missions

@@ -23,6 +23,7 @@
  */
 
 #include "missionManager.h"
+#include "pumpkinPatchMission_1_15.h"
 
 namespace shadow_pumpkin_caster::missions {
 
@@ -64,6 +65,7 @@ void MissionManager::startMission() {
         m_mission.reset();
     }
     m_mission = std::make_unique<Mission>(&m_world);
+    pumpkin_patch::setUpLevel_5(*m_mission, m_world);
 }
 
 }; // end of namespace shadow_pumpkin_caster::missions
