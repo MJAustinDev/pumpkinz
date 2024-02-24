@@ -36,7 +36,7 @@ using Witch= entity::enemy::Witch;
 using Vampire= entity::enemy::Vampire;
 
 /// TODO -- IMPLEMENT ACTUAL MISSION, THIS IS DEMO LEVEL 5 (HAS ALL ENTITY TYPES)
-void setUpLevel_5(Mission &p_mission, b2World &p_world) {
+void setUpMission_5(Mission &p_mission, b2World &p_world) {
     auto placeTower = [&p_mission, &p_world](b2Vec2 p_position) {
         const std::vector<b2Vec2> kVerticalBlock = {
             b2Vec2(0.0f, 0.0f),

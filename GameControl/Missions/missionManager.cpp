@@ -24,6 +24,7 @@
 
 #include "missionManager.h"
 #include "pumpkinPatchMission_1_15.h"
+#include "implementedMissions.h"
 
 namespace shadow_pumpkin_caster::missions {
 
@@ -60,12 +61,19 @@ void MissionManager::draw(const io::visual::Camera &p_camera) {
     }
 }
 
-void MissionManager::startMission() {
+bool MissionManager::startMission(Regions p_region, unsigned int p_mission) {
+    if (!isMissionImplemented(p_region, p_mission)) {
+        return false;
+    }
+
     if (m_mission != nullptr) {
         m_mission.reset();
     }
+
     m_mission = std::make_unique<Mission>(&m_world);
-    pumpkin_patch::setUpLevel_5(*m_mission, m_world);
+    auto setUpMission = getMission(p_region, p_mission);
+    setUpMission(*m_mission, m_world);
+    return true;
 }
 
 }; // end of namespace shadow_pumpkin_caster::missions

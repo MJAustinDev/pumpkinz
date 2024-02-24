@@ -24,37 +24,15 @@
 
 #pragma once
 
-#include "box2d/box2d.h"
-#include <memory>
-#include "mission.h"
-#include "collisionListener.h"
-#include "player.h"
+#include <functional>
 #include "pages.h"
+#include "mission.h"
+
 
 namespace shadow_pumpkin_caster::missions {
 
-class MissionManager {
+bool isMissionImplemented(Regions &p_region, unsigned int p_mission);
 
-public:
-
-    MissionManager();
-    ~MissionManager();
-
-    void processEvents();
-
-    void draw(const io::visual::Camera &p_camera);
-
-    bool startMission(Regions p_region, unsigned int p_mission);
-
-    // TODO -- move page process here?
-
-private:
-
-    entity::CollisionListener m_collisionListener;
-    b2World m_world;
-    Player m_player; // TODO -- MOVE TO MISSION
-    std::unique_ptr<Mission> m_mission;
-
-};
+std::function<void(Mission&, b2World&)> getMission(Regions &p_region, unsigned int p_mission);
 
 }; // end of namespace shadow_pumpkin_caster::missions

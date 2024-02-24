@@ -119,8 +119,7 @@ int main() {
                         break;
                     }
                     case PageAction::startLevel: {
-                        inGame = true;
-                        missionManager.startMission(); // pageData.m_region, pageData.m_mission
+                        inGame = missionManager.startMission(pageData.m_region, pageData.m_mission);
                         break;
                     }
                 }

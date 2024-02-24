@@ -31,7 +31,7 @@
 - - UI selection
 - clean level code
 - - mission manager
-- - prevent non-implemented level running
+- - ~~prevent non-implemented level running~~
 - cmake
 - - ~~working static build~~
 - - map down inter-dependencies
