@@ -24,20 +24,18 @@
 
 #include "restoration.h"
 
-namespace shadow_pumpkin_caster {
-namespace entity {
-namespace enemy {
-namespace spell {
+namespace shadow_pumpkin_caster::entity::enemy::spell {
 
-void restoration(b2World &p_world, LevelEntities &p_entities) {
-    if (p_entities.m_hurtEntities.size() == 0) {
-        return; // nothing to heal
-    }
-    float hp = 100.0f - p_entities.m_hurtEntities.back()->getHp();
-    p_entities.m_hurtEntities.back()->applyHpChange(hp);
+bool restorationCanCast(missions::MissionEntities_t &p_entities) {
+    return p_entities.hurtEntities.size() > 0;
 }
 
-}; // end of namespace spell
-}; // end of namespace enemy
-}; // end of namespace entity
-}; // end of namespace shadow_pumpkin_caster
+void restoration(b2World &p_world, missions::MissionEntities_t &p_entities) {
+    if (!restorationCanCast(p_entities)) {
+        return; // nothing to heal
+    }
+    float hp = 100.0f - p_entities.hurtEntities.back()->getHp();
+    p_entities.hurtEntities.back()->applyHpChange(hp);
+}
+
+}; // end of namespace shadow_pumpkin_caster::entity::enemy::spell

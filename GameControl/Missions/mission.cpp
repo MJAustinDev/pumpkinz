@@ -27,6 +27,17 @@
 
 namespace {
 
+using Gavestone = shadow_pumpkin_caster::entity::enemy::Gravestone;
+using Skeleton = shadow_pumpkin_caster::entity::enemy::Skeleton;
+using MissionEntities_t = shadow_pumpkin_caster::missions::MissionEntities_t;
+
+template <typename T>
+void becomeGravestone(b2World &p_world, std::list<std::shared_ptr<Gavestone>> &p_gravestones,
+                      std::shared_ptr<T> p_ptr) {
+    p_gravestones.push_back(std::make_unique<Gavestone>(p_world, p_ptr->getPosition(),
+                                                        p_ptr->getRadius()));
+}
+
 /**
  * Process game events for entities with no special after death abilities
  * @param p_entities list of entities to process
@@ -38,6 +49,78 @@ void processEntityList(std::list<std::shared_ptr<T>> &p_entities) {
         if ((*it)->isDead()) {
             auto deadEntity = it--;
             p_entities.erase(deadEntity);
+        }
+    }
+}
+
+/**
+ * Process game events for entities with no special after death abilities
+ * @param p_entities list of entities to process
+ * @param p_allEntities structure containing all level entities
+ */
+template <typename T>
+void processHealableList(std::list<std::shared_ptr<T>> &p_entities,
+                         MissionEntities_t &p_allEntities) {
+    for (auto it = p_entities.begin(); it != p_entities.end(); it++) {
+        (*it)->processEvents();
+        if ((*it)->isDead()) {
+            auto deadEntity = it--;
+            p_entities.erase(deadEntity);
+        } else if ((*it)->getHp() < 100.0f) {
+            p_allEntities.hurtEntities.push_back(*it);
+        }
+    }
+}
+
+/**
+ * Process game events for entities that become gravestones after death
+ * @param p_world box2d world that all entities exist within
+ * @param p_entities list of entities to process
+ * @param p_allEntities structure containing all level entities
+ */
+template <typename T>
+void processReanimatableList(b2World &p_world, std::list<std::shared_ptr<T>> &p_entities,
+                             MissionEntities_t &p_allEntities) {
+    for (auto it = p_entities.begin(); it != p_entities.end(); it++) {
+        (*it)->processEvents();
+        if ((*it)->isDead()) {
+            auto deadEntity = it--;
+            becomeGravestone(p_world, p_allEntities.gravestones, std::move(*deadEntity));
+            p_entities.erase(deadEntity);
+        } else if ((*it)->getHp() < 100.0f) {
+            p_allEntities.hurtEntities.push_back(*it);
+        }
+    }
+}
+
+/**
+ * Process game events for spell casting entities that become gravestones after death
+ * @param p_world box2d world that all entities exist within
+ * @param p_entities list of entities to process
+ * @param p_allEntities structure containing all level entities
+ * @param p_canCastSpell whether spell casting can begin or not
+ * @param p_spell reference to the spell function
+ */
+template <typename T>
+void processSpellCasterList(b2World &p_world, std::list<std::shared_ptr<T>> &p_processEntities,
+                            MissionEntities_t &p_allEntities) {
+    for (auto it = p_processEntities.begin(); it != p_processEntities.end(); it++) {
+        if ((*it)->canCastSpell(p_allEntities)) {
+            (*it)->beginCasting();
+        }
+
+        (*it)->processEvents();
+        if ((*it)->isDead()) {
+            auto deadEntity = it--;
+            becomeGravestone(p_world, p_allEntities.gravestones, std::move((*deadEntity)));
+            p_processEntities.erase(deadEntity);
+        } else {
+            if ((*it)->getHp() < 100.0f) {
+                p_allEntities.hurtEntities.push_back(*it);
+            }
+            if ((*it)->isSpellCasted()) {
+                (*it)->castSpell(p_world, p_allEntities);
+            }
         }
     }
 }
@@ -84,14 +167,16 @@ void Mission::processEvents() {
     }
 
     processEntityList(m_entities.projectiles);
-    processEntityList(m_entities.destructableBlocks);
-    processEntityList(m_entities.pumpkins);
-    processEntityList(m_entities.skeletons);
-    processEntityList(m_entities.gravestones);
-    processEntityList(m_entities.ghosts);
-    processEntityList(m_entities.necromancers);
-    processEntityList(m_entities.witches);
-    processEntityList(m_entities.vampires);
+    processHealableList(m_entities.destructableBlocks, m_entities);
+    processHealableList(m_entities.pumpkins, m_entities);
+    processReanimatableList(m_world, m_entities.skeletons, m_entities);
+    processHealableList(m_entities.gravestones, m_entities);
+    processHealableList(m_entities.ghosts, m_entities);
+
+    processSpellCasterList(m_world, m_entities.necromancers, m_entities);
+    processSpellCasterList(m_world, m_entities.witches, m_entities);
+    processSpellCasterList(m_world, m_entities.vampires, m_entities);
+    m_entities.hurtEntities.clear();
 }
 
 void Mission::draw(const io::visual::Camera &p_camera) {

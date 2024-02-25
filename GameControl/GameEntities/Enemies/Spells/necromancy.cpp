@@ -26,24 +26,22 @@
 #include "skeleton.h"
 #include "gravestone.h"
 
-namespace shadow_pumpkin_caster {
-namespace entity {
-namespace enemy {
-namespace spell {
+namespace shadow_pumpkin_caster::entity::enemy::spell {
 
-void necromancy(b2World &p_world, LevelEntities &p_entities) {
-    if (p_entities.m_gravestones.size() == 0) {
+bool necromancyCanCast(missions::MissionEntities_t &p_entities) {
+    return p_entities.gravestones.size() > 0;
+}
+
+void necromancy(b2World &p_world, missions::MissionEntities_t &p_entities) {
+    if (!necromancyCanCast(p_entities)) {
         return; // nothing to reanimate
     }
 
-    auto gravestonePtr = std::move(p_entities.m_gravestones.front());
-    p_entities.m_gravestones.pop_front();
-    p_entities.m_skeletons.push_back(std::make_unique<Skeleton>(p_world,
-                                                                gravestonePtr->getPosition(),
-                                                                gravestonePtr->getRadius()));
+    auto gravestonePtr = std::move(p_entities.gravestones.front());
+    p_entities.gravestones.pop_front();
+    p_entities.skeletons.push_back(std::make_unique<Skeleton>(p_world,
+                                                              gravestonePtr->getPosition(),
+                                                              gravestonePtr->getRadius()));
 }
 
-}; // end of namespace spell
-}; // end of namespace enemy
-}; // end of namespace entity
-}; // end of namespace shadow_pumpkin_caster
+}; // end of namespace shadow_pumpkin_caster::entity::enemy::spell

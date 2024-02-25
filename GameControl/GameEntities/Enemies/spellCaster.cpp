@@ -74,4 +74,12 @@ float SpellCaster::getSpellProgress() {
     return m_spellProgress / kCastingLimit();
 }
 
+void SpellCaster::castSpell(b2World &p_world, missions::MissionEntities_t &p_entities) {
+    m_castSpell(p_world, p_entities);
+}
+
+bool SpellCaster::canCastSpell(missions::MissionEntities_t &p_entities) {
+    return m_canCastSpell(p_entities);
+}
+
 }; // end of namespace shadow_pumpkin_caster::entity::enemy
