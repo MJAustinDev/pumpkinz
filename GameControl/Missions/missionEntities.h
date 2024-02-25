@@ -24,36 +24,37 @@
 
 #pragma once
 
-#include <list>
-#include <memory>
-#include "collisionListener.h"
-#include "pages.h"
-#include "gun.h"
-#include "missionEntities.h"
+#include<memory>
+#include<list>
+#include "staticEntity.h"
+#include "dynamicEntity.h"
+#include "blockEntity.h"
+#include "pumpkin.h"
+#include "skeleton.h"
+#include "gravestone.h"
+#include "ghost.h"
+#include "necromancer.h"
+#include "witch.h"
+#include "vampire.h"
 
 namespace shadow_pumpkin_caster::missions {
 
-class Mission {
+/**
+ * Binds all mission entity lists in one easy access structure
+ */
+struct MissionEntities_t {
+    std::list<std::unique_ptr<entity::StaticEntity>> staticGround;
+    std::list<std::shared_ptr<entity::BlockEntity>> destructableBlocks;
+    std::list<std::shared_ptr<entity::DynamicEntity>> hurtEntities;
+    std::list<std::shared_ptr<entity::DynamicEntity>> projectiles;
 
-public:
-
-    Mission(Regions p_region, unsigned int p_mission);
-    ~Mission();
-
-    void processEvents();
-
-    void draw(const io::visual::Camera &p_camera);
-
-private:
-
-    entity::CollisionListener m_collisionListener;
-    b2World m_world;
-    Gun m_playerGun;
-    MissionEntities_t m_entities;
-
-    void addProjectile(std::shared_ptr<entity::DynamicEntity> p_round);
-
+    std::list<std::shared_ptr<entity::enemy::Pumpkin>> pumpkins;
+    std::list<std::shared_ptr<entity::enemy::Skeleton>> skeletons;
+    std::list<std::shared_ptr<entity::enemy::Gravestone>> gravestones;
+    std::list<std::shared_ptr<entity::enemy::Ghost>> ghosts;
+    std::list<std::shared_ptr<entity::enemy::Necromancer>> necromancers;
+    std::list<std::shared_ptr<entity::enemy::Witch>> witches;
+    std::list<std::shared_ptr<entity::enemy::Vampire>> vampires;
 };
 
 }; // end of namespace shadow_pumpkin_caster::missions
-

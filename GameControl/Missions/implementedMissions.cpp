@@ -31,14 +31,15 @@ bool isMissionImplemented(Regions &p_region, unsigned int p_mission) {
     return (p_region == Regions::pumpkinPatch) && (p_mission == 5);
 }
 
-std::function<void(Mission*, b2World&)> getPumpkinPatch(unsigned int p_mission) {
+std::function<void(MissionEntities_t &, b2World &)> getPumpkinPatch(unsigned int p_mission) {
     switch (p_mission) {
         case 5: { return pumpkin_patch::setUpMission_5; }
         default: { assert(false); }
     }
 }
 
-std::function<void(Mission*, b2World&)> getMission(Regions &p_region, unsigned int p_mission) {
+std::function<void(MissionEntities_t &, b2World&)> getMission(Regions &p_region,
+                                                              unsigned int p_mission) {
     switch (p_region) {
         case Regions::pumpkinPatch: { return getPumpkinPatch(p_mission); }
         default: { assert(false); }

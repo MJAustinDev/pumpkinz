@@ -64,7 +64,7 @@ Mission::Mission(Regions p_region, unsigned int p_mission):
 {
     m_world.SetContactListener(&m_collisionListener);
     auto setUpMission = getMission(p_region, p_mission);
-    setUpMission(this, m_world);
+    setUpMission(m_entities, m_world);
 }
 
 Mission::~Mission() {
@@ -83,67 +83,35 @@ void Mission::processEvents() {
         addProjectile(round);
     }
 
-    processEntityList(m_projectiles);
-    processEntityList(m_destructableBlocks);
-    processEntityList(m_pumpkins);
-    processEntityList(m_skeletons);
-    processEntityList(m_gravestones);
-    processEntityList(m_ghosts);
-    processEntityList(m_necromancers);
-    processEntityList(m_witches);
-    processEntityList(m_vampires);
+    processEntityList(m_entities.projectiles);
+    processEntityList(m_entities.destructableBlocks);
+    processEntityList(m_entities.pumpkins);
+    processEntityList(m_entities.skeletons);
+    processEntityList(m_entities.gravestones);
+    processEntityList(m_entities.ghosts);
+    processEntityList(m_entities.necromancers);
+    processEntityList(m_entities.witches);
+    processEntityList(m_entities.vampires);
 }
 
 void Mission::draw(const io::visual::Camera &p_camera) {
-    drawEntityList(m_staticGround, p_camera);
-    drawEntityList(m_destructableBlocks, p_camera);
-    drawEntityList(m_hurtEntities, p_camera);
-    drawEntityList(m_projectiles, p_camera);
-    drawEntityList(m_pumpkins, p_camera);
-    drawEntityList(m_skeletons, p_camera);
-    drawEntityList(m_gravestones, p_camera);
-    drawEntityList(m_ghosts, p_camera);
-    drawEntityList(m_necromancers, p_camera);
-    drawEntityList(m_witches, p_camera);
-    drawEntityList(m_vampires, p_camera);
+    drawEntityList(m_entities.staticGround, p_camera);
+    drawEntityList(m_entities.destructableBlocks, p_camera);
+    drawEntityList(m_entities.hurtEntities, p_camera);
+    drawEntityList(m_entities.projectiles, p_camera);
+    drawEntityList(m_entities.pumpkins, p_camera);
+    drawEntityList(m_entities.skeletons, p_camera);
+    drawEntityList(m_entities.gravestones, p_camera);
+    drawEntityList(m_entities.ghosts, p_camera);
+    drawEntityList(m_entities.necromancers, p_camera);
+    drawEntityList(m_entities.witches, p_camera);
+    drawEntityList(m_entities.vampires, p_camera);
 
     m_playerGun.draw(p_camera);
 }
 
-void Mission::addStaticGround(std::unique_ptr<entity::StaticEntity> p_ground) {
-    m_staticGround.push_back(std::move(p_ground));
-}
-
-void Mission::addDestructableBlock(std::shared_ptr<entity::BlockEntity> p_block) {
-    m_destructableBlocks.push_back(std::move(p_block));
-}
-
 void Mission::addProjectile(std::shared_ptr<entity::DynamicEntity> p_round) {
-    m_projectiles.push_back(std::move(p_round));
-}
-
-void Mission::addPumpkin(std::shared_ptr<entity::enemy::Pumpkin> p_pumpkin) {
-    m_pumpkins.push_back(std::move(p_pumpkin));
-}
-
-void Mission::addSkeleton(std::shared_ptr<entity::enemy::Skeleton> p_skeleton) {
-    m_skeletons.push_back(std::move(p_skeleton));
-}
-
-void Mission::addGhost(std::shared_ptr<entity::enemy::Ghost> p_ghost) {
-    m_ghosts.push_back(std::move(p_ghost));
-}
-
-void Mission::addNecromancer(std::shared_ptr<entity::enemy::Necromancer> p_necromancer) {
-    m_necromancers.push_back(std::move(p_necromancer));
-}
-
-void Mission::addWitch(std::shared_ptr<entity::enemy::Witch> p_witch) {
-    m_witches.push_back(std::move(p_witch));
-}
-
-void Mission::addVampire(std::shared_ptr<entity::enemy::Vampire> p_vampire) {
-    m_vampires.push_back(std::move(p_vampire));
+    m_entities.projectiles.push_back(std::move(p_round));
 }
 
 }; // end of namespace shadow_pumpkin_caster::missions

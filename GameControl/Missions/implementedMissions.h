@@ -27,12 +27,14 @@
 #include <functional>
 #include "pages.h"
 #include "mission.h"
+#include "missionEntities.h"
 
 
 namespace shadow_pumpkin_caster::missions {
 
 bool isMissionImplemented(Regions &p_region, unsigned int p_mission);
 
-std::function<void(Mission*, b2World&)> getMission(Regions &p_region, unsigned int p_mission);
+std::function<void(MissionEntities_t &, b2World &)> getMission(Regions &p_region,
+                                                               unsigned int p_mission);
 
 }; // end of namespace shadow_pumpkin_caster::missions
