@@ -24,25 +24,18 @@
 
 #include "vampirism.h"
 
-namespace shadow_pumpkin_caster {
-namespace entity {
-namespace enemy {
-namespace spell {
+namespace shadow_pumpkin_caster::entity::enemy::spell {
 
-namespace {
-
-constexpr float kDrain() { return 75.0f; }
-
-}; // end of namesapce
-
-void vampirism(b2World &p_world, LevelEntities &p_entities) {
-    if (p_entities.m_projectiles.size() == 0) {
-        return; // nothing to drain
-    }
-    p_entities.m_projectiles.front()->applyHpChange(-kDrain());
+bool vampirismCanCast(missions::MissionEntities_t &p_entities) {
+    return p_entities.projectiles.size() > 0;
 }
 
-}; // end of namespace spell
-}; // end of namespace enemy
-}; // end of namespace entity
-}; // end of namespace shadow_pumpkin_caster
+void vampirism(b2World &p_world, missions::MissionEntities_t &p_entities) {
+    if (!vampirismCanCast(p_entities)) {
+        return; // nothing to drain
+    }
+    const float kDrain = 75.0f;
+    p_entities.projectiles.front()->applyHpChange(-kDrain);
+}
+
+}; // end of namespace shadow_pumpkin_caster::entity::enemy::spell

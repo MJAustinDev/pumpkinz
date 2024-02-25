@@ -22,20 +22,28 @@
  * SOFTWARE.
  */
 
-#include "restoration.h"
+#include "implementedMissions.h"
+#include "pumpkinPatchMission_1_15.h"
 
-namespace shadow_pumpkin_caster::entity::enemy::spell {
+namespace shadow_pumpkin_caster::missions {
 
-bool restorationCanCast(missions::MissionEntities_t &p_entities) {
-    return p_entities.hurtEntities.size() > 0;
+bool isMissionImplemented(Regions &p_region, unsigned int p_mission) {
+    return (p_region == Regions::pumpkinPatch) && (p_mission == 5);
 }
 
-void restoration(b2World &p_world, missions::MissionEntities_t &p_entities) {
-    if (!restorationCanCast(p_entities)) {
-        return; // nothing to heal
+std::function<void(MissionEntities_t &, b2World &)> getPumpkinPatch(unsigned int p_mission) {
+    switch (p_mission) {
+        case 5: { return pumpkin_patch::setUpMission_5; }
+        default: { assert(false); }
     }
-    float hp = 100.0f - p_entities.hurtEntities.back()->getHp();
-    p_entities.hurtEntities.back()->applyHpChange(hp);
 }
 
-}; // end of namespace shadow_pumpkin_caster::entity::enemy::spell
+std::function<void(MissionEntities_t &, b2World&)> getMission(Regions &p_region,
+                                                              unsigned int p_mission) {
+    switch (p_region) {
+        case Regions::pumpkinPatch: { return getPumpkinPatch(p_mission); }
+        default: { assert(false); }
+    }
+}
+
+}; // end of namespace shadow_pumpkin_caster::missions

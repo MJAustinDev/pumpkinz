@@ -6,29 +6,10 @@
  # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  # SOFTWARE.
 
-add_subdirectory(Intrinsic)
-add_subdirectory(Composite)
-add_subdirectory(Ammunition)
-add_subdirectory(Enemies)
-
-add_library(entities STATIC
-    ${CORE_INTRINSIC_CXX}
-    ${CORE_COMPOSITE_CXX}
-    ${SPC_AMMO_CXX}
-    ${SPC_ENEMY_CXX}
+set_property(TARGET missions APPEND PROPERTY SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/pumpkinPatchMission_5.cpp
 )
 
-include_directories(entities
-    ${EXTERNAL_INCLUDES}
-    ${CMAKE_CURRENT_SOURCE_DIR}/../Missions
-)
-
-target_link_libraries(entities input_output)
-
-target_include_directories(entities PUBLIC
+target_include_directories(missions PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CORE_INTRINSIC_DIR}
-    ${CORE_COMPOSITE_DIR}
-    ${SPC_AMMO_DIR}
-    ${SPC_ENEMY_DIR}
 )

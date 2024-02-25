@@ -22,55 +22,35 @@
  * SOFTWARE.
  */
 
-#pragma once
+#include "missionManager.h"
+#include "pumpkinPatchMission_1_15.h"
+#include "implementedMissions.h"
 
-#include "box2d/box2d.h"
-#include <memory>
-#include "camera.h"
-#include "collisionListener.h"
-#include "pages.h"
-#include "levelEntities.h"
+namespace shadow_pumpkin_caster::missions {
 
-namespace shadow_pumpkin_caster {
+void MissionManager::processEvents() {
+    if (m_mission != nullptr) {
+        m_mission->processEvents();
+    }
+}
 
-/**
- * Stores and controls all game entities
- */
-class LevelManager {
+void MissionManager::draw(const io::visual::Camera &p_camera) {
+    if (m_mission != nullptr) {
+        m_mission->draw(p_camera);
+    }
+}
 
-public:
+bool MissionManager::startMission(Regions p_region, unsigned int p_mission) {
+    if (!isMissionImplemented(p_region, p_mission)) {
+        return false;
+    }
 
-    LevelManager();
-    ~LevelManager();
+    if (m_mission != nullptr) {
+        m_mission.reset();
+    }
 
-    /**
-     * Process game events
-     */
-    void processEvents();
+    m_mission = std::make_unique<Mission>(p_region, p_mission);
+    return true;
+}
 
-    /**
-     * Draws the game to the screen
-     * @param p_camera camera that draws the world to the screen
-     */
-    void draw(const io::visual::Camera &p_camera);
-
-    /**
-     * Resets the game to a different level
-     */
-    void reset(Regions p_region, unsigned int p_mission);
-
-private:
-
-    entity::CollisionListener m_collisionListener;
-    b2World m_world;
-    LevelEntities m_entities;
-    Player m_player;
-
-    /**
-     * Removes all dynamically allocated entities
-     */
-    void clearAll();
-
-};
-
-}; // end of namespace shadow_pumpkin_caster
+}; // end of namespace shadow_pumpkin_caster::missions

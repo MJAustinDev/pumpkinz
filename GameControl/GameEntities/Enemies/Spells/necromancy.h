@@ -25,16 +25,12 @@
 #pragma once
 
 #include "box2d/box2d.h"
-#include "levelEntities.h"
+#include "missionEntities.h"
 
-namespace shadow_pumpkin_caster {
-namespace entity {
-namespace enemy {
-namespace spell {
+namespace shadow_pumpkin_caster::entity::enemy::spell {
 
-void necromancy(b2World &p_world, LevelEntities &p_entities);
+bool necromancyCanCast(missions::MissionEntities_t &p_entities);
 
-}; // end of namespace spell
-}; // end of namespace enemy
-}; // end of namespace entity
-}; // end of namespace shadow_pumpkin_caster
+void necromancy(b2World &p_world, missions::MissionEntities_t &p_entities);
+
+}; // end of namespace shadow_pumpkin_caster::entity::enemy::spell

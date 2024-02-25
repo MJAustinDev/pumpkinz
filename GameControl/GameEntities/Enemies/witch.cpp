@@ -23,6 +23,7 @@
  */
 
 #include "witch.h"
+#include "restoration.h"
 
 namespace {
 
@@ -35,7 +36,8 @@ namespace entity {
 namespace enemy {
 
 Witch::Witch(b2World &p_world, b2Vec2 p_position, float p_radius):
-    TargetEntity(p_world, p_position, p_radius, kFragility()) {
+    TargetEntity(p_world, p_position, p_radius, kFragility()),
+    SpellCaster(spell::restorationCanCast, spell::restoration) {
 
 }
 

@@ -22,20 +22,48 @@
  * SOFTWARE.
  */
 
-#include "restoration.h"
+#pragma once
 
-namespace shadow_pumpkin_caster::entity::enemy::spell {
+#include "box2d/box2d.h"
+#include <vector>
+#include <memory>
+#include "camera.h"
+#include "polygonProjectileEntity.h"
+#include "explosionParticle.h"
 
-bool restorationCanCast(missions::MissionEntities_t &p_entities) {
-    return p_entities.hurtEntities.size() > 0;
-}
+namespace shadow_pumpkin_caster::missions {
 
-void restoration(b2World &p_world, missions::MissionEntities_t &p_entities) {
-    if (!restorationCanCast(p_entities)) {
-        return; // nothing to heal
-    }
-    float hp = 100.0f - p_entities.hurtEntities.back()->getHp();
-    p_entities.hurtEntities.back()->applyHpChange(hp);
-}
+enum class RoundType {
+    none = 0,
+    basicSolidShot,
+    basicBomb,
 
-}; // end of namespace shadow_pumpkin_caster::entity::enemy::spell
+    totalRounds
+};
+
+class Gun {
+
+public:
+
+    Gun(b2World* p_world, b2Vec2 p_position);
+    ~Gun();
+
+    void clearGasParticles();
+
+    void processEvents();
+    void draw(const io::visual::Camera &p_camera);
+    std::shared_ptr<entity::DynamicEntity> fire();
+
+private:
+
+    b2World* m_world;
+    b2Vec2 m_position;
+    float m_angle = 0.0f;
+    int m_barrelCooldown = 0;
+    RoundType m_nextRound = RoundType::none;
+    std::vector<b2Vec2> m_arrow = {b2Vec2(-0.5f, 0.5f), b2Vec2(-0.5f, -0.5f), b2Vec2(4.5f, 0.0f)};
+    std::list<std::shared_ptr<entity::ExplosionParticle>> m_particles = {};
+
+};
+
+}; // end of namespace shadow_pumpkin_caster::missions

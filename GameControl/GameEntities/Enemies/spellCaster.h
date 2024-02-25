@@ -24,7 +24,16 @@
 
 #pragma once
 
-namespace shadow_pumpkin_caster::entity::enemy {
+#include "box2d/box2d.h"
+#include <functional>
+
+namespace shadow_pumpkin_caster {
+
+namespace missions {
+struct MissionEntities_t;
+}
+
+namespace entity::enemy {
 
 /**
  * Inherited class that binds spell casting functionality
@@ -33,13 +42,15 @@ class SpellCaster {
 
 public:
 
-    SpellCaster() = default;
-    ~SpellCaster() = default;
+    SpellCaster(std::function<bool(missions::MissionEntities_t &)> p_canCastSpell,
+                std::function<void(b2World &, missions::MissionEntities_t &)> p_castSpell):
+        m_canCastSpell(p_canCastSpell), m_castSpell(p_castSpell) {};
+    virtual ~SpellCaster() = default;
 
     /**
      * Progresses with casting the spell
      */
-    void processEvents();
+    virtual void processEvents();
 
     /**
      * Starts to cast it's spell
@@ -51,6 +62,20 @@ public:
      * @return true iif the spell has completed
      */
     bool isSpellCasted();
+
+    /**
+     * Indicates if the caster has a valid target for their spell
+     * @param p_entities All mission entities that the spell can effect
+     * @return true iif the spells target exists within the mission
+     */
+    bool canCastSpell(missions::MissionEntities_t &p_entities);
+
+    /**
+     * Casts the casters spell, effecting mission entities
+     * @param p_world box2d world that the entities exist within
+     * @param p_entities All mission entities that the spell can effect
+     */
+    void castSpell(b2World &p_world, missions::MissionEntities_t &p_entities);
 
 protected:
 
@@ -66,8 +91,11 @@ private:
     float m_coolDown = 0.0f;
     float m_spellProgress = 0.0f;
     float m_castRate = 1.0f;
-
+    std::function<bool(missions::MissionEntities_t &p_entities)> m_canCastSpell;
+    std::function<void(b2World &, missions::MissionEntities_t &)> m_castSpell;
 
 };
 
-}; // end of namespace shadow_pumpkin_caster::entity::enemy
+}; // end of namespace entity::enemy
+
+}; // end of namespace shadow_pumpkin_caster

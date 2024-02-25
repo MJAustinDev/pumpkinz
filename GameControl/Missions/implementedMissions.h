@@ -22,20 +22,19 @@
  * SOFTWARE.
  */
 
-#include "restoration.h"
+#pragma once
 
-namespace shadow_pumpkin_caster::entity::enemy::spell {
+#include <functional>
+#include "pages.h"
+#include "mission.h"
+#include "missionEntities.h"
 
-bool restorationCanCast(missions::MissionEntities_t &p_entities) {
-    return p_entities.hurtEntities.size() > 0;
-}
 
-void restoration(b2World &p_world, missions::MissionEntities_t &p_entities) {
-    if (!restorationCanCast(p_entities)) {
-        return; // nothing to heal
-    }
-    float hp = 100.0f - p_entities.hurtEntities.back()->getHp();
-    p_entities.hurtEntities.back()->applyHpChange(hp);
-}
+namespace shadow_pumpkin_caster::missions {
 
-}; // end of namespace shadow_pumpkin_caster::entity::enemy::spell
+bool isMissionImplemented(Regions &p_region, unsigned int p_mission);
+
+std::function<void(MissionEntities_t &, b2World &)> getMission(Regions &p_region,
+                                                               unsigned int p_mission);
+
+}; // end of namespace shadow_pumpkin_caster::missions

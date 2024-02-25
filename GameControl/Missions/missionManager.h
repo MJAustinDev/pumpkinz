@@ -22,20 +22,34 @@
  * SOFTWARE.
  */
 
-#include "restoration.h"
+#pragma once
 
-namespace shadow_pumpkin_caster::entity::enemy::spell {
+#include "box2d/box2d.h"
+#include <memory>
+#include "mission.h"
+#include "pages.h"
 
-bool restorationCanCast(missions::MissionEntities_t &p_entities) {
-    return p_entities.hurtEntities.size() > 0;
-}
+namespace shadow_pumpkin_caster::missions {
 
-void restoration(b2World &p_world, missions::MissionEntities_t &p_entities) {
-    if (!restorationCanCast(p_entities)) {
-        return; // nothing to heal
-    }
-    float hp = 100.0f - p_entities.hurtEntities.back()->getHp();
-    p_entities.hurtEntities.back()->applyHpChange(hp);
-}
+class MissionManager {
 
-}; // end of namespace shadow_pumpkin_caster::entity::enemy::spell
+public:
+
+    MissionManager() = default;
+    ~MissionManager() = default;
+
+    void processEvents();
+
+    void draw(const io::visual::Camera &p_camera);
+
+    bool startMission(Regions p_region, unsigned int p_mission);
+
+    // TODO -- move page process here?
+
+private:
+
+    std::unique_ptr<Mission> m_mission;
+
+};
+
+}; // end of namespace shadow_pumpkin_caster::missions

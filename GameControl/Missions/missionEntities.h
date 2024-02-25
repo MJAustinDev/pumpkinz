@@ -22,26 +22,39 @@
  * SOFTWARE.
  */
 
-#include "necromancy.h"
+#pragma once
+
+#include<memory>
+#include<list>
+#include "staticEntity.h"
+#include "dynamicEntity.h"
+#include "blockEntity.h"
+#include "pumpkin.h"
 #include "skeleton.h"
 #include "gravestone.h"
+#include "ghost.h"
+#include "necromancer.h"
+#include "witch.h"
+#include "vampire.h"
 
-namespace shadow_pumpkin_caster::entity::enemy::spell {
+namespace shadow_pumpkin_caster::missions {
 
-bool necromancyCanCast(missions::MissionEntities_t &p_entities) {
-    return p_entities.gravestones.size() > 0;
-}
+/**
+ * Binds all mission entity lists in one easy access structure
+ */
+struct MissionEntities_t {
+    std::list<std::unique_ptr<entity::StaticEntity>> staticGround;
+    std::list<std::shared_ptr<entity::BlockEntity>> destructableBlocks;
+    std::list<std::shared_ptr<entity::DynamicEntity>> hurtEntities;
+    std::list<std::shared_ptr<entity::DynamicEntity>> projectiles;
 
-void necromancy(b2World &p_world, missions::MissionEntities_t &p_entities) {
-    if (!necromancyCanCast(p_entities)) {
-        return; // nothing to reanimate
-    }
+    std::list<std::shared_ptr<entity::enemy::Pumpkin>> pumpkins;
+    std::list<std::shared_ptr<entity::enemy::Skeleton>> skeletons;
+    std::list<std::shared_ptr<entity::enemy::Gravestone>> gravestones;
+    std::list<std::shared_ptr<entity::enemy::Ghost>> ghosts;
+    std::list<std::shared_ptr<entity::enemy::Necromancer>> necromancers;
+    std::list<std::shared_ptr<entity::enemy::Witch>> witches;
+    std::list<std::shared_ptr<entity::enemy::Vampire>> vampires;
+};
 
-    auto gravestonePtr = std::move(p_entities.gravestones.front());
-    p_entities.gravestones.pop_front();
-    p_entities.skeletons.push_back(std::make_unique<Skeleton>(p_world,
-                                                              gravestonePtr->getPosition(),
-                                                              gravestonePtr->getRadius()));
-}
-
-}; // end of namespace shadow_pumpkin_caster::entity::enemy::spell
+}; // end of namespace shadow_pumpkin_caster::missions

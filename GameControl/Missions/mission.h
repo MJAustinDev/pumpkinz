@@ -24,31 +24,36 @@
 
 #pragma once
 
-#include "staticEntity.h"
-#include "dynamicEntity.h"
-#include "player.h"
-#include "skeleton.h"
-#include "gravestone.h"
-#include "necromancer.h"
-#include "witch.h"
-#include "vampire.h"
+#include <list>
+#include <memory>
+#include "collisionListener.h"
+#include "pages.h"
+#include "gun.h"
+#include "missionEntities.h"
 
-namespace shadow_pumpkin_caster {
+namespace shadow_pumpkin_caster::missions {
 
-/**
- * Structure that binds all game entities together
- */
-struct LevelEntities {
-    std::list<std::unique_ptr<entity::StaticEntity>> m_static;
-    std::list<std::shared_ptr<entity::DynamicEntity>> m_dynamic;
-    std::list<std::shared_ptr<entity::enemy::Skeleton>> m_skeletons;
-    std::list<std::shared_ptr<entity::enemy::Gravestone>> m_gravestones;
-    std::list<std::shared_ptr<entity::enemy::Necromancer>> m_necromancers;
-    std::list<std::shared_ptr<entity::enemy::Witch>> m_witches;
-    std::list<std::shared_ptr<entity::enemy::Vampire>> m_vampires;
+class Mission {
 
-    std::list<std::shared_ptr<entity::DynamicEntity>> m_hurtEntities;
-    std::list<std::shared_ptr<entity::DynamicEntity>> m_projectiles;
+public:
+
+    Mission(Regions p_region, unsigned int p_mission);
+    ~Mission();
+
+    void processEvents();
+
+    void draw(const io::visual::Camera &p_camera);
+
+private:
+
+    entity::CollisionListener m_collisionListener;
+    b2World m_world;
+    Gun m_playerGun;
+    MissionEntities_t m_entities;
+
+    void addProjectile(std::shared_ptr<entity::DynamicEntity> p_round);
+
 };
 
-}; // end of namespace shadow_pumpkin_caster
+}; // end of namespace shadow_pumpkin_caster::missions
+

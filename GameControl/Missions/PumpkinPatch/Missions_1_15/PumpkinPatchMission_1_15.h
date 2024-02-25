@@ -24,46 +24,18 @@
 
 #pragma once
 
-#include "box2d/box2d.h"
-#include <vector>
-#include <memory>
-#include "camera.h"
-#include "polygonProjectileEntity.h"
-#include "explosionParticle.h"
+#include "mission.h"
 
-namespace shadow_pumpkin_caster {
+namespace shadow_pumpkin_caster::missions::pumpkin_patch {
 
-enum class RoundType {
-    none = 0,
-    basicSolidShot,
-    basicBomb,
+void setUpMission_1(Mission* p_mission, b2World &p_world); // TODO -- IMPLEMENT
 
-    totalRounds
-};
+void setUpMission_2(Mission* p_mission, b2World &p_world); // TODO -- IMPLEMENT
 
-class Player {
+void setUpMission_3(Mission* p_mission, b2World &p_world); // TODO -- IMPLEMENT
 
-public:
+void setUpMission_4(Mission* p_mission, b2World &p_world); // TODO -- IMPLEMENT
 
-    Player(b2World* p_world, b2Vec2 p_position);
-    ~Player();
+void setUpMission_5(MissionEntities_t &p_entities, b2World &p_world); // TODO -- USING 5 AS A DEMO SLOT FOR NOW
 
-    void clearGasParticles();
-
-    void processEvents();
-    void draw(const io::visual::Camera &p_camera);
-    std::shared_ptr<entity::DynamicEntity> fire();
-
-private:
-
-    b2World* m_world;
-    b2Vec2 m_position;
-    float m_angle = 0.0f;
-    int m_barrelCooldown = 0;
-    RoundType m_nextRound = RoundType::none;
-    std::vector<b2Vec2> m_arrow = {b2Vec2(-0.5f, 0.5f), b2Vec2(-0.5f, -0.5f), b2Vec2(4.5f, 0.0f)};
-    std::list<std::shared_ptr<entity::ExplosionParticle>> m_particles = {};
-
-};
-
-}; // end of namespace shadow_pumpkin_caster
+}; // end of namespace shadow_pumpkin_caster::missions::pumpkin_patch
