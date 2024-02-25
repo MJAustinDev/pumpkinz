@@ -24,9 +24,9 @@
 
 #pragma once
 
+#include <memory>
 #include "staticEntity.h"
 #include "dynamicEntity.h"
-#include "player.h"
 #include "skeleton.h"
 #include "gravestone.h"
 #include "necromancer.h"

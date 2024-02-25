@@ -30,6 +30,7 @@
 #include "collisionListener.h"
 #include "pages.h"
 #include "levelEntities.h"
+#include "gun.h"
 
 namespace shadow_pumpkin_caster {
 

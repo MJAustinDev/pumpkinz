@@ -28,7 +28,7 @@
 #include <memory>
 #include "mission.h"
 #include "collisionListener.h"
-#include "player.h"
+#include "gun.h"
 #include "pages.h"
 
 namespace shadow_pumpkin_caster::missions {
@@ -52,7 +52,7 @@ private:
 
     entity::CollisionListener m_collisionListener;
     b2World m_world;
-    Player m_player; // TODO -- MOVE TO MISSION
+    Gun m_player; // TODO -- MOVE TO MISSION
     std::unique_ptr<Mission> m_mission;
 
 };

@@ -16,9 +16,7 @@
 #include <memory>
 #include <limits>
 #include "camera.h"
-#include "levels.h"
 #include "collisionListener.h"
-#include "player.h"
 #include "inputController.h"
 #include "menuPage.h"
 #include "missionManager.h"

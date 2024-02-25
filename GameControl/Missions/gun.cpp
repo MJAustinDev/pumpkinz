@@ -23,7 +23,7 @@
  */
 
 #include <cmath>
-#include "player.h"
+#include "gun.h"
 #include "inputController.h"
 #include "basicSolidShot.h"
 #include "basicBomb.h"
@@ -60,16 +60,16 @@ std::shared_ptr<DynamicEntity> createBasicBomb(b2World &p_world, b2Vec2 p_positi
 
 namespace shadow_pumpkin_caster{
 
-Player::Player(b2World* p_world, b2Vec2 p_position):
+Gun::Gun(b2World* p_world, b2Vec2 p_position):
     m_world(p_world), m_position(p_position) {
 
 }
 
-Player::~Player() {
+Gun::~Gun() {
     clearGasParticles();
 }
 
-void Player::processEvents() {
+void Gun::processEvents() {
     b2Vec2 mouseDisplacement = input::getMousePositionInWorld() - m_position;
     m_angle = std::atan2(mouseDisplacement.y, mouseDisplacement.x);
 
@@ -93,7 +93,7 @@ void Player::processEvents() {
     }
 }
 
-void Player::draw(const io::visual::Camera &p_camera) {
+void Gun::draw(const io::visual::Camera &p_camera) {
     glColor4f(0.75f, 0.34f, 0.79f, 0.75f);
     p_camera.drawCircle(m_position, 0.0f, 1.0f);
     p_camera.drawPolygon(m_position, m_angle, m_arrow);
@@ -103,11 +103,11 @@ void Player::draw(const io::visual::Camera &p_camera) {
     }
 }
 
-void Player::clearGasParticles() {
+void Gun::clearGasParticles() {
     m_particles.clear();
 }
 
-std::shared_ptr<DynamicEntity> Player::fire() {
+std::shared_ptr<DynamicEntity> Gun::fire() {
 
     b2Vec2 barrelPosition(std::cos(m_angle) * kBarrelLength(),
                           std::sin(m_angle) * kBarrelLength());

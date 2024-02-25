@@ -41,12 +41,12 @@ enum class RoundType {
     totalRounds
 };
 
-class Player {
+class Gun {
 
 public:
 
-    Player(b2World* p_world, b2Vec2 p_position);
-    ~Player();
+    Gun(b2World* p_world, b2Vec2 p_position);
+    ~Gun();
 
     void clearGasParticles();
 

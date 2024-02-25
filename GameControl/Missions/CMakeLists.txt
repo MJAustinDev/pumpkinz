@@ -10,7 +10,7 @@ add_library(missions STATIC
     ${CMAKE_CURRENT_SOURCE_DIR}/implementedMissions.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/mission.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/missionManager.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/../player.cpp  # TODO move into better location
+    ${CMAKE_CURRENT_SOURCE_DIR}/gun.cpp
 )
 
 include_directories(missions
@@ -19,7 +19,6 @@ include_directories(missions
 
 target_include_directories(missions PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/..  # for player.h TODO move into better location
 )
 
 add_subdirectory(PumpkinPatch)
