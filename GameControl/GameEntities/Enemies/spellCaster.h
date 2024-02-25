@@ -45,12 +45,12 @@ public:
     SpellCaster(std::function<bool(missions::MissionEntities_t &)> p_canCastSpell,
                 std::function<void(b2World &, missions::MissionEntities_t &)> p_castSpell):
         m_canCastSpell(p_canCastSpell), m_castSpell(p_castSpell) {};
-    ~SpellCaster() = default;
+    virtual ~SpellCaster() = default;
 
     /**
      * Progresses with casting the spell
      */
-    void processEvents();
+    virtual void processEvents();
 
     /**
      * Starts to cast it's spell
