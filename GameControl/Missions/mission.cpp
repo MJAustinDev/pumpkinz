@@ -64,7 +64,7 @@ Mission::Mission(Regions p_region, unsigned int p_mission):
 {
     m_world.SetContactListener(&m_collisionListener);
     auto setUpMission = getMission(p_region, p_mission);
-    setUpMission(*this, m_world);
+    setUpMission(this, m_world);
 }
 
 Mission::~Mission() {

@@ -28,14 +28,14 @@
 
 namespace shadow_pumpkin_caster::missions::pumpkin_patch {
 
-void setUpMission_1(Mission &p_mission, b2World &p_world); // TODO -- IMPLEMENT
+void setUpMission_1(Mission* p_mission, b2World &p_world); // TODO -- IMPLEMENT
 
-void setUpMission_2(Mission &p_mission, b2World &p_world); // TODO -- IMPLEMENT
+void setUpMission_2(Mission* p_mission, b2World &p_world); // TODO -- IMPLEMENT
 
-void setUpMission_3(Mission &p_mission, b2World &p_world); // TODO -- IMPLEMENT
+void setUpMission_3(Mission* p_mission, b2World &p_world); // TODO -- IMPLEMENT
 
-void setUpMission_4(Mission &p_mission, b2World &p_world); // TODO -- IMPLEMENT
+void setUpMission_4(Mission* p_mission, b2World &p_world); // TODO -- IMPLEMENT
 
-void setUpMission_5(Mission &p_mission, b2World &p_world); // TODO -- USING 5 AS A DEMO SLOT FOR NOW
+void setUpMission_5(Mission* p_mission, b2World &p_world); // TODO -- USING 5 AS A DEMO SLOT FOR NOW
 
 }; // end of namespace shadow_pumpkin_caster::missions::pumpkin_patch
