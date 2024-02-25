@@ -30,12 +30,13 @@
 - weapon/ammo selection
 - - UI selection
 - clean level code
-- - mission manager
+- - ~~mission manager~~
 - - ~~prevent non-implemented level running~~
 - cmake
 - - ~~working static build~~
 - - map down inter-dependencies
 - - presets
+- documents for repo
 
 ## feature pool
 
