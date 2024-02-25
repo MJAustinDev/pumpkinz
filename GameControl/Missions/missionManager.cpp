@@ -28,8 +28,7 @@
 
 namespace shadow_pumpkin_caster::missions {
 
-MissionManager::MissionManager(): m_world(b2Vec2(0.0f, -9.81f)),
-                                  m_player(&m_world, b2Vec2(0.0f, 5.0f)) {
+MissionManager::MissionManager(): m_world(b2Vec2(0.0f, -9.81f)) {
     m_world.SetContactListener(&m_collisionListener);
 }
 
@@ -44,12 +43,6 @@ void MissionManager::processEvents() {
 
     if (m_mission != nullptr) {
         m_world.Step(kTimeStep, kVelocityIterations, kPositionIterations);
-        m_player.processEvents();
-
-        auto round = m_player.fire();
-        if (round != nullptr) {
-            m_mission->addProjectile(round);
-        }
         m_mission->processEvents();
     }
 }
@@ -57,7 +50,6 @@ void MissionManager::processEvents() {
 void MissionManager::draw(const io::visual::Camera &p_camera) {
     if (m_mission != nullptr) {
         m_mission->draw(p_camera);
-        m_player.draw(p_camera);
     }
 }
 

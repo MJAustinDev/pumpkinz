@@ -57,7 +57,7 @@ void drawEntityList(std::list<T> &p_entities, const io::visual::Camera &p_camera
 
 namespace shadow_pumpkin_caster::missions {
 
-Mission::Mission(b2World* p_world): m_world(p_world) {
+Mission::Mission(b2World* p_world): m_world(p_world), m_playerGun(m_world, b2Vec2(0.0f, 5.0f)) {
 
 }
 
@@ -66,6 +66,12 @@ Mission::~Mission() {
 }
 
 void Mission::processEvents() {
+    m_playerGun.processEvents();
+    auto round = m_playerGun.fire();
+    if (round != nullptr) {
+        addProjectile(round);
+    }
+
     processEntityList(m_projectiles);
     processEntityList(m_destructableBlocks);
     processEntityList(m_pumpkins);
@@ -89,6 +95,8 @@ void Mission::draw(const io::visual::Camera &p_camera) {
     drawEntityList(m_necromancers, p_camera);
     drawEntityList(m_witches, p_camera);
     drawEntityList(m_vampires, p_camera);
+
+    m_playerGun.draw(p_camera);
 }
 
 void Mission::addStaticGround(std::unique_ptr<entity::StaticEntity> p_ground) {

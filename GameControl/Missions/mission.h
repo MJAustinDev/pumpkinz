@@ -36,6 +36,7 @@
 #include "necromancer.h"
 #include "witch.h"
 #include "vampire.h"
+#include "gun.h"
 
 namespace shadow_pumpkin_caster::missions {
 
@@ -64,6 +65,7 @@ public:
 private:
 
     b2World* m_world = nullptr;
+    Gun m_playerGun;
     std::list<std::unique_ptr<entity::StaticEntity>> m_staticGround;
     std::list<std::shared_ptr<entity::BlockEntity>> m_destructableBlocks;
     std::list<std::shared_ptr<entity::DynamicEntity>> m_hurtEntities;
