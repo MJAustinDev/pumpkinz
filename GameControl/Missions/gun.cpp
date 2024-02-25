@@ -58,7 +58,7 @@ std::shared_ptr<DynamicEntity> createBasicBomb(b2World &p_world, b2Vec2 p_positi
 
 } // end of namespace
 
-namespace shadow_pumpkin_caster{
+namespace shadow_pumpkin_caster::missions {
 
 Gun::Gun(b2World* p_world, b2Vec2 p_position):
     m_world(p_world), m_position(p_position) {
@@ -136,4 +136,4 @@ std::shared_ptr<DynamicEntity> Gun::fire() {
     return round;
 }
 
-}; // end of namespace shadow_pumpkin_caster
+}; // end of namespace shadow_pumpkin_caster::missions

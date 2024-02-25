@@ -28,21 +28,8 @@
 
 namespace shadow_pumpkin_caster::missions {
 
-MissionManager::MissionManager(): m_world(b2Vec2(0.0f, -9.81f)) {
-    m_world.SetContactListener(&m_collisionListener);
-}
-
-MissionManager::~MissionManager() {
-
-}
-
 void MissionManager::processEvents() {
-    constexpr float kTimeStep = 1.0f/60.0f;
-    constexpr int kVelocityIterations = 8;
-    constexpr int kPositionIterations = 3;
-
     if (m_mission != nullptr) {
-        m_world.Step(kTimeStep, kVelocityIterations, kPositionIterations);
         m_mission->processEvents();
     }
 }
@@ -62,9 +49,7 @@ bool MissionManager::startMission(Regions p_region, unsigned int p_mission) {
         m_mission.reset();
     }
 
-    m_mission = std::make_unique<Mission>(&m_world);
-    auto setUpMission = getMission(p_region, p_mission);
-    setUpMission(*m_mission, m_world);
+    m_mission = std::make_unique<Mission>(p_region, p_mission);
     return true;
 }
 

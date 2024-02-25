@@ -23,6 +23,7 @@
  */
 
 #include "mission.h"
+#include "implementedMissions.h"
 
 namespace {
 
@@ -57,8 +58,13 @@ void drawEntityList(std::list<T> &p_entities, const io::visual::Camera &p_camera
 
 namespace shadow_pumpkin_caster::missions {
 
-Mission::Mission(b2World* p_world): m_world(p_world), m_playerGun(m_world, b2Vec2(0.0f, 5.0f)) {
-
+Mission::Mission(Regions p_region, unsigned int p_mission):
+    m_world(b2Vec2(0.0f, -9.81f)),
+    m_playerGun(&m_world, b2Vec2(0.0f, 5.0f))
+{
+    m_world.SetContactListener(&m_collisionListener);
+    auto setUpMission = getMission(p_region, p_mission);
+    setUpMission(*this, m_world);
 }
 
 Mission::~Mission() {
@@ -66,6 +72,11 @@ Mission::~Mission() {
 }
 
 void Mission::processEvents() {
+    const float kTimeStep = 1.0f/60.0f;
+    const int kVelocityIterations = 8;
+    const int kPositionIterations = 3;
+    m_world.Step(kTimeStep, kVelocityIterations, kPositionIterations);
+
     m_playerGun.processEvents();
     auto round = m_playerGun.fire();
     if (round != nullptr) {

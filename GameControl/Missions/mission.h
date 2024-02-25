@@ -26,6 +26,8 @@
 
 #include <list>
 #include <memory>
+#include "collisionListener.h"
+#include "pages.h"
 #include "staticEntity.h"
 #include "dynamicEntity.h"
 #include "blockEntity.h"
@@ -44,7 +46,7 @@ class Mission {
 
 public:
 
-    Mission(b2World* p_world);
+    Mission(Regions p_region, unsigned int p_mission);
     ~Mission();
 
     void processEvents();
@@ -64,7 +66,8 @@ public:
 
 private:
 
-    b2World* m_world = nullptr;
+    entity::CollisionListener m_collisionListener;
+    b2World m_world;
     Gun m_playerGun;
     std::list<std::unique_ptr<entity::StaticEntity>> m_staticGround;
     std::list<std::shared_ptr<entity::BlockEntity>> m_destructableBlocks;

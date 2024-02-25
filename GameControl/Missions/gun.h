@@ -31,7 +31,7 @@
 #include "polygonProjectileEntity.h"
 #include "explosionParticle.h"
 
-namespace shadow_pumpkin_caster {
+namespace shadow_pumpkin_caster::missions {
 
 enum class RoundType {
     none = 0,
@@ -66,4 +66,4 @@ private:
 
 };
 
-}; // end of namespace shadow_pumpkin_caster
+}; // end of namespace shadow_pumpkin_caster::missions
