@@ -6,16 +6,20 @@
  # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  # SOFTWARE.
 
-set(CORE_COMPOSITE_CXX
+add_library(entities_core_composite STATIC
     ${CMAKE_CURRENT_SOURCE_DIR}/blockEntity.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/circleProjectileEntity.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/explosionParticle.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/polygonProjectileEntity.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/targetEntity.cpp
-    PARENT_SCOPE
 )
 
-set(CORE_COMPOSITE_DIR
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    PARENT_SCOPE
+include_directories(entities_core_composite
+    ${EXTERNAL_INCLUDES}
 )
+
+target_include_directories(entities_core_composite PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+target_link_libraries(entities_core_composite entities_core_intrinsic)

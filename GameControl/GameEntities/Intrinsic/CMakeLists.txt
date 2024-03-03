@@ -6,15 +6,20 @@
  # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  # SOFTWARE.
 
-set(CORE_INTRINSIC_CXX
+add_library(entities_core_intrinsic STATIC
     ${CMAKE_CURRENT_SOURCE_DIR}/circleEntity.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/dynamicEntity.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/polygonEntity.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/staticEntity.cpp
-    PARENT_SCOPE
 )
 
-set(CORE_INTRINSIC_DIR
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    PARENT_SCOPE
+include_directories(entities_core_intrinsic
+    ${EXTERNAL_INCLUDES}
 )
+
+target_include_directories(entities_core_intrinsic PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/..
+)
+
+target_link_libraries(entities_core_intrinsic input_output)

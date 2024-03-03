@@ -23,4 +23,4 @@ target_include_directories(missions PUBLIC
 
 add_subdirectory(PumpkinPatch)
 
-target_link_libraries(missions entities user_interface)
+target_link_libraries(missions user_interface entities_spc_enemy entities_spc_ammo)
