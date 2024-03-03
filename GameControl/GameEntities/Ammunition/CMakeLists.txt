@@ -6,13 +6,17 @@
  # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  # SOFTWARE.
 
-set(SPC_AMMO_CXX
+add_library(entities_spc_ammo STATIC
     ${CMAKE_CURRENT_SOURCE_DIR}/basicBomb.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/basicSolidShot.cpp
-    PARENT_SCOPE
 )
 
-set(SPC_AMMO_DIR
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    PARENT_SCOPE
+include_directories(entities_core_intrinsic
+    ${EXTERNAL_INCLUDES}
 )
+
+target_include_directories(entities_spc_ammo PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+target_link_libraries(entities_spc_ammo entities_core_composite)

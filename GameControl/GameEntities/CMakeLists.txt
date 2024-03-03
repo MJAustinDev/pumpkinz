@@ -10,25 +10,3 @@ add_subdirectory(Intrinsic)
 add_subdirectory(Composite)
 add_subdirectory(Ammunition)
 add_subdirectory(Enemies)
-
-add_library(entities STATIC
-    ${CORE_INTRINSIC_CXX}
-    ${CORE_COMPOSITE_CXX}
-    ${SPC_AMMO_CXX}
-    ${SPC_ENEMY_CXX}
-)
-
-include_directories(entities
-    ${EXTERNAL_INCLUDES}
-    ${CMAKE_CURRENT_SOURCE_DIR}/../Missions
-)
-
-target_link_libraries(entities input_output)
-
-target_include_directories(entities PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CORE_INTRINSIC_DIR}
-    ${CORE_COMPOSITE_DIR}
-    ${SPC_AMMO_DIR}
-    ${SPC_ENEMY_DIR}
-)

@@ -6,7 +6,7 @@
  # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  # SOFTWARE.
 
-set(SPC_ENEMY_CXX
+add_library(entities_spc_enemy STATIC
     ${CMAKE_CURRENT_SOURCE_DIR}/ghost.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/gravestone.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/necromancer.cpp
@@ -18,11 +18,16 @@ set(SPC_ENEMY_CXX
     ${CMAKE_CURRENT_SOURCE_DIR}/Spells/necromancy.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Spells/restoration.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Spells/vampirism.cpp
-    PARENT_SCOPE
 )
 
-set(SPC_ENEMY_DIR
+include_directories(entities_core_intrinsic
+    ${EXTERNAL_INCLUDES}
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../Missions
+)
+
+target_include_directories(entities_spc_enemy PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/Spells
-    PARENT_SCOPE
 )
+
+target_link_libraries(entities_spc_enemy entities_core_composite)
