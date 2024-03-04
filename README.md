@@ -8,8 +8,11 @@ It's a WIP game but the aim is to keep the ```main``` branch playable throughout
 - Compiler that can handle C++ 20 (or at least C++ 17 if you modify the CMake)
 - CMake 2.28 or later
 - opengl
-- glfw3
-- box2d
+- [glfw3](https://www.glfw.org/)
+- [box2d](https://box2d.org/)
+
+For more infomation on setting up the external dependencies,
+see the ```README.md``` in the ```Extern``` directory.
 
 Example build that I use with my system
 ```

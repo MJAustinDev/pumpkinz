@@ -6,6 +6,7 @@ As the game is a WIP the below will end up chaning and will be updated with the 
 
 Text and unique colouring on menu buttons have yet to be implemented (lower priority).
 This guide has been written to help you understand how to navigate and play the game.
+You use the ```left mouse button``` to click on the menu buttons.
 
 ## Main Menu
 
@@ -45,9 +46,16 @@ It runs a demo mission that uses all the currently implemented enemy types.
 
 When in game you can press ```Esc``` to return to the mission menu.
 
-
 ## Controls
 
+You control the purple cannon and the camera.
+
+- ```Move the cursor``` -- Cannon will aim directly at your cursor
+- ```Left mouse button``` -- Will fire a non-explosive bullet
+- ```Right mouse button``` -- Will fire an explosive round
+- ```WASD``` -- Will pan the camera
+- ```Mouse scroll wheel``` -- Will zoom the camera in and out
+- ```Esc``` -- Returns to the mission menu
 
 ## Enemies
 
@@ -102,5 +110,5 @@ Also turns into a skeleton after death.
 ## Goal
 
 As of now there is no implemented win mechanics,
-but the ultimate goal will be to kill all enemies with as little shots as possibe.
+but the ultimate goal will be to kill all enemies with as few shots as possible.
 For now just press ```Esc``` when you're finished in a mission.
