@@ -1,6 +1,28 @@
-# Shadow of the Pumpkin-caster
+# Halloween Artillery Game (Shadow of the Pumpkin-caster -- tentative name)
 
-# TODO
+See the ```Documents``` directory for a more detailed run down of how to build/play the game.
+It's a WIP game but the aim is to keep the ```main``` branch playable throughout development.
+
+## Requirements
+
+- Compiler that can handle C++ 20 (or at least C++ 17 if you modify the CMake)
+- CMake 2.28 or later
+- opengl
+- [glfw3](https://www.glfw.org/)
+- [box2d](https://box2d.org/)
+
+For more infomation on setting up the external dependencies,
+see the ```README.md``` in the ```Extern``` directory.
+
+Example build that I use with my system
+```
+mkdir -p Builds/CMakeBuild
+cd Builds/CMakeBuild
+cmake ../.. -G "MinGW Makefiles"
+cmake --build ./
+```
+
+# TODO List (personal use)
 
 ## phase 4
 
