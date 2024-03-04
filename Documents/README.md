@@ -1,6 +1,6 @@
 # Preamble
 
-As the game is a WIP the below will end up chaning and will be updated with the game itself.
+As the game is a WIP the below will end up chaning and will be updated as the game is updated.
 
 # Menu navigation
 
@@ -69,7 +69,7 @@ Very weak and basic enemy, no powers or effects.
 
 ![skeleton_img](./Images/skeleton.jpg)
 
-More durable enemy, turns in to a gravestone after death.
+More durable enemy, turns into a gravestone after death.
 
 ### Ghost
 
@@ -89,7 +89,7 @@ Durable object, can be reanimated into a skeleton by a necromancer.
 
 Durable enemy, can raise skeletons from gravestones.
 It's necromancy spell is bright green.
-Also turns into a skeleton after death.
+Also turns into a gravestone after death.
 
 ### Witch
 
@@ -97,7 +97,7 @@ Also turns into a skeleton after death.
 
 Enemy, can heal damaged enemies and objects.
 It's restoration spell is purple.
-Also turns into a skeleton after death.
+Also turns into a gravestone after death.
 
 ### Vampire
 
@@ -105,7 +105,7 @@ Also turns into a skeleton after death.
 
 Enemy that takes no fall damage, and harms your projectiles.
 It's vampirism spell is red.
-Also turns into a skeleton after death.
+Also turns into a gravestone after death.
 
 ## Goal
 
