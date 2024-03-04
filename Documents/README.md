@@ -44,3 +44,63 @@ It runs a demo mission that uses all the currently implemented enemy types.
 ![in_game_img](./Images/in_game.jpg)
 
 When in game you can press ```Esc``` to return to the mission menu.
+
+
+## Controls
+
+
+## Enemies
+
+### Pumpkin
+
+![pumpkin_img](./Images/pumpkin.jpg)
+
+Very weak and basic enemy, no powers or effects.
+
+### Skeleton
+
+![skeleton_img](./Images/skeleton.jpg)
+
+More durable enemy, turns in to a gravestone after death.
+
+### Ghost
+
+![ghost_img](./Images/ghost.jpg)
+
+Very weak enemy, but takes no fall damage.
+
+### Gravestone
+
+![gravestone_img](./Images/gravestone.jpg)
+
+Durable object, can be reanimated into a skeleton by a necromancer.
+
+### Necromancer
+
+![necromancer_img](./Images/necromancer.jpg)
+
+Durable enemy, can raise skeletons from gravestones.
+It's necromancy spell is bright green.
+Also turns into a skeleton after death.
+
+### Witch
+
+![witch_img](./Images/witch.jpg)
+
+Enemy, can heal damaged enemies and objects.
+It's restoration spell is purple.
+Also turns into a skeleton after death.
+
+### Vampire
+
+![vampire_img](./Images/vampire.jpg)
+
+Enemy that takes no fall damage, and harms your projectiles.
+It's vampirism spell is red.
+Also turns into a skeleton after death.
+
+## Goal
+
+As of now there is no implemented win mechanics,
+but the ultimate goal will be to kill all enemies with as little shots as possibe.
+For now just press ```Esc``` when you're finished in a mission.
