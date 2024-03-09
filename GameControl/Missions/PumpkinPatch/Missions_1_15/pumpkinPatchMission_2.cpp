@@ -22,20 +22,21 @@
  * SOFTWARE.
  */
 
-#pragma once
-
 #include "mission.h"
 
 namespace shadow_pumpkin_caster::missions::pumpkin_patch {
 
-void setUpMission_1(MissionEntities_t &p_entities, b2World &p_world); // TODO -- IMPLEMENT
+using StaticEntity = entity::StaticEntity;
 
-void setUpMission_2(MissionEntities_t &p_entities, b2World &p_world); // TODO -- IMPLEMENT
+void setUpMission_2(MissionEntities_t &p_entities, b2World &p_world) {
+    const std::vector<b2Vec2> kGroundShape = {
+        b2Vec2(0.0f, 0.0f),
+        b2Vec2(0.0f, -5.0f),
+        b2Vec2(150.0f, -5.0f),
+        b2Vec2(150.0f, 0.0f)
+    };
+    auto ground = std::make_unique<StaticEntity>(p_world, b2Vec2(-5.0f, 0.0f), kGroundShape);
+    p_entities.staticGround.push_back(std::move(ground));
+};
 
-void setUpMission_3(MissionEntities_t &p_entities, b2World &p_world); // TODO -- IMPLEMENT
-
-void setUpMission_4(MissionEntities_t &p_entities, b2World &p_world); // TODO -- IMPLEMENT
-
-void setUpMission_5(MissionEntities_t &p_entities, b2World &p_world); // TODO -- USING 5 AS A DEMO SLOT FOR NOW
-
-}; // end of namespace shadow_pumpkin_caster::missions::pumpkin_patch
+};
