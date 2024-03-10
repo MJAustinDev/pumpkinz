@@ -24,19 +24,53 @@
 
 #include "mission.h"
 
+namespace {
+
+using StaticEntity = shadow_pumpkin_caster::entity::StaticEntity;
+using Pumpkin = shadow_pumpkin_caster::entity::enemy::Pumpkin;
+using BlockEntity = shadow_pumpkin_caster::entity::BlockEntity;
+
+}; // end of namespace
+
 namespace shadow_pumpkin_caster::missions::pumpkin_patch {
 
-using StaticEntity = entity::StaticEntity;
-
+/**
+ * 3 Pumpkins laying on top of a small structure
+ */
 void setUpMission_2(MissionEntities_t &p_entities, b2World &p_world) {
     const std::vector<b2Vec2> kGroundShape = {
         b2Vec2(0.0f, 0.0f),
         b2Vec2(0.0f, -5.0f),
-        b2Vec2(150.0f, -5.0f),
-        b2Vec2(150.0f, 0.0f)
+        b2Vec2(100.0f, -5.0f),
+        b2Vec2(100.0f, 0.0f)
     };
     auto ground = std::make_unique<StaticEntity>(p_world, b2Vec2(-5.0f, 0.0f), kGroundShape);
     p_entities.staticGround.push_back(std::move(ground));
+
+    const std::vector<b2Vec2> kBlockShape = {
+        b2Vec2(0.0f, 5.0f),
+        b2Vec2(0.0f, 0.0f),
+        b2Vec2(15.0f, 0.0f),
+        b2Vec2(15.0f, 5.0f)
+    };
+
+    auto block = std::make_shared<BlockEntity>(p_world, b2Vec2(50.0f, 0.0f), kBlockShape);
+    p_entities.destructableBlocks.push_back(std::move(block));
+
+    block = std::make_shared<BlockEntity>(p_world, b2Vec2(65.0f, 0.0f), kBlockShape);
+    p_entities.destructableBlocks.push_back(std::move(block));
+
+    block = std::make_shared<BlockEntity>(p_world, b2Vec2(55.0f, 5.0f), kBlockShape);
+    p_entities.destructableBlocks.push_back(std::move(block));
+
+    auto pumpkin = std::make_shared<Pumpkin>(p_world, b2Vec2(45.0f, 0.5f), 1.0f);
+    p_entities.pumpkins.push_back(std::move(pumpkin));
+
+    pumpkin = std::make_shared<Pumpkin>(p_world, b2Vec2(52.0f, 5.5f), 1.0f);
+    p_entities.pumpkins.push_back(std::move(pumpkin));
+
+    pumpkin = std::make_shared<Pumpkin>(p_world, b2Vec2(60.0f, 10.5f), 1.0f);
+    p_entities.pumpkins.push_back(std::move(pumpkin));
 };
 
 };
