@@ -6,22 +6,10 @@
  # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  # SOFTWARE.
 
-add_library(missions STATIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/implementedMissions.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/mission.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/missionManager.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/gun.cpp
-)
-
-include_directories(missions
-    ${EXTERNAL_INCLUDES}
+set_property(TARGET missions APPEND PROPERTY SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/vampireCastleMission_1.cpp
 )
 
 target_include_directories(missions PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
-
-add_subdirectory(PumpkinPatch)
-add_subdirectory(VampireCastle)
-
-target_link_libraries(missions user_interface entities_spc_enemy entities_spc_ammo)

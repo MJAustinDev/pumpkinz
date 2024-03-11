@@ -22,27 +22,12 @@
  * SOFTWARE.
  */
 
+#pragma once
+
 #include "mission.h"
 
-namespace {
+namespace shadow_pumpkin_caster::missions::vampire_castle {
 
-using StaticEntity = shadow_pumpkin_caster::entity::StaticEntity;
-using BlockEntity = shadow_pumpkin_caster::entity::BlockEntity;
-using Pumpkin = shadow_pumpkin_caster::entity::enemy::Pumpkin;
+void setUpMission_1(MissionEntities_t &p_entities, b2World &p_world); // TODO -- Using demo for now
 
-}; // end of namespace
-
-namespace shadow_pumpkin_caster::missions::pumpkin_patch {
-
-void setUpMission_5(MissionEntities_t &p_entities, b2World &p_world) {
-    const std::vector<b2Vec2> kGroundShape = {
-        b2Vec2(0.0f, 0.0f),
-        b2Vec2(0.0f, -5.0f),
-        b2Vec2(150.0f, -5.0f),
-        b2Vec2(150.0f, 0.0f)
-    };
-    auto ground = std::make_unique<StaticEntity>(p_world, b2Vec2(-5.0f, 0.0f), kGroundShape);
-    p_entities.staticGround.push_back(std::move(ground));
-}
-
-}; // end of namespace shadow_pumpkin_caster::missions::pumpkin_patch
+}; // end of namespace shadow_pumpkin_caster::missions::vampire_castle
