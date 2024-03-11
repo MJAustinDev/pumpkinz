@@ -45,20 +45,20 @@ cmake --build ./
 - - - ~~cemetery~~
 - - - ~~cursed forest~~
 - - - ~~'vampire castle' pick a better name lol~~
-- pumpkin patch 5 missions (0/5)
+- ~~pumpkin patch 5 missions (5/5)~~
 - score system
 - - pass, bronze, silver, gold score per level
 - - expensive shots decrease score more
 - weapon/ammo selection
 - - UI selection
-- clean level code
+- ~~clean level code~~
 - - ~~mission manager~~
 - - ~~prevent non-implemented level running~~
 - cmake
 - - ~~working static build~~
 - - map down inter-dependencies
 - - presets
-- documents for repo
+- ~~documents for repo~~
 
 ## feature pool
 
