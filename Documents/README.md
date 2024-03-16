@@ -21,11 +21,11 @@ You use the ```left mouse button``` to click on the menu buttons.
 
 ![region_menu_img](./Images/region_menu.jpg)
 
-- ```Pumpkin patch``` -- Contains 5 active missions
+- ```Pumpkin patch``` -- Contains 5 active missions (1 - 5)
 - ```Haunted house``` -- No active missions
 - ```Cemetery``` -- No active missions
 - ```Cursed forest``` -- No active missions
-- ```Vampire castle``` -- Contains 1 active mission
+- ```Vampire castle``` -- Contains 1 active mission (1)
 - ```Return to menu``` -- Returns to main menu
 
 The demo mission that uses all the currently implemented enemy types is found in vampire castle.
