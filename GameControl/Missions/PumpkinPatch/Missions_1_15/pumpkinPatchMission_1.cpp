@@ -22,20 +22,38 @@
  * SOFTWARE.
  */
 
-#pragma once
-
 #include "mission.h"
+
+namespace {
+
+using StaticEntity = shadow_pumpkin_caster::entity::StaticEntity;
+using Pumpkin = shadow_pumpkin_caster::entity::enemy::Pumpkin;
+
+}; // end of namespace
 
 namespace shadow_pumpkin_caster::missions::pumpkin_patch {
 
-void setUpMission_1(MissionEntities_t &p_entities, b2World &p_world); // TODO -- IMPLEMENT
+/**
+ * Basic level, 3 pumpkins lined up along a flat plane
+ */
+void setUpMission_1(MissionEntities_t &p_entities, b2World &p_world) {
+    const std::vector<b2Vec2> kGroundShape = {
+        b2Vec2(0.0f, 0.0f),
+        b2Vec2(0.0f, -5.0f),
+        b2Vec2(110.0f, -5.0f),
+        b2Vec2(110.0f, 0.0f)
+    };
+    auto ground = std::make_unique<StaticEntity>(p_world, b2Vec2(-5.0f, 0.0f), kGroundShape);
+    p_entities.staticGround.push_back(std::move(ground));
 
-void setUpMission_2(MissionEntities_t &p_entities, b2World &p_world); // TODO -- IMPLEMENT
+    auto pumpkin = std::make_shared<Pumpkin>(p_world, b2Vec2(50.0f, 0.5f), 1.0f);
+    p_entities.pumpkins.push_back(std::move(pumpkin));
 
-void setUpMission_3(MissionEntities_t &p_entities, b2World &p_world); // TODO -- IMPLEMENT
+    pumpkin = std::make_shared<Pumpkin>(p_world, b2Vec2(75.0f, 0.5f), 1.0f);
+    p_entities.pumpkins.push_back(std::move(pumpkin));
 
-void setUpMission_4(MissionEntities_t &p_entities, b2World &p_world); // TODO -- IMPLEMENT
+    pumpkin = std::make_shared<Pumpkin>(p_world, b2Vec2(100.0f, 0.5f), 1.0f);
+    p_entities.pumpkins.push_back(std::move(pumpkin));
+};
 
-void setUpMission_5(MissionEntities_t &p_entities, b2World &p_world); // TODO -- USING 5 AS A DEMO SLOT FOR NOW
-
-}; // end of namespace shadow_pumpkin_caster::missions::pumpkin_patch
+};

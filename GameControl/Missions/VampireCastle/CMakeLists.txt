@@ -6,14 +6,4 @@
  # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  # SOFTWARE.
 
-set_property(TARGET missions APPEND PROPERTY SOURCES
-    ${CMAKE_CURRENT_SOURCE_DIR}/pumpkinPatchMission_1.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/pumpkinPatchMission_2.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/pumpkinPatchMission_3.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/pumpkinPatchMission_4.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/pumpkinPatchMission_5.cpp
-)
-
-target_include_directories(missions PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}
-)
+add_subdirectory(Missions_1_15)

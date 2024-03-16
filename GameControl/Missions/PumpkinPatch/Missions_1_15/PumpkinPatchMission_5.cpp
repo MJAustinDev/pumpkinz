@@ -24,88 +24,101 @@
 
 #include "mission.h"
 
+namespace {
+
+using StaticEntity = shadow_pumpkin_caster::entity::StaticEntity;
+using BlockEntity = shadow_pumpkin_caster::entity::BlockEntity;
+using Pumpkin = shadow_pumpkin_caster::entity::enemy::Pumpkin;
+
+}; // end of namespace
+
 namespace shadow_pumpkin_caster::missions::pumpkin_patch {
 
-using StaticEntity = entity::StaticEntity;
-using BlockEntity = entity::BlockEntity;
-using Pumpkin = entity::enemy::Pumpkin;
-using Skeleton = entity::enemy::Skeleton;
-using Ghost = entity::enemy::Ghost;
-using Necromancer = entity::enemy::Necromancer;
-using Witch= entity::enemy::Witch;
-using Vampire= entity::enemy::Vampire;
-
-/// TODO -- IMPLEMENT ACTUAL MISSION, THIS IS DEMO LEVEL 5 (HAS ALL ENTITY TYPES)
+/**
+ * A strong wall with pumpkins on top and behind
+ */
 void setUpMission_5(MissionEntities_t &p_entities, b2World &p_world) {
-    auto placeTower = [&p_entities, &p_world](b2Vec2 p_position) {
-        const std::vector<b2Vec2> kVerticalBlock = {
-            b2Vec2(0.0f, 0.0f),
-            b2Vec2(1.0f, 0.0f),
-            b2Vec2(1.0f, 7.5f),
-            b2Vec2(0.0f, 7.5f)
-        };
-
-        const std::vector<b2Vec2> kHorizontalBlock = {
-            b2Vec2(0.0f, 0.0f),
-            b2Vec2(6.0f, 0.0f),
-            b2Vec2(6.0f, 1.25f),
-            b2Vec2(0.0f, 1.25f)
-        };
-
-        auto roof = std::make_shared<BlockEntity>(p_world, p_position, kVerticalBlock);
-        auto wallLeft = std::make_shared<BlockEntity>(p_world, p_position + b2Vec2(5.0f, 0.0f),
-                                                      kVerticalBlock);
-        auto wallRight = std::make_shared<BlockEntity>(p_world, p_position + b2Vec2(0.0f, 7.5f),
-                                                       kHorizontalBlock);
-
-        p_entities.destructableBlocks.push_back(std::move(wallLeft));
-        p_entities.destructableBlocks.push_back(std::move(wallRight));
-        p_entities.destructableBlocks.push_back(std::move(roof));
-
-        if (rand() % 10 <= 4) { // 50/50 of skeleton or pumpkin
-            auto pumpkin = std::make_shared<Pumpkin>(p_world, p_position + b2Vec2(3.0f, 9.75f),
-                                                     1.0f);
-            p_entities.pumpkins.push_back(std::move(pumpkin));
-        } else {
-            auto skeleton = std::make_shared<Skeleton>(p_world, p_position + b2Vec2(3.0f, 9.75f),
-                                                       1.0f);
-            p_entities.skeletons.push_back(std::move(skeleton));
-        }
-    };
-
     const std::vector<b2Vec2> kGroundShape = {
         b2Vec2(0.0f, 0.0f),
         b2Vec2(0.0f, -5.0f),
-        b2Vec2(150.0f, -5.0f),
-        b2Vec2(150.0f, 0.0f)
+        b2Vec2(25.0f, -5.0f),
+        b2Vec2(25.0f, 0.0f)
+    };
+    const std::vector<b2Vec2> kSlopeShape = {
+        b2Vec2(0.0f, 0.0f),
+        b2Vec2(0.0f, -5.0f),
+        b2Vec2(25.0f, 10.0f),
+        b2Vec2(25.0f, 15.0f)
     };
     auto ground = std::make_unique<StaticEntity>(p_world, b2Vec2(-5.0f, 0.0f), kGroundShape);
     p_entities.staticGround.push_back(std::move(ground));
 
-    for (int i = 0; i < 8; i++) {
-        auto xShift = static_cast<float>(i) * 6.0f;;
-        placeTower(b2Vec2(50.0f + xShift, 0.0f));
-        placeTower(b2Vec2(50.0f + xShift, 8.75f));
-        auto witch = std::make_shared<Witch>(p_world, b2Vec2(53.0f + xShift, 1.0f), 1.0f);
-        p_entities.witches.push_back(std::move(witch));
+    ground = std::make_unique<StaticEntity>(p_world, b2Vec2(20.0f, 0.0f), kSlopeShape);
+    p_entities.staticGround.push_back(std::move(ground));
+
+    ground = std::make_unique<StaticEntity>(p_world, b2Vec2(45.0f, 15.0f), kGroundShape);
+    p_entities.staticGround.push_back(std::move(ground));
+
+    ground = std::make_unique<StaticEntity>(p_world, b2Vec2(70.0f, 15.0f), kGroundShape);
+    p_entities.staticGround.push_back(std::move(ground));//rem later
+
+    auto placeLengthOfWall = [&p_entities, &p_world](b2Vec2 p_position, unsigned int p_blocks) {
+        const std::vector<b2Vec2> kBlockShape = {
+            b2Vec2(0.0f, 1.0f),
+            b2Vec2(0.0f, 0.0f),
+            b2Vec2(2.0f, 0.0f),
+            b2Vec2(2.0f, 1.0f)
+        };
+
+        for (int i = 0; i < p_blocks; i++) {
+            auto position = p_position + b2Vec2(static_cast<float>(i) * 2.0f, 0.0f);
+            auto block = std::make_shared<BlockEntity>(p_world, position, kBlockShape);
+            p_entities.destructableBlocks.push_back(std::move(block));
+        }
+    };
+
+    auto placeEndsOfWall = [&p_entities, &p_world](b2Vec2 p_position, unsigned int p_blocks) {
+        const std::vector<b2Vec2> kSmallBlockShape = {
+            b2Vec2(0.0f, 1.0f),
+            b2Vec2(0.0f, 0.0f),
+            b2Vec2(1.0f, 0.0f),
+            b2Vec2(1.0f, 1.0f)
+        };
+        auto block = std::make_shared<BlockEntity>(p_world, p_position, kSmallBlockShape);
+        p_entities.destructableBlocks.push_back(std::move(block));
+
+        p_position.x += 1.0f + (2.0f * static_cast<float>(p_blocks));
+        block = std::make_shared<BlockEntity>(p_world, p_position, kSmallBlockShape);
+        p_entities.destructableBlocks.push_back(std::move(block));
+    };
+
+    auto placeWall = [&p_entities, &p_world, &placeLengthOfWall, &placeEndsOfWall]
+                     (b2Vec2 p_position, unsigned int p_blocks, bool p_isSplit) {
+        if (p_isSplit) {
+            placeEndsOfWall(p_position, (--p_blocks));
+            p_position.x += 1.0f;
+        }
+        placeLengthOfWall(p_position, p_blocks);
+    };
+
+    const unsigned int kWallLength = 4;
+    const unsigned int kWallHeight = 12;
+    for (int i = 0; i < kWallHeight; i++) {
+        placeWall(b2Vec2(50.0f, 15.0f + (i * 2.0f)), kWallLength, true);
+        placeWall(b2Vec2(50.0f, 16.0f + (i * 2.0f)), kWallLength, false);
     }
 
-    for (int i = 0; i < 3; i++) {
-        auto yShift = static_cast<float>(i + 2);
-        placeTower(b2Vec2(50.0f, yShift * 8.75f));
-        placeTower(b2Vec2(68.0f, yShift * 8.75f));
-        placeTower(b2Vec2(74.0f, yShift * 8.75f));
-        placeTower(b2Vec2(92.0f, yShift * 8.75f));
-        placeTower(b2Vec2(115.0f, (yShift - 2.0f) * 8.75f));
-    }
+    auto pumpkin = std::make_shared<Pumpkin>(p_world, b2Vec2(51.5f, 39.5f), 1.0f);
+    p_entities.pumpkins.push_back(std::move(pumpkin));
 
-    auto vampire = std::make_shared<Vampire>(p_world, b2Vec2(74.0f, (5.0f * 8.75f) + 1.0f), 1.0f);
-    auto necromancer = std::make_shared<Necromancer>(p_world, b2Vec2(118.25f, 1.0f), 1.0f);
-    auto ghost = std::make_shared<Ghost>(p_world, b2Vec2(25.0f, 100.0f), 1.0f);
+    pumpkin = std::make_shared<Pumpkin>(p_world, b2Vec2(54.0f, 39.5f), 1.0f);
+    p_entities.pumpkins.push_back(std::move(pumpkin));
 
-    p_entities.vampires.push_back(std::move(vampire));
-    p_entities.necromancers.push_back(std::move(necromancer));
-    p_entities.ghosts.push_back(std::move(ghost));
+    pumpkin = std::make_shared<Pumpkin>(p_world, b2Vec2(56.5f, 39.5f), 1.0f);
+    p_entities.pumpkins.push_back(std::move(pumpkin));
+
+    pumpkin = std::make_shared<Pumpkin>(p_world, b2Vec2(65.5f, 15.5f), 1.0f);
+    p_entities.pumpkins.push_back(std::move(pumpkin));
 }
 
 }; // end of namespace shadow_pumpkin_caster::missions::pumpkin_patch

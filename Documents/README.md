@@ -1,6 +1,6 @@
 # Preamble
 
-As the game is a WIP the below will end up chaning and will be updated as the game is updated.
+As the game is a WIP the below will end up changing and will be updated as the game is updated.
 
 # Menu navigation
 
@@ -21,15 +21,14 @@ You use the ```left mouse button``` to click on the menu buttons.
 
 ![region_menu_img](./Images/region_menu.jpg)
 
-- ```Pumpkin patch``` -- Contains 1 active mission
+- ```Pumpkin patch``` -- Contains 5 active missions (1 - 5)
 - ```Haunted house``` -- No active missions
 - ```Cemetery``` -- No active missions
 - ```Cursed forest``` -- No active missions
-- ```Vampire castle``` -- No active missions
+- ```Vampire castle``` -- Contains 1 active mission (1)
 - ```Return to menu``` -- Returns to main menu
 
-As of now only mission 5 of the pumpkin patch region is active.
-It runs a demo mission that uses all the currently implemented enemy types.
+The demo mission that uses all the currently implemented enemy types is found in vampire castle.
 
 ## Mission Menu
 

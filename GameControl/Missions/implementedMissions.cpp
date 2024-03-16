@@ -24,16 +24,44 @@
 
 #include "implementedMissions.h"
 #include "pumpkinPatchMission_1_15.h"
+#include "vampireCastleMission_1_15.h"
 
 namespace shadow_pumpkin_caster::missions {
 
+bool isPumpkinPatchMissionImplemented(unsigned int p_mission) {
+    const unsigned int kMinMission = 1;
+    const unsigned int kMaxMission = 5;
+    return p_mission >= kMinMission && p_mission <= kMaxMission;
+}
+
+bool isVampireCastleMissionImplemented(unsigned int p_mission) {
+    const unsigned int kMinMission = 1;
+    const unsigned int kMaxMission = 1;
+    return p_mission >= kMinMission && p_mission <= kMaxMission;
+}
+
 bool isMissionImplemented(Regions &p_region, unsigned int p_mission) {
-    return (p_region == Regions::pumpkinPatch) && (p_mission == 5);
+    switch (p_region) {
+        case Regions::pumpkinPatch: { return isPumpkinPatchMissionImplemented(p_mission); }
+        case Regions::vampireCastle: { return isVampireCastleMissionImplemented(p_mission); }
+        default: return false;
+    }
 }
 
 std::function<void(MissionEntities_t &, b2World &)> getPumpkinPatch(unsigned int p_mission) {
     switch (p_mission) {
+        case 1: { return pumpkin_patch::setUpMission_1; }
+        case 2: { return pumpkin_patch::setUpMission_2; }
+        case 3: { return pumpkin_patch::setUpMission_3; }
+        case 4: { return pumpkin_patch::setUpMission_4; }
         case 5: { return pumpkin_patch::setUpMission_5; }
+        default: { assert(false); }
+    }
+}
+
+std::function<void(MissionEntities_t &, b2World &)> getVampireCastle(unsigned int p_mission) {
+    switch (p_mission) {
+        case 1: { return vampire_castle::setUpMission_1; }
         default: { assert(false); }
     }
 }
@@ -42,6 +70,7 @@ std::function<void(MissionEntities_t &, b2World&)> getMission(Regions &p_region,
                                                               unsigned int p_mission) {
     switch (p_region) {
         case Regions::pumpkinPatch: { return getPumpkinPatch(p_mission); }
+        case Regions::vampireCastle: { return getVampireCastle(p_mission); }
         default: { assert(false); }
     }
 }
